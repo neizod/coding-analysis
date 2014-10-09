@@ -1,0 +1,38 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import json
+import yaml
+import urllib3
+from itertools import count
+
+if len(sys.argv) != 2:
+    exit('usage: ./get_data.py [year]')
+year = int(sys.argv[1])
+
+contest_metadata = yaml.load(open('contest_metadata.yaml').read())
+http = urllib3.PoolManager()
+
+api = 'https://code.google.com/codejam/contest/0/scoreboard/do/'
+default = {'cmd': 'GetScoreboard', 'show_type': 'all'}
+
+os.makedirs('data', exist_ok=True)
+for contest_id in contest_metadata[year].values():
+    print('{}'.format(contest_id), end=''); sys.stdout.flush()
+    default['contest_id'] = contest_id
+    contest_stat = []
+    for i in count(1, 30):
+        default['start_pos'] = i
+        result = http.request('GET', api, fields=default)
+        data = json.loads(result.data.decode('utf-8'))
+        contest_stat += data['rows']
+        print('.', end=''); sys.stdout.flush()
+        if i + 30 > data['stat']['nrp']:
+            break
+    filename = 'data/{}.json'.format(contest_id)
+    if os.path.isfile(filename):
+        continue
+    with open(filename, 'w') as file:
+        json.dump(contest_stat, file)
+    print()
