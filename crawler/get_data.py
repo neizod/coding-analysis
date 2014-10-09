@@ -14,11 +14,14 @@ year = int(sys.argv[1])
 contest_metadata = yaml.load(open('contest_metadata.yaml').read())
 http = urllib3.PoolManager()
 
-api = 'https://code.google.com/codejam/contest/0/scoreboard/do/'
+api = contest_metadata['api']
 default = {'cmd': 'GetScoreboard', 'show_type': 'all'}
 
 os.makedirs('data', exist_ok=True)
 for contest_id in contest_metadata[year].values():
+    filename = 'data/{}.json'.format(contest_id)
+    if os.path.isfile(filename):
+        continue
     print('{}'.format(contest_id), end=''); sys.stdout.flush()
     default['contest_id'] = contest_id
     contest_stat = []
@@ -30,9 +33,6 @@ for contest_id in contest_metadata[year].values():
         print('.', end=''); sys.stdout.flush()
         if i + 30 > data['stat']['nrp']:
             break
-    filename = 'data/{}.json'.format(contest_id)
-    if os.path.isfile(filename):
-        continue
     with open(filename, 'w') as file:
         json.dump(contest_stat, file)
     print()
