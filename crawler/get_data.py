@@ -18,12 +18,12 @@ api = contest_metadata['api']
 default = {'cmd': 'GetScoreboard', 'show_type': 'all'}
 
 os.makedirs('data', exist_ok=True)
-for contest_id in contest_metadata[year].values():
-    filename = 'data/{}.json'.format(contest_id)
+for contest in contest_metadata[year]:
+    filename = 'data/{}.json'.format(contest['id'])
     if os.path.isfile(filename):
         continue
-    print('{}'.format(contest_id), end=''); sys.stdout.flush()
-    default['contest_id'] = contest_id
+    print('{}'.format(contest['id']), end=''); sys.stdout.flush()
+    default['contest_id'] = contest['id']
     contest_stat = []
     for i in count(1, 30):
         default['start_pos'] = i

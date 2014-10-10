@@ -1,25 +1,304 @@
 api: https://code.google.com/codejam/contest/scoreboard/do/
 2014:
-    Q: 2974486
-    1A: 2984486
-    1B: 2994486
-    1C: 3004486
-    2: 3014486
-    3: 3024486
-    F: 7214486
+  - name: Qualification Round
+    id: 2974486
+    problems:
+      - name: A. Magic Trick
+        id: 5756407898963968
+        io: 1
+      - name: B. Cookie Clicker Alpha
+        id: 5709773144064000
+        io: 2
+      - name: C. Minesweeper Master
+        id: 5690574640250880
+        io: 2
+      - name: D. Deceitful War
+        id: 5644738749267968
+        io: 2
+  - name: Round 1A
+    id: 2984486
+    problems:
+      - name: A. Charging Chaos
+        id: 5634947029139456
+        io: 2
+      - name: B. Full Binary Tree
+        id: 5766201229705216
+        io: 2
+      - name: C. Proper Shuffle
+        id: 5752104073297920
+        io: 1
+  - name: Round 1B
+    id: 2994486
+    problems:
+      - name: A. The Repeater
+        id: 5751500831719424
+        io: 2
+      - name: B. New Lottery Game
+        id: 5658282861527040
+        io: 2
+      - name: C. The Bored Traveling Salesman
+        id: 5731331665297408
+        io: 2
+  - name: Round 1C
+    id: 3004486
+    problems:
+      - name: A. Part Elf 
+        id: 5706278382862336
+        io: 2
+      - name: B. Reordering Train Cars
+        id: 5669245564223488
+        io: 2
+      - name: C. Enclosure
+        id: 5658068650033152
+        io: 2
+  - name: Round 2
+    id: 3014486
+    problems:
+      - name: A. Data Packing
+        id: 5737429512224768
+        io: 2
+      - name: B. Up and Down
+        id: 5721094409420800
+        io: 2
+      - name: C. Don't Break The Nile 
+        id: 5158144455999488
+        io: 2
+      - name: D. Trie Sharding
+        id: 5649687893770240
+        io: 1
+  - name: Round 3
+    id: 3024486
+    problems:
+      - name: A. Magical, Marvelous Tour
+        id: 5645447150436352
+        io: 2
+      - name: B. Last Hit
+        id: 5724427840913408
+        io: 2
+      - name: C. Crime House
+        id: 5690270771314688
+        io: 2
+      - name: D. Willow
+        id: 5670781216358400
+        io: 2
+  - name: World Finals
+    id: 7214486
+    problems:
+      - name: A. Checkerboard Matrix
+        id: 5722683480211456
+        io: 2
+      - name: B. Power Swapper
+        id: 5656351736856576
+        io: 2
+      - name: C. Symmetric Trees
+        id: 5682018998288384
+        io: 2
+      - name: D. Paradox Sort
+        id: 5730212624990208
+        io: 2
+      - name: E. Allergy Testing
+        id: 5697089837203456
+        io: 2
+      - name: F. ARAM
+        id: 5747233781710848
+        io: 2
 2013:
-    Q: 2270488
-    1A: 2418487
-    1B: 2434486
-    1C: 2437488
-    2: 2442487
-    3: 2433487
-    F: 2437491
+  - name: Qualification Round
+    id: 2270488
+    problems:
+      - name: A. Tic-Tac-Toe-Tomek
+        id: 2453486
+        io: 2
+      - name: B. Lawnmower
+        id: 2449486
+        io: 2
+      - name: C. Fair and Square
+        id: 2463486
+        io: 3
+      - name: D. Treasure
+        id: 2458486
+        io: 2
+  - name: Round 1A
+    id: 2418487
+    problems:
+      - name: A. Bullseye
+        id: 2464487
+        io: 2
+      - name: B. Manage your Energy
+        id: 2645486
+        io: 2
+      - name: C. Good Luck
+        id: 2652486
+        io: 2
+  - name: Round 1B
+    id: 2434486
+    problems:
+      - name: A. Osmos
+        id: 2692487
+        io: 2
+      - name: B. Falling Diamonds
+        id: 2700486
+        io: 2
+      - name: C. Garbled Email
+        id: 2705486
+        io: 2
+  - name: Round 1C
+    id: 2437488
+    problems:
+      - name: A. Consonants
+        id: 2751486
+        io: 2
+      - name: B. Pogo
+        id: 2749486
+        io: 2
+      - name: C. The Great Wall
+        id: 2755486
+        io: 2
+  - name: Round 2
+    id: 2442487
+    problems:
+      - name: A. Ticket Swapping
+        id: 2772486
+        io: 2
+      - name: B. Many Prizes
+        id: 2766487
+        io: 2
+      - name: C. Erdős–Szekeres
+        id: 2779487
+        io: 2
+      - name: D. Multiplayer Pong
+        id: 2798486
+        io: 2
+  - name: Round 3
+    id: 2433487
+    problems:
+      - name: A. Cheaters
+        id: 2850486
+        io: 2
+      - name: B. Rural Planning
+        id: 2855486
+        io: 2
+      - name: C. Are We Lost Yet?
+        id: 2860486
+        io: 2
+      - name: D. Observation Wheel
+        id: 2846487
+        io: 2
+  - name: World Finals
+    id: 2437491
+    problems:
+      - name: A. Graduation Requirements
+        id: 5785905063264256
+        io: 2
+      - name: B. Drummer
+        id: 5681726336532480
+        io: 2
+      - name: C. X Marks the Spot
+        id: 5891733057437696
+        io: 2
+      - name: D. Can't Stop
+        id: 5865619656278016
+        io: 2
+      - name: E. Let Me Tell You a Story
+        id: 5760616295825408
+        io: 2
 2012:
-    Q: 1460488
-    1A: 1645485
-    1B: 1836486
-    1C: 1781488
-    2: 1842485
-    3: 1835486
-    F: 2075486
+  - name: Qualification Round
+    id: 1460488
+    problems:
+      - name: A. Speaking in Tongues
+        id: 1483485
+        io: 1
+      - name: B. Dancing With the Googlers
+        id: 1595491
+        io: 2
+      - name: C. Recycled Numbers  
+        id: 1483488
+        io: 2
+      - name: D. Hall of Mirrors
+        id: 1285485
+        io: 2
+  - name: Round 1A
+    id: 1645485
+    problems:
+      - name: A. Password Problem
+        id: 1673486
+        io: 2
+      - name: B. Kingdom Rush
+        id: 1482494
+        io: 2
+      - name: C. Cruise Control
+        id: 1480492
+        io: 2
+  - name: Round 1B
+    id: 1836486
+    problems:
+      - name: A. Safety in Numbers
+        id: 1480487
+        io: 2
+      - name: B. Tide Goes In, Tide Goes Out
+        id: 1485488
+        io: 2
+      - name: C. Equal Sums
+        id: 1484496
+        io: 2
+  - name: Round 1C
+    id: 1781488
+    problems:
+      - name: A. Diamond Inheritance
+        id: 1674486
+        io: 2
+      - name: B. Out of Gas
+        id: 1482492
+        io: 2
+      - name: C. Box Factory
+        id: 1485490
+        io: 2
+  - name: Round 2
+    id: 1842485
+    problems:
+      - name: A. Swinging Wild
+        id: 1481486
+        io: 2
+      - name: B. Aerobics
+        id: 1484495
+        io: 2
+      - name: C. Mountain View 
+        id: 1486492
+        io: 2
+      - name: D. Descending in the Dark
+        id: 1480495
+        io: 2
+  - name: Round 3
+    id: 1835486
+    problems:
+      - name: A. Perfect Game
+        id: 1475486
+        io: 2
+      - name: B. Havannah
+        id: 1590487
+        io: 2
+      - name: C. Quality Food
+        id: 1481492
+        io: 2
+      - name: D. Lost Password
+        id: 1481496
+        io: 2
+  - name: World Finals
+    id: 2075486
+    problems:
+      - name: A. Zombie Smash
+        id: 1486497
+        io: 2
+      - name: B. Upstairs/Downstairs
+        id: 2050486
+        io: 2
+      - name: C. Xeno-archaeology
+        id: 1821487
+        io: 2
+      - name: D. Twirling Towards Freedom
+        id: 1480498
+        io: 2
+      - name: E. Shifting Paths
+        id: 1484497
+        io: 2
