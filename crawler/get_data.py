@@ -11,14 +11,14 @@ if len(sys.argv) != 2:
     exit('usage: ./get_data.py [year]')
 year = int(sys.argv[1])
 
-contest_metadata = yaml.load(open('contest_metadata.yaml').read())
+metadata = yaml.load(open('metadata.yaml').read())
 http = urllib3.PoolManager()
 
-api = contest_metadata['api']
+api = metadata['api']
 default = {'cmd': 'GetScoreboard', 'show_type': 'all'}
 
 os.makedirs('data', exist_ok=True)
-for contest in contest_metadata[year]:
+for contest in metadata[year]:
     filename = 'data/{}.json'.format(contest['id'])
     if os.path.isfile(filename):
         continue
