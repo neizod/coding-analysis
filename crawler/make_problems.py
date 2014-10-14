@@ -3,13 +3,13 @@
 import os
 import sys
 import json
-import yaml
+
+from dry import metadata
+
 
 if len(sys.argv) != 2:
     exit('usage: ./make_problems.py [year]')
 year = int(sys.argv[1])
-
-metadata = yaml.load(open('metadata.yaml').read())
 
 problems = []
 for contest in metadata[year]:

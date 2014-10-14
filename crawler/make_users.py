@@ -3,13 +3,14 @@
 import os
 import sys
 import json
-import yaml
+
+from dry import metadata
+
 
 if len(sys.argv) != 2:
     exit('usage: ./make_users.py [year]')
 year = int(sys.argv[1])
 
-metadata = yaml.load(open('metadata.yaml').read())
 
 contest = next(c for c in metadata[year] if 'Qualification' in c['name'])
 filename = 'data/{}.json'.format(contest['id'])

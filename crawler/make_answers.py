@@ -3,21 +3,14 @@
 import os
 import sys
 import json
-import yaml
 
-def iter_id_io(problems):
-    for problem in problems:
-        c = 0
-        while c < problem['io']:
-            yield problem['id'], c
-            c += 1
+from dry import metadata, iter_id_io
 
 
 if len(sys.argv) != 2:
     exit('usage: ./make_users.py [year]')
 year = int(sys.argv[1])
 
-metadata = yaml.load(open('metadata.yaml').read())
 
 base = set()
 more = set()

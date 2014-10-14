@@ -3,27 +3,16 @@
 import os
 import sys
 import json
-import yaml
 import urllib3
 from itertools import count
 
-def exist_source(attempt, submittime):
-    if not attempt or submittime == -1:
-        return False
-    return True
+from dry import metadata, iter_id_io, exist_source
 
-def iter_id_io(problems):
-    for problem in problems:
-        c = 0
-        while c < problem['io']:
-            yield problem['id'], c
-            c += 1
 
 if len(sys.argv) != 2:
     exit('usage: ./get_source.py [year]')
 year = int(sys.argv[1])
 
-metadata = yaml.load(open('metadata.yaml').read())
 http = urllib3.PoolManager()
 
 api = metadata['api']

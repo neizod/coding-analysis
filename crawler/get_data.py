@@ -3,15 +3,16 @@
 import os
 import sys
 import json
-import yaml
 import urllib3
 from itertools import count
+
+from dry import metadata
+
 
 if len(sys.argv) != 2:
     exit('usage: ./get_data.py [year]')
 year = int(sys.argv[1])
 
-metadata = yaml.load(open('metadata.yaml').read())
 http = urllib3.PoolManager()
 
 api = metadata['api']
