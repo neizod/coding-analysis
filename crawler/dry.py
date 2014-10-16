@@ -1,7 +1,7 @@
 import sys
 import yaml
 
-metadata = yaml.load(open('metadata.yaml').read())
+metadata = yaml.load(open('../data/metadata.yaml').read())
 
 def exist_source(attempt, submittime):
     if not attempt or submittime == -1:

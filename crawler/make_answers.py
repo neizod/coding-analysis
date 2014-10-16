@@ -23,7 +23,7 @@ if more - base:
 
 answers = []
 for contest in metadata[year]:
-    filename = 'data/{}.json'.format(contest['id'])
+    filename = '../data/{}.json'.format(contest['id'])
     if not os.path.isfile(filename):
         exit('data for year {} does not exist.'.format(year))
     for answer in json.load(open(filename)):

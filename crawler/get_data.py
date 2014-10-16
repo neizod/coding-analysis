@@ -18,9 +18,9 @@ http = urllib3.PoolManager()
 api = metadata['api']
 default = {'cmd': 'GetScoreboard', 'show_type': 'all'}
 
-os.makedirs('data', exist_ok=True)
+os.makedirs('../data', exist_ok=True)
 for contest in metadata[year]:
-    filename = 'data/{}.json'.format(contest['id'])
+    filename = '../data/{}.json'.format(contest['id'])
     if os.path.isfile(filename):
         continue
     print('{}'.format(contest['id']), end=''); sys.stdout.flush()

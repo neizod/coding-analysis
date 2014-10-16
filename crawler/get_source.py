@@ -18,9 +18,9 @@ http = urllib3.PoolManager()
 api = metadata['api']
 default = {'cmd': 'GetSourceCode'}
 
-os.makedirs('source', exist_ok=True)
+os.makedirs('../source', exist_ok=True)
 for contest in metadata[year]:
-    filename = 'data/{}.json'.format(contest['id'])
+    filename = '../data/{}.json'.format(contest['id'])
     if not os.path.isfile(filename):
         exit('data for year {} does not exist.'.format(year))
     default['contest'] = contest['id']
@@ -31,7 +31,7 @@ for contest in metadata[year]:
         for a, s, o, (num, io) in zip(answer['att'], answer['ss'], answer['oa'], id_io):
             if not exist_source(a, s):
                 continue
-            sourcezip = 'source/{}-{}-{}.zip'.format(num, io, answer['n'])
+            sourcezip = '../source/{}-{}-{}.zip'.format(num, io, answer['n'])
             if os.path.isfile(sourcezip):
                 continue
             default['problem'] = num

@@ -13,7 +13,7 @@ year = int(sys.argv[1])
 
 
 contest = next(c for c in metadata[year] if 'Qualification' in c['name'])
-filename = 'data/{}.json'.format(contest['id'])
+filename = '../data/{}.json'.format(contest['id'])
 if not os.path.isfile(filename):
     exit('data for year {} does not exist.'.format(year))
 
