@@ -2,6 +2,7 @@ import sys
 import yaml
 
 metadata = yaml.load(open('../data/metadata.yaml').read())
+lang_name = yaml.load(open('../data/lang_name.yaml').read())
 
 def exist_source(attempt, submittime):
     if not attempt or submittime == -1:
