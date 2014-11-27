@@ -17,10 +17,14 @@ def get_lang(exts):
             return lang_name[ext]
 
 
-if not 2 < len(sys.argv) <= 3:
+if not 2 <= len(sys.argv) <= 3:
     exit('usage: ./make_users.py [year] [contest]')
-year = int(sys.argv[1])
-cont = sys.argv[2] if sys.argv[2] else None
+else:
+    year = int(sys.argv[1])
+    if len(sys.argv) == 3:
+        cont = sys.argv[2]
+    else:
+        cont = None
 
 
 base = set()
@@ -49,10 +53,14 @@ for contest in metadata[year]:
                 files = '../source/{}/{}-{}/*'.format(num, io, answer['n'])
                 exts = {get_ext(file) for file in iglob(files)}
                 lang = get_lang(exts)
+                if lang is not None:
+                    lang = '{!r}'.format(lang)
+                else:
+                    lang = 'NULL'
             else:
-                s = None
-                lang = None
-            answers += ['  ({}, {}, {}, {}, {}, {!r})'.format(us, num, io, a, s, lang)]
+                s = 'NULL'
+                lang = 'NULL'
+            answers += ['  ({}, {}, {}, {}, {}, {})'.format(us, num, io, a, s, lang)]
 
 print('INSERT INTO answers (user_id, problem_id, hardness, attempts, submit_time, lang)\nVALUES')
 print(',\n'.join(answers))
