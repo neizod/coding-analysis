@@ -50,6 +50,7 @@ for contest in metadata[year]:
                 exts = {get_ext(file) for file in iglob(files)}
                 lang = get_lang(exts)
             else:
+                s = None
                 lang = None
             answers += ['  ({}, {}, {}, {}, {}, {!r})'.format(us, num, io, a, s, lang)]
 
