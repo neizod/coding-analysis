@@ -8,10 +8,10 @@ main:
 	mysql -u root -p < tmpfile.sql
 
 unzip:
-	for file in source/*.zip; do unzip -q $$file -d $${file%.zip}; done
+	for file in ../sourcezip/*.zip; do unzip -q $$file -d ../source/$${file%.zip}; done
 
 test:
-	for file in source/*.zip; do zip -qT $$file; done
+	for file in ../sourcezip/*.zip; do zip -qT $$file; done
 
 clean:
 	rm -f tmpfile.sql
