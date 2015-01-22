@@ -24,15 +24,16 @@ class WordProcessor(object):
                        line_comment=None,
                        block_comment=None,
                        keywords=None,
-                       noise=None,
+                       noise=r'[^a-zA-Z_0-9]',
+                       numeric=r'\b[0-9]+[ejl]?\b',
                        std_functions=None,
                        lib_functions=None ):
         self.re_quoting = re.compile(quoting, flags=re.DOTALL)
         self.re_line_comment = re.compile(line_comment)
         self.re_block_comment = None and re.compile(block_comment, flags=re.DOTALL)
-        self.re_keywords = re.compile('|'.join(keywords))
+        self.re_keywords = re.compile(r'\b(' + '|'.join(keywords) + r')\b')
         self.re_noise = re.compile(noise)
-        self.re_numeric = re.compile(r'\b[0-9]+[ejl]?\b')
+        self.re_numeric = re.compile(numeric)
         self.std_functions = std_functions
         self.lib_functions = lib_functions
 
