@@ -1,4 +1,4 @@
-from .abstract import WordProcessor
+from .abstract import WordProcessor, Identifier
 
 
 cpp = WordProcessor(
@@ -25,3 +25,10 @@ python = WordProcessor(
     keywords = ['False', 'None', 'True', 'and', 'as', 'assert', 'break', 'class', 'continue', 'def', 'del', 'elif', 'else', 'except', 'finally', 'for', 'from', 'global', 'if', 'import', 'in', 'is', 'lambda', 'nonlocal', 'not', 'or', 'pass', 'raise', 'return', 'try', 'while', 'with', 'yield'],
     noise = r'[^a-zA-Z_0-9]'
 )
+
+
+
+def select(ext):
+    return { '.cpp': cpp,
+             '.java': java,
+             '.py': python }[ext.lower()]
