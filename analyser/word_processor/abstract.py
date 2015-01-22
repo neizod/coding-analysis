@@ -6,7 +6,7 @@ from collections import Counter
 class Identifier(object):
 
     english_dictionary = enchant.Dict('en_US')
-    word_spec = re.compile(r'[A-Z]?[a-z]+|[A-Z]+(?=[A-Z][a-z]|[0-9]|$)')
+    re_word_spec = re.compile(r'[A-Z]?[a-z]+|[A-Z]+(?=[A-Z][a-z]|[0-9]|$)')
 
     @classmethod
     def _readable(cls, word):
@@ -14,22 +14,25 @@ class Identifier(object):
 
     @classmethod
     def is_readable(cls, identifier):
-        return all(cls._readable(word) for word in cls.word_spec.findall(identifier))
+        return all(cls._readable(word) for word in cls.re_word_spec.findall(identifier))
 
 
 
 class WordProcessor(object):
 
     def __init__(self, quoting=None,
-                       comment=None,
+                       line_comment=None,
+                       block_comment=None,
                        keywords=None,
                        noise=None,
                        std_functions=None,
                        lib_functions=None ):
-        self.quoting = quoting
-        self.comment = comment
-        self.keywords = keywords
-        self.noise = noise
+        self.re_quoting = re.compile(quoting, flags=re.DOTALL)
+        self.re_line_comment = re.compile(line_comment)
+        self.re_block_comment = None and re.compile(block_comment, flags=re.DOTALL)
+        self.re_keywords = re.compile('|'.join(keywords))
+        self.re_noise = re.compile(noise)
+        self.re_numeric = re.compile(r'\b[0-9]+[ejl]?\b')
         self.std_functions = std_functions
         self.lib_functions = lib_functions
 
@@ -37,22 +40,21 @@ class WordProcessor(object):
         pass
 
     def strip_string(self, sourcecode):
-        return re.sub(self.quoting, ' ', sourcecode, flags=re.DOTALL)
+        return self.re_quoting.sub(' ', sourcecode)
 
     def strip_comment(self, sourcecode):
-        if self.comment[0]:
-            sourcecode = re.sub(self.comment[0], '', sourcecode, flags=re.DOTALL)
-        return re.sub(self.comment[1], ' ', sourcecode)
+        if self.re_block_comment is not None:
+            sourcecode = self.re_block_comment.sub(' ', sourcecode)
+        return self.re_line_comment.sub(' ', sourcecode)
 
     def strip_keywords(self, sourcecode):
-        keywords_pattern = '|'.join(self.keywords)
-        return re.sub(keywords_pattern, ' ', sourcecode)
+        return self.re_keywords.sub(' ', sourcecode)
 
     def strip_noise(self, sourcecode):
-        return re.sub(self.noise, ' ', sourcecode)
+        return self.re_noise.sub(' ', sourcecode)
 
     def strip_numeric(self, sourcecode):
-        return re.sub(r'\b[0-9]+\b', ' ', sourcecode)
+        return self.re_numeric.sub(' ', sourcecode)
 
     def get_variable_names(self, sourcecode):
         intercode = self.strip_string(sourcecode)
