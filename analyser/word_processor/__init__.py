@@ -2,6 +2,7 @@ from .abstract import WordProcessor, Identifier
 
 
 c = WordProcessor(
+    name = 'C',
     quoting = r'"(?:[^"\\]|\\.)*"' + '|' + r"'([^'\\]|\\.)'",
     line_comment = r'//.*',
     block_comment = r'/\*.*\*/',
@@ -11,6 +12,7 @@ c = WordProcessor(
 
 
 c_plus_plus = WordProcessor(
+    name = 'C++',
     quoting = r'"(?:[^"\\]|\\.)*"' + '|' + r"'([^'\\]|\\.)'",
     line_comment = r'//.*',
     block_comment = r'/\*.*\*/',
@@ -20,6 +22,7 @@ c_plus_plus = WordProcessor(
 
 
 c_sharp = WordProcessor(
+    name = 'C#',
     quoting = r'"(?:[^"\\]|\\.)*"' + '|' + r"'([^'\\]|\\.)'",
     line_comment = r'//.*',
     block_comment = r'/\*.*\*/',
@@ -29,6 +32,7 @@ c_sharp = WordProcessor(
 
 
 java = WordProcessor(
+    name = 'Java',
     quoting = r'"(?:[^"\\]|\\.)*"' + '|' + r"'([^'\\]|\\.)'",
     line_comment = r'//.*',
     block_comment = r'/\*.*\*/',
@@ -38,6 +42,7 @@ java = WordProcessor(
 
 
 python = WordProcessor(
+    name = 'Python',
     quoting = r"r?(\"{1,3}|\'{1,3})([^\1\\]*?(\\.[^\1\\]*?)*?)\1",
     line_comment = r"#.*",
     keywords = ['False', 'None', 'True', 'and', 'as', 'assert', 'break', 'class', 'continue', 'def', 'del', 'elif', 'else', 'except', 'finally', 'for', 'from', 'global', 'if', 'import', 'in', 'is', 'lambda', 'nonlocal', 'not', 'or', 'pass', 'raise', 'return', 'try', 'while', 'with', 'yield'],
@@ -46,6 +51,7 @@ python = WordProcessor(
 
 
 ruby = WordProcessor(
+    name = 'Ruby',
     quoting = r"(\"|\')([^\1\\]*?(\\.[^\1\\]*?)*?)\1",
     line_comment = r"#.*",
     keywords = ['__ENCODING__', '__LINE__', '__FILE__', 'BEGIN', 'END', 'alias', 'and', 'begin', 'break', 'case', 'class', 'def', 'defined?', 'do', 'else', 'elsif', 'end', 'ensure', 'false', 'for', 'if', 'in', 'module', 'next', 'nil', 'not', 'or', 'redo', 'rescue', 'retry', 'return', 'self', 'super', 'then', 'true', 'undef', 'unless', 'until', 'when', 'while', 'yield'],
@@ -54,6 +60,7 @@ ruby = WordProcessor(
 
 
 haskell = WordProcessor(
+    name = 'Haskell',
     quoting = r'"(?:[^"\\]|\\.)*"' + '|' + r"'([^'\\]|\\.)'",
     line_comment = r"--.*",
     keywords = ['as', 'case', 'of', 'class', 'data', 'data family', 'data instance', 'default', 'deriving', 'deriving instance', 'do', 'forall', 'foreign', 'hiding', 'if', 'then', 'else', 'import', 'infix', 'infixl', 'infixr', 'instance', 'let', 'in', 'mdo', 'module', 'newtype', 'proc', 'qualified', 'rec', 'type', 'type family', 'type instance', 'where'],
@@ -62,6 +69,7 @@ haskell = WordProcessor(
 
 
 php = WordProcessor(
+    name = 'PHP',
     quoting = r"(\"|\')([^\1\\]*?(\\.[^\1\\]*?)*?)\1",
     line_comment = r"#.*" + '|' + r'//.*',
     block_comment = r'/\*.*\*/',
@@ -71,6 +79,7 @@ php = WordProcessor(
 
 
 scala = WordProcessor(
+    name = 'Scala',
     quoting = r'"(?:[^"\\]|\\.)*"' + '|' + r"'([^'\\]|\\.)'",
     line_comment = r'//.*',
     block_comment = r'/\*.*\*/',
@@ -80,6 +89,7 @@ scala = WordProcessor(
 
 
 go = WordProcessor(
+    name = 'Go',
     quoting = r"(\"|\`)([^\1\\]*?(\\.[^\1\\]*?)*?)\1",
     line_comment = r'//.*',
     block_comment = r'/\*.*\*/',
@@ -90,6 +100,7 @@ go = WordProcessor(
 
 
 javascript = WordProcessor(
+    name = 'JavaScript',
     quoting = r"(\"|\')([^\1\\]*?(\\.[^\1\\]*?)*?)\1",
     line_comment = r'//.*',
     block_comment = r'/\*.*\*/',
@@ -99,6 +110,7 @@ javascript = WordProcessor(
 
 
 perl = WordProcessor(
+    name = 'Perl',
     quoting = r"(\"|\')([^\1\\]*?(\\.[^\1\\]*?)*?)\1",
     line_comment = r"#.*",
     keywords = ['__DATA__', '__END__', '__FILE__', '__LINE__', '__PACKAGE__', 'and', 'cmp', 'continue', 'CORE', 'do', 'else', 'elsif', 'eq', 'exp', 'for', 'foreach', 'ge', 'gt', 'if', 'le', 'lock', 'lt', 'm', 'ne', 'no', 'or', 'package', 'q', 'qq', 'qr', 'qw', 'qx', 's', 'sub', 'tr', 'unless', 'until', 'while', 'xor', 'y'],

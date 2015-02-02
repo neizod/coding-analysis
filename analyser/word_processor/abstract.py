@@ -20,7 +20,8 @@ class Identifier(object):
 
 class WordProcessor(object):
 
-    def __init__(self, quoting=None,
+    def __init__(self, name,
+                       quoting=None,
                        line_comment=None,
                        block_comment=None,
                        keywords=None,
@@ -28,6 +29,7 @@ class WordProcessor(object):
                        numeric=r'\b[0-9]+[ejl]?\b',
                        std_functions=None,
                        lib_functions=None ):
+        self.name = name
         self.re_quoting = re.compile(quoting, flags=re.DOTALL)
         self.re_line_comment = re.compile(line_comment)
         self.re_block_comment = None and re.compile(block_comment, flags=re.DOTALL)
