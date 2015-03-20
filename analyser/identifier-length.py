@@ -27,7 +27,7 @@ for file in open('../find-source.txt'):
     mean = stat.mean(len(identifier) for identifier in identifiers)
     _, _, problem_id, hardness_username, _ = file.split('/')
     hardness, username = hardness_username.split('-')
-    print(problem_id, hardness, username, mean, prolang.name)
+    print(problem_id, hardness, username, mean, repr(prolang.name))
 
 
 #for language, lengths in identifier_length.items():
