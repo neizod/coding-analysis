@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 
-import os
 import sys
 import json
 import urllib3
 from itertools import count
 
-from codejam_header import metadata
+import dry
 
 
 if len(sys.argv) != 2:
@@ -15,13 +14,13 @@ year = int(sys.argv[1])
 
 http = urllib3.PoolManager()
 
-api = metadata['api']
+api = dry.metadata['api']
 default = {'cmd': 'GetScoreboard', 'show_type': 'all'}
 
-os.makedirs('../data', exist_ok=True)
-for contest in metadata[year]:
-    filename = '../data/{}.json'.format(contest['id'])
-    if os.path.isfile(filename):
+dry.makedirs('metadata')
+for contest in dry.metadata[year]:
+    filename = 'metadata/round/{}.json'.format(contest['id'])
+    if dry.isfile(filename):
         continue
     print('{}'.format(contest['id']), end=''); sys.stdout.flush()
     default['contest_id'] = contest['id']
@@ -34,6 +33,6 @@ for contest in metadata[year]:
         print('.', end=''); sys.stdout.flush()
         if i + 30 > data['stat']['nrp']:
             break
-    with open(filename, 'w') as file:
-        json.dump(contest_stat, file)
+    with dry.open(filename, 'w') as file:
+        json.dump(contest_stat, file, sort_keys=True, indent=4)
     print()

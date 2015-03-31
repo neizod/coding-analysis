@@ -42,7 +42,7 @@ api: https://code.google.com/codejam/contest/scoreboard/do/
   - name: Round 1C
     id: 3004486
     problems:
-      - name: A. Part Elf 
+      - name: A. Part Elf
         id: 5706278382862336
         io: 2
       - name: B. Reordering Train Cars
@@ -60,7 +60,7 @@ api: https://code.google.com/codejam/contest/scoreboard/do/
       - name: B. Up and Down
         id: 5721094409420800
         io: 2
-      - name: C. Don't Break The Nile 
+      - name: C. Don't Break The Nile
         id: 5158144455999488
         io: 2
       - name: D. Trie Sharding
@@ -212,7 +212,7 @@ api: https://code.google.com/codejam/contest/scoreboard/do/
       - name: B. Dancing With the Googlers
         id: 1595491
         io: 2
-      - name: C. Recycled Numbers  
+      - name: C. Recycled Numbers
         id: 1483488
         io: 2
       - name: D. Hall of Mirrors
@@ -263,7 +263,7 @@ api: https://code.google.com/codejam/contest/scoreboard/do/
       - name: B. Aerobics
         id: 1484495
         io: 2
-      - name: C. Mountain View 
+      - name: C. Mountain View
         id: 1486492
         io: 2
       - name: D. Descending in the Dark

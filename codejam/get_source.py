@@ -1,44 +1,43 @@
 #!/usr/bin/env python3
 
-import os
 import sys
 import json
 import urllib3
 from itertools import count
 
-from codejam_header import metadata, iter_id_io, exist_source
+import dry
 
 
 if len(sys.argv) != 2:
-    exit('usage: ./get_source.py [year]')
+    exit('usage: {} [year]'.format(__file__))
 year = int(sys.argv[1])
 
 http = urllib3.PoolManager()
 
-api = metadata['api']
+api = dry.metadata['api']
 default = {'cmd': 'GetSourceCode'}
 
-os.makedirs('../sourcezip', exist_ok=True)
-for contest in metadata[year]:
-    filename = '../data/{}.json'.format(contest['id'])
-    if not os.path.isfile(filename):
+dry.makedirs('sourcezip')
+for contest in dry.metadata[year]:
+    filename = 'metadata/round/{}.json'.format(contest['id'])
+    if not dry.isfile(filename):
         exit('data for year {} does not exist.'.format(year))
     default['contest'] = contest['id']
     for answer in json.load(open(filename)):
         name = answer['n']
         print(name, '', end=''); sys.stdout.flush()
-        id_io = iter_id_io(contest['problems'])
+        id_io = dry.iter_id_io(contest['problems'])
         for a, s, o, (num, io) in zip(answer['att'], answer['ss'], answer['oa'], id_io):
-            if not exist_source(a, s):
+            if not dry.exist_source(a, s):
                 continue
-            sourcezip = '../sourcezip/{}-{}-{}.zip'.format(num, io, answer['n'])
-            if os.path.isfile(sourcezip):
+            sourcezip = 'sourcezip/{}-{}-{}.zip'.format(num, io, answer['n'])
+            if dry.isfile(sourcezip):
                 continue
             default['problem'] = num
             default['io_set_id'] = io
             default['username'] = name
             result = http.request('GET', api, fields=default)
-            with open(sourcezip, 'wb') as file:
+            with dry.open(sourcezip, 'wb') as file:
                 file.write(result.data)
             print('.', end=''); sys.stdout.flush()
         print()

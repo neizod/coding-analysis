@@ -1,11 +1,25 @@
 import os
 import sys
+import builtins
 import yaml
 
 basepath = os.path.dirname(__file__) + '/'
 
-metadata = yaml.load(open(basepath + '../codejam/metadata.yaml'))
-lang_name = yaml.load(open(basepath + '../codejam/lang_name.yaml'))
+metadata = yaml.load(open(basepath + 'metadata/main.yaml'))
+lang_name = yaml.load(open(basepath + 'lang_name.yaml'))
+
+
+def makedirs(directory):
+    return os.makedirs(basepath + directory, exist_ok=True)
+
+
+def isfile(filename):
+    return os.path.isfile(basepath + filename)
+
+
+def open(filename, *args, **kwargs):
+    return builtins.open(basepath + filename, *args, **kwargs)
+
 
 def exist_source(attempt, submittime):
     if not attempt or submittime == -1:
