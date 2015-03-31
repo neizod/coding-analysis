@@ -1,8 +1,11 @@
+import os
 import sys
 import yaml
 
-metadata = yaml.load(open('../data/metadata.yaml').read())
-lang_name = yaml.load(open('../data/lang_name.yaml').read())
+basepath = os.path.dirname(__file__) + '/'
+
+metadata = yaml.load(open(basepath + '../codejam/metadata.yaml'))
+lang_name = yaml.load(open(basepath + '../codejam/lang_name.yaml'))
 
 def exist_source(attempt, submittime):
     if not attempt or submittime == -1:

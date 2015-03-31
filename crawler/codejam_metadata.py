@@ -6,11 +6,11 @@ import json
 import urllib3
 from itertools import count
 
-from dry import metadata
+from codejam_header import metadata
 
 
 if len(sys.argv) != 2:
-    exit('usage: ./get_data.py [year]')
+    exit('usage: {} [year]'.format(__file__))
 year = int(sys.argv[1])
 
 http = urllib3.PoolManager()

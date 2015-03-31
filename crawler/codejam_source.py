@@ -6,7 +6,7 @@ import json
 import urllib3
 from itertools import count
 
-from dry import metadata, iter_id_io, exist_source
+from codejam_header import metadata, iter_id_io, exist_source
 
 
 if len(sys.argv) != 2:
