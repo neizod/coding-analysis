@@ -3,41 +3,62 @@
 import sys
 import json
 import urllib3
+import argparse
 from itertools import count
 
 import dry
 
 
-if len(sys.argv) != 2:
-    exit('usage: {} [year]'.format(__file__))
-year = int(sys.argv[1])
+def prepare_dirs(year):
+    dry.makedirs('sourcezip')
+    for contest in dry.metadata[year]:
+        for problem in contest['problems']:
+            for io in range(problem['io']):
+                dry.makedirs('sourcezip/{}/{}'.format(problem['id'], io))
 
-http = urllib3.PoolManager()
 
-api = dry.metadata['api']
-default = {'cmd': 'GetSourceCode'}
+def get_source(year, force=False):
+    http = urllib3.PoolManager()
+    api = dry.metadata['api']
+    default = {'cmd': 'GetSourceCode'}
+    prepare_dirs(year)
+    for contest in dry.metadata[year]:
+        filename = 'metadata/round/{}.json'.format(contest['id'])
+        if not dry.isfile(filename):
+            exit('data for year {} does not exist.'.format(year))
+        default['contest'] = contest['id']
+        for answer in json.load(open(filename)):
+            name = answer['n']
+            print(name, '', end=''); sys.stdout.flush()
+            id_io = dry.iter_id_io(contest['problems'])
+            for a, s, o, (num, io) in zip(answer['att'], answer['ss'], answer['oa'], id_io):
+                if not dry.exist_source(a, s):
+                    continue
+                sourcezip = 'sourcezip/{}/{}/{}.zip'.format(num, io, answer['n'])
+                if not force and dry.isfile(sourcezip):
+                    print('_', end=''); sys.stdout.flush()
+                    continue
+                default['problem'] = num
+                default['io_set_id'] = io
+                default['username'] = name
+                result = http.request('GET', api, fields=default)
+                with dry.open(sourcezip, 'wb') as file:
+                    file.write(result.data)
+                print('.', end=''); sys.stdout.flush()
+            print()
 
-dry.makedirs('sourcezip')
-for contest in dry.metadata[year]:
-    filename = 'metadata/round/{}.json'.format(contest['id'])
-    if not dry.isfile(filename):
-        exit('data for year {} does not exist.'.format(year))
-    default['contest'] = contest['id']
-    for answer in json.load(open(filename)):
-        name = answer['n']
-        print(name, '', end=''); sys.stdout.flush()
-        id_io = dry.iter_id_io(contest['problems'])
-        for a, s, o, (num, io) in zip(answer['att'], answer['ss'], answer['oa'], id_io):
-            if not dry.exist_source(a, s):
-                continue
-            sourcezip = 'sourcezip/{}-{}-{}.zip'.format(num, io, answer['n'])
-            if dry.isfile(sourcezip):
-                continue
-            default['problem'] = num
-            default['io_set_id'] = io
-            default['username'] = name
-            result = http.request('GET', api, fields=default)
-            with dry.open(sourcezip, 'wb') as file:
-                file.write(result.data)
-            print('.', end=''); sys.stdout.flush()
-        print()
+
+def main():
+    parser = argparse.ArgumentParser(description='''
+        This script will download Google Code Jam submitted zipped sources.
+        You need to run get_metadata script with supply argument of that year
+        to build up list of contestants first.''')
+    parser.add_argument('year', type=int, help='''
+        Year of a contest to download sources.''')
+    parser.add_argument('-f', '--force', action='store_true', help='''
+        Force download source file if exists.''')
+    get_source(**vars(parser.parse_args()))
+
+
+if __name__ == '__main__':
+    main()
