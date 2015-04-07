@@ -9,6 +9,11 @@ metadata = yaml.load(open(basepath + 'metadata/main.yaml'))
 lang_name = yaml.load(open(basepath + 'lang_name.yaml'))
 
 
+def log(*sentences):
+    print(*sentences, end='')
+    sys.stdout.flush()
+
+
 def makedirs(directory):
     return os.makedirs(basepath + directory, exist_ok=True)
 

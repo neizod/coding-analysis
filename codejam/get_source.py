@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import sys
 import json
 import urllib3
 import argparse
@@ -17,7 +16,7 @@ def prepare_dirs(year):
                 dry.makedirs('sourcezip/{}/{}'.format(problem['id'], io))
 
 
-def get_source(year, force=False):
+def get_source(year, force=False, quiet=False):
     http = urllib3.PoolManager()
     api = dry.metadata['api']
     default = {'cmd': 'GetSourceCode'}
@@ -29,14 +28,14 @@ def get_source(year, force=False):
         default['contest'] = contest['id']
         for answer in json.load(open(filename)):
             name = answer['n']
-            print(name, '', end=''); sys.stdout.flush()
+            quiet or dry.log(name)
             id_io = dry.iter_id_io(contest['problems'])
             for a, s, o, (num, io) in zip(answer['att'], answer['ss'], answer['oa'], id_io):
                 if not dry.exist_source(a, s):
                     continue
                 sourcezip = 'sourcezip/{}/{}/{}.zip'.format(num, io, answer['n'])
                 if not force and dry.isfile(sourcezip):
-                    print('_', end=''); sys.stdout.flush()
+                    quiet or dry.log('_')
                     continue
                 default['problem'] = num
                 default['io_set_id'] = io
@@ -44,8 +43,8 @@ def get_source(year, force=False):
                 result = http.request('GET', api, fields=default)
                 with dry.open(sourcezip, 'wb') as file:
                     file.write(result.data)
-                print('.', end=''); sys.stdout.flush()
-            print()
+                quiet or dry.log('.')
+            quiet or dry.log('\n')
 
 
 def main():
@@ -54,9 +53,11 @@ def main():
         You need to run get_metadata script with supply argument of that year
         to build up list of contestants first.''')
     parser.add_argument('year', type=int, help='''
-        Year of a contest to download sources.''')
+        year of a contest to download sources.''')
     parser.add_argument('-f', '--force', action='store_true', help='''
-        Force download source file if exists.''')
+        force download source file if exists.''')
+    parser.add_argument('-q', '--quiet', action='store_true', help='''
+        run the script quietly.''')
     get_source(**vars(parser.parse_args()))
 
 
