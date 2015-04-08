@@ -1,8 +1,10 @@
+#!/usr/bin/env python3
+
 import json
 import urllib3
 from itertools import count
 
-from . import dry
+from ... import utils as dry
 
 
 def get_metadata(year, force=False, quiet=False, **kwargs):
