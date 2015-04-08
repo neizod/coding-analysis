@@ -1,8 +1,5 @@
-#!/usr/bin/env python3
-
 import json
 import urllib3
-import argparse
 from itertools import count
 
 from . import dry
@@ -59,7 +56,3 @@ def update_parser(subparsers):
     subparser.add_argument('-q', '--quiet', action='store_true', help='''
         run the script quietly.''')
     subparser.set_defaults(function=get_source)
-
-
-if __name__ == '__main__':
-    raise DeprecationWarning
