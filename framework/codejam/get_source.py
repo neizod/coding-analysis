@@ -48,7 +48,7 @@ def get_source(year, force=False, quiet=False, **kwargs):
 
 
 def update_parser(subparsers):
-    subparser = subparsers.add_parser('codejam-get-source', description='''
+    subparser = subparsers.add_parser('codejam-source', description='''
         This script will download Google Code Jam submitted zipped sources.
         You need to run get_metadata script with supply argument of that year
         to build up list of contestants first.''')

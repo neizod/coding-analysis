@@ -3,18 +3,15 @@
 import argparse
 import argcomplete
 
-from framework import codejam
-from framework.codejam import get_metadata
-from framework.codejam import get_source
+from framework import download
 
 
 def main():
     parser = argparse.ArgumentParser(description='''
         This is master control file of the coding-analysis framework.''')
-    subparsers = parser.add_subparsers()
+    main_subparsers = parser.add_subparsers()
 
-    codejam.get_metadata.update_parser(subparsers)
-    codejam.get_source.update_parser(subparsers)
+    download.update_parser(main_subparsers)
 
     argcomplete.autocomplete(parser)
     args = parser.parse_args()

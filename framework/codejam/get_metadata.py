@@ -34,7 +34,7 @@ def get_metadata(year, force=False, quiet=False, **kwargs):
 
 
 def update_parser(subparsers):
-    subparser = subparsers.add_parser('codejam-get-metadata', description='''
+    subparser = subparsers.add_parser('codejam-metadata', description='''
         This script will download Google Code Jam each round metadata
         of a suppliment year, and store each as JSON file.''')
     subparser.add_argument('year', type=int, help='''
