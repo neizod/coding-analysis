@@ -4,9 +4,10 @@ import builtins
 import yaml
 
 basepath = os.path.dirname(__file__) + '/'
+datapath = basepath + '../../data/codejam/'
 
-metadata = yaml.load(open(basepath + 'metadata/main.yaml'))
-lang_name = yaml.load(open(basepath + 'lang_name.yaml'))
+metadata = yaml.load(open(datapath + 'metadata/main.yaml'))
+lang_name = yaml.load(open(datapath + 'lang_name.yaml'))
 
 
 def log(*sentences):
@@ -15,15 +16,15 @@ def log(*sentences):
 
 
 def makedirs(directory):
-    return os.makedirs(basepath + directory, exist_ok=True)
+    return os.makedirs(datapath + directory, exist_ok=True)
 
 
 def isfile(filename):
-    return os.path.isfile(basepath + filename)
+    return os.path.isfile(datapath + filename)
 
 
 def open(filename, *args, **kwargs):
-    return builtins.open(basepath + filename, *args, **kwargs)
+    return builtins.open(datapath + filename, *args, **kwargs)
 
 
 def exist_source(attempt, submittime):
