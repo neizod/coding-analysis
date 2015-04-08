@@ -5,7 +5,7 @@ import urllib3
 import argparse
 from itertools import count
 
-import dry
+from . import dry
 
 
 def prepare_dirs(year):
@@ -16,7 +16,7 @@ def prepare_dirs(year):
                 dry.makedirs('sourcezip/{}/{}'.format(problem['id'], io))
 
 
-def get_source(year, force=False, quiet=False):
+def get_source(year, force=False, quiet=False, **kwargs):
     http = urllib3.PoolManager()
     api = dry.metadata['api']
     default = {'cmd': 'GetSourceCode'}
@@ -47,19 +47,19 @@ def get_source(year, force=False, quiet=False):
             quiet or dry.log('\n')
 
 
-def main():
-    parser = argparse.ArgumentParser(description='''
+def update_parser(subparsers):
+    subparser = subparsers.add_parser('codejam-get-source', description='''
         This script will download Google Code Jam submitted zipped sources.
         You need to run get_metadata script with supply argument of that year
         to build up list of contestants first.''')
-    parser.add_argument('year', type=int, help='''
+    subparser.add_argument('year', type=int, help='''
         year of a contest to download sources.''')
-    parser.add_argument('-f', '--force', action='store_true', help='''
+    subparser.add_argument('-f', '--force', action='store_true', help='''
         force download source file if exists.''')
-    parser.add_argument('-q', '--quiet', action='store_true', help='''
+    subparser.add_argument('-q', '--quiet', action='store_true', help='''
         run the script quietly.''')
-    get_source(**vars(parser.parse_args()))
+    subparser.set_defaults(function=get_source)
 
 
 if __name__ == '__main__':
-    main()
+    raise DeprecationWarning

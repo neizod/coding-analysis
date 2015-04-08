@@ -5,10 +5,10 @@ import urllib3
 import argparse
 from itertools import count
 
-import dry
+from . import dry
 
 
-def get_metadata(year, force=False, quiet=False):
+def get_metadata(year, force=False, quiet=False, **kwargs):
     http = urllib3.PoolManager()
     api = dry.metadata['api']
     default = {'cmd': 'GetScoreboard', 'show_type': 'all'}
@@ -33,18 +33,18 @@ def get_metadata(year, force=False, quiet=False):
         quiet or dry.log('\n')
 
 
-def main():
-    parser = argparse.ArgumentParser(description='''
+def update_parser(subparsers):
+    subparser = subparsers.add_parser('codejam-get-metadata', description='''
         This script will download Google Code Jam each round metadata
         of a suppliment year, and store each as JSON file.''')
-    parser.add_argument('year', type=int, help='''
+    subparser.add_argument('year', type=int, help='''
         year of a contest to download sources.''')
-    parser.add_argument('-f', '--force', action='store_true', help='''
+    subparser.add_argument('-f', '--force', action='store_true', help='''
         force download metadata file if exists.''')
-    parser.add_argument('-q', '--quiet', action='store_true', help='''
+    subparser.add_argument('-q', '--quiet', action='store_true', help='''
         run the script quietly.''')
-    get_metadata(**vars(parser.parse_args()))
+    subparser.set_defaults(function=get_metadata)
 
 
 if __name__ == '__main__':
-    main()
+    raise DeprecationWarning
