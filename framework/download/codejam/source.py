@@ -25,7 +25,7 @@ def get_source(year, force=False, quiet=False, **kwargs):
         if not dry.isfile(filename):
             exit('data for year {} does not exist.'.format(year))
         default['contest'] = contest['id']
-        for answer in json.load(open(filename)):
+        for answer in json.load(dry.open(filename)):
             name = answer['n']
             quiet or dry.log(name)
             id_io = dry.iter_id_io(contest['problems'])
