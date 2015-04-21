@@ -11,10 +11,8 @@ def main():
     parser = argparse.ArgumentParser(description='''
         This is master control file of the coding-analysis framework.''')
     main_subparsers = parser.add_subparsers()
-
-    download.update_parser(main_subparsers)
-    prepare.update_parser(main_subparsers)
-
+    for module in [download, prepare]:
+        module.update_parser(main_subparsers)
     argcomplete.autocomplete(parser)
     args = parser.parse_args()
     if 'function' in args:
