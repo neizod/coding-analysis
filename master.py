@@ -4,6 +4,7 @@ import argparse
 import argcomplete
 
 from framework import download
+from framework import prepare
 
 
 def main():
@@ -12,6 +13,7 @@ def main():
     main_subparsers = parser.add_subparsers()
 
     download.update_parser(main_subparsers)
+    prepare.update_parser(main_subparsers)
 
     argcomplete.autocomplete(parser)
     args = parser.parse_args()
