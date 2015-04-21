@@ -5,13 +5,14 @@ import argcomplete
 
 from framework import download
 from framework import prepare
+from framework import extract
 
 
 def main():
     parser = argparse.ArgumentParser(description='''
         This is master control file of the coding-analysis framework.''')
     main_subparsers = parser.add_subparsers()
-    for module in [download, prepare]:
+    for module in [download, prepare, extract]:
         module.update_parser(main_subparsers)
     argcomplete.autocomplete(parser)
     args = parser.parse_args()
