@@ -28,12 +28,27 @@ def isfile(filename):
     return os.path.isfile(datapath + filename)
 
 
+def splitext(filename):
+    return os.path.splitext(datapath + filename)
+
+
+def remove(filename):
+    return os.remove(datapath + filename)
+
+
 def renames(filename, destination):
     return os.renames(datapath + filename, datapath + destination)
 
 
 def open(filename, *args, **kwargs):
     return builtins.open(datapath + filename, *args, **kwargs)
+
+
+def readsource(filename):
+    try:
+        return open(filename).read()
+    except UnicodeDecodeError:
+        return open(filename, encoding='latin1').read()
 
 
 def exist_source(attempt, submittime):

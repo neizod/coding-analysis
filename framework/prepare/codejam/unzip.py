@@ -3,18 +3,29 @@ from zipfile import ZipFile, BadZipFile
 from ... import utils as dry
 
 
+def ensure_recursive_unzip(year):
+    for pid, io, screen_name in dry.iter_submission(year):
+        directory = 'source/{}/{}/{}/'.format(pid, io, screen_name)
+        for filename in dry.listdir(directory):
+            if dry.splitext(filename)[1] == '.zip':
+                with ZipFile(dry.datapath + directory + filename) as z:
+                    z.extractall(dry.datapath + directory)
+                dry.remove(directory + filename)
+
+
+
 def unzip_source(year, force=False, quiet=False, **kwargs):
     bad_zipfiles = []
     for pid, io, screen_name in dry.iter_submission(year):
         zipfiles = 'sourcezip/{}/{}/{}.zip'.format(pid, io, screen_name)
-        destination = 'source/{}/{}/{}/'.format(pid, io, screen_name)
-        dry.makedirs(destination)
-        quiet or dry.log(destination)
-        if force or not dry.listdir(destination):
+        directory = 'source/{}/{}/{}/'.format(pid, io, screen_name)
+        dry.makedirs(directory)
+        quiet or dry.log(directory)
+        if force or not dry.listdir(directory):
             quiet or dry.log(' unzipped\n')
             try:
                 with ZipFile(dry.datapath + zipfiles) as z:
-                    z.extractall(dry.datapath + destination)
+                    z.extractall(dry.datapath + directory)
             except BadZipFile:
                 bad_zipfiles += [zipfiles]
         else:
@@ -23,6 +34,7 @@ def unzip_source(year, force=False, quiet=False, **kwargs):
         for zipfile in bad_zipfiles:
             dry.renames(zipfile, 'badzip/' + zipfile)
         raise BadZipFile(bad_zipfiles)
+    ensure_recursive_unzip(year)
 
 
 def update_parser(subparsers):
