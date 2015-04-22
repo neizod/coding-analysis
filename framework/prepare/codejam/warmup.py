@@ -1,6 +1,6 @@
 import os
 
-from ...utils import datapath, iter_submission, log, readsource
+from ..._utils import datapath, iter_submission, log, readsource
 
 
 def warmup_source(year, quiet=False, **kwargs):

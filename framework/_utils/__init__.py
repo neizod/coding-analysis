@@ -2,12 +2,19 @@ import os
 import sys
 import json
 import yaml
+import importlib
 
 basepath = os.path.dirname(__file__) + '/'
 datapath = basepath + '../../data/codejam/'
 
 metadata = yaml.load(open(datapath + 'metadata/main.yaml'))
 lang_name = yaml.load(open(datapath + 'lang_name.yaml'))
+
+
+def submodules(_file, _name):
+    return [importlib.import_module('.' + os.path.splitext(name)[0], _name)
+        for name in os.listdir(os.path.dirname(_file))
+        if not name.startswith('_') and not name.startswith('.')]
 
 
 def datapath(*path):

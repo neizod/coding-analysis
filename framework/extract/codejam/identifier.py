@@ -1,8 +1,8 @@
 import os
 import json
 
-from ...utils import datapath, iter_submission, readsource
-from ...utils import word_processor
+from ..._utils import datapath, iter_submission, readsource
+from ..._utils import word_processor
 
 
 def extract_identifier(year, force=False, quiet=False, **kwargs):

@@ -1,7 +1,7 @@
 import os
 from zipfile import ZipFile, BadZipFile
 
-from ...utils import datapath, iter_submission, log
+from ..._utils import datapath, iter_submission, log
 
 
 def ensure_recursive_unzip(year):

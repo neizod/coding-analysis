@@ -3,7 +3,7 @@ import json
 import urllib3
 from itertools import count
 
-from ...utils import datapath, metadata, log
+from ..._utils import datapath, metadata, log
 
 
 def get_metadata(year, force=False, quiet=False, **kwargs):

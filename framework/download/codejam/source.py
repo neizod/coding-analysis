@@ -3,7 +3,7 @@ import json
 import urllib3
 from itertools import count
 
-from ...utils import datapath, metadata, log, iter_id_io, exist_source
+from ..._utils import datapath, metadata, log, iter_id_io, exist_source
 
 
 def prepare_dirs(year):
