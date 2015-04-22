@@ -1,16 +1,16 @@
 import os
 
-from ... import utils
+from ...utils import datapath, iter_submission, log, readsource
 
 
 def warmup_source(year, quiet=False, **kwargs):
-    for pid, io, screen_name in utils.iter_submission(year):
+    for pid, io, screen_name in iter_submission(year):
         directory = 'source/{}/{}/{}/'.format(pid, io, screen_name)
-        quiet or utils.log(directory)
-        for filename in os.listdir(utils.data(directory)):
-            if os.path.isfile(utils.data(filename)):
-                _ensure_readfile = len(utils.readsource(utils.data(directory, filename)))
-        quiet or utils.log('  done\n')
+        quiet or log(directory)
+        for filename in os.listdir(datapath(directory)):
+            if os.path.isfile(datapath(filename)):
+                _ensure_readfile = len(readsource(datapath(directory, filename)))
+        quiet or log('  done\n')
 
 
 def update_parser(subparsers):

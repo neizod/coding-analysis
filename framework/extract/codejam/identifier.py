@@ -1,38 +1,38 @@
 import os
 import json
 
-from ... import utils
+from ...utils import datapath, iter_submission, readsource
 from ...utils import word_processor
 
 
 def extract_identifier(year, force=False, quiet=False, **kwargs):
-    os.makedirs(utils.data('extract'), exist_ok=True)
+    os.makedirs(datapath('extract'), exist_ok=True)
     output_file = 'extract/identifier.json'
-    if not force and os.path.isfile(utils.data(output_file)):
+    if not force and os.path.isfile(datapath(output_file)):
         return
     extracted_data = []
-    for pid, io, screen_name in utils.iter_submission(year):
+    for pid, io, screen_name in iter_submission(year):
         directory = 'source/{}/{}/{}/'.format(pid, io, screen_name)
-        quiet or utils.log(directory)
+        quiet or log(directory)
         identifiers = set()
-        for filename in os.listdir(utils.data(directory)):
-            if not os.path.isfile(utils.data(directory, filename)):
+        for filename in os.listdir(datapath(directory)):
+            if not os.path.isfile(datapath(directory, filename)):
                 continue
-            _, ext = os.path.splitext(utils.data(directory, filename))
+            _, ext = os.path.splitext(datapath(directory, filename))
             try:
                 prolang = word_processor.select(ext)
             except KeyError:
                 continue
-            sourcecode = utils.readsource(utils.data(directory, filename))
+            sourcecode = readsource(datapath(directory, filename))
             identifiers |= prolang.get_variable_names(sourcecode).keys()
-        quiet or utils.log('  done\n')
+        quiet or log('  done\n')
         extracted_data += [{
             'pid': pid,
             'io': io,
             'screen_name': screen_name,
             'identifiers': sorted(identifiers),
         }]
-    with open(utils.data(output_file), 'w') as file:
+    with open(datapath(output_file), 'w') as file:
         json.dump(extracted_data, file, indent=2)
 
 

@@ -1,39 +1,39 @@
 import os
 from zipfile import ZipFile, BadZipFile
 
-from ... import utils
+from ...utils import datapath, iter_submission, log
 
 
 def ensure_recursive_unzip(year):
     for pid, io, screen_name in utils.iter_submission(year):
         directory = 'source/{}/{}/{}/'.format(pid, io, screen_name)
-        for filename in os.listdir(utils.data(directory)):
-            if os.path.splitext(utils.data(filename))[1] == '.zip':
-                with ZipFile(utils.data(directory, filename)) as z:
-                    z.extractall(utils.data(directory))
-                os.remove(utils.data(directory, filename))
+        for filename in os.listdir(datapath(directory)):
+            if os.path.splitext(datapath(filename))[1] == '.zip':
+                with ZipFile(datapath(directory, filename)) as z:
+                    z.extractall(datapath(directory))
+                os.remove(datapath(directory, filename))
 
 
 
 def unzip_source(year, force=False, quiet=False, **kwargs):
     bad_zipfiles = []
-    for pid, io, screen_name in utils.iter_submission(year):
+    for pid, io, screen_name in iter_submission(year):
         zipfiles = 'sourcezip/{}/{}/{}.zip'.format(pid, io, screen_name)
         directory = 'source/{}/{}/{}/'.format(pid, io, screen_name)
-        os.makedirs(utils.data(directory), exist_ok=True)
-        quiet or utils.log(directory)
-        if force or not os.listdir(utils.data(directory)):
-            quiet or utils.log(' unzipped\n')
+        os.makedirs(datapath(directory), exist_ok=True)
+        quiet or log(directory)
+        if force or not os.listdir(datapath(directory)):
+            quiet or log(' unzipped\n')
             try:
-                with ZipFile(utils.data(zipfiles)) as z:
-                    z.extractall(utils.data(directory))
+                with ZipFile(datapath(zipfiles)) as z:
+                    z.extractall(datapath(directory))
             except BadZipFile:
                 bad_zipfiles += [zipfiles]
         else:
-            quiet or utils.log(' exists\n')
+            quiet or log(' exists\n')
     if bad_zipfiles:
         for zipfile in bad_zipfiles:
-            os.renames(utils.data(zipfile), utils.data('badzip', zipfile))
+            os.renames(datapath(zipfile), datapath('badzip', zipfile))
         raise BadZipFile(bad_zipfiles)
     ensure_recursive_unzip(year)
 

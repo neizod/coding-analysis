@@ -10,7 +10,7 @@ metadata = yaml.load(open(datapath + 'metadata/main.yaml'))
 lang_name = yaml.load(open(datapath + 'lang_name.yaml'))
 
 
-def data(*path):
+def datapath(*path):
     return os.path.join(datapath, *path)
 
 
@@ -52,7 +52,7 @@ def iter_answer(problems, answer_set):
 def iter_submission(year):
     for contest in metadata[year]:
         filename = 'metadata/round/{}.json'.format(contest['id'])
-        for answer_set in json.load(open(data(filename))):
+        for answer_set in json.load(open(datapath(filename))):
             screen_name = answer_set['n']
             for pid, io, a, s in iter_answer(contest['problems'], answer_set):
                 if exist_source(a, s):

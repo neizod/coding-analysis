@@ -3,19 +3,19 @@ import json
 import urllib3
 from itertools import count
 
-from ... import utils
+from ...utils import datapath, metadata, log
 
 
 def get_metadata(year, force=False, quiet=False, **kwargs):
     http = urllib3.PoolManager()
-    api = utils.metadata['api']
+    api = metadata['api']
     default = {'cmd': 'GetScoreboard', 'show_type': 'all'}
-    os.makedirs(utils.data('metadata/round'), exist_ok=True)
-    for contest in utils.metadata[year]:
+    os.makedirs(datapath('metadata/round'), exist_ok=True)
+    for contest in metadata[year]:
         filename = 'metadata/round/{}.json'.format(contest['id'])
-        if not force and os.path.isfile(utils.data(filename)):
+        if not force and os.path.isfile(datapath(filename)):
             continue
-        quiet or utils.log(contest['id'])
+        quiet or log(contest['id'])
         default['contest_id'] = contest['id']
         contest_stat = []
         for i in count(1, 30):
@@ -23,12 +23,12 @@ def get_metadata(year, force=False, quiet=False, **kwargs):
             result = http.request('GET', api, fields=default)
             data = json.loads(result.data.decode('utf-8'))
             contest_stat += data['rows']
-            quiet or utils.log('.')
+            quiet or log('.')
             if i + 30 > data['stat']['nrp']:
                 break
-        with open(utils.data(filename), 'w') as file:
+        with open(datapath(filename), 'w') as file:
             json.dump(contest_stat, file, sort_keys=True, indent=4)
-        quiet or utils.log('\n')
+        quiet or log('\n')
 
 
 def update_parser(subparsers):
