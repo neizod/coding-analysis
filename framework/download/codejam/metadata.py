@@ -1,3 +1,4 @@
+import os
 import json
 import urllib3
 from itertools import count
@@ -9,10 +10,10 @@ def get_metadata(year, force=False, quiet=False, **kwargs):
     http = urllib3.PoolManager()
     api = utils.metadata['api']
     default = {'cmd': 'GetScoreboard', 'show_type': 'all'}
-    utils.makedirs('metadata/round')
+    os.makedirs(utils.data('metadata/round'), exist_ok=True)
     for contest in utils.metadata[year]:
         filename = 'metadata/round/{}.json'.format(contest['id'])
-        if not force and utils.isfile(filename):
+        if not force and os.path.isfile(utils.data(filename)):
             continue
         quiet or utils.log(contest['id'])
         default['contest_id'] = contest['id']
@@ -25,7 +26,7 @@ def get_metadata(year, force=False, quiet=False, **kwargs):
             quiet or utils.log('.')
             if i + 30 > data['stat']['nrp']:
                 break
-        with utils.open(filename, 'w') as file:
+        with open(utils.data(filename), 'w') as file:
             json.dump(contest_stat, file, sort_keys=True, indent=4)
         quiet or utils.log('\n')
 

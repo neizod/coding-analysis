@@ -1,3 +1,5 @@
+import os
+
 from ... import utils
 
 
@@ -5,9 +7,9 @@ def warmup_source(year, quiet=False, **kwargs):
     for pid, io, screen_name in utils.iter_submission(year):
         directory = 'source/{}/{}/{}/'.format(pid, io, screen_name)
         quiet or utils.log(directory)
-        for filename in utils.listdir(directory):
-            if utils.isfile(filename):
-                _ensure_readfile = len(utils.readsource(directory + filename))
+        for filename in os.listdir(utils.data(directory)):
+            if os.path.isfile(utils.data(filename)):
+                _ensure_readfile = len(utils.readsource(utils.data(directory, filename)))
         quiet or utils.log('  done\n')
 
 

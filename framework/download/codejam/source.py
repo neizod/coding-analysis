@@ -1,3 +1,4 @@
+import os
 import json
 import urllib3
 from itertools import count
@@ -6,11 +7,12 @@ from ... import utils
 
 
 def prepare_dirs(year):
-    utils.makedirs('sourcezip')
+    os.makedirs(utils.data('sourcezip'), exist_ok=True)
     for contest in utils.metadata[year]:
         for problem in contest['problems']:
+            pid = problem['id']
             for io in range(problem['io']):
-                utils.makedirs('sourcezip/{}/{}'.format(problem['id'], io))
+                os.makedirs(utils.data('sourcezip', pid, io), exist_ok=True)
 
 
 def get_source(year, force=False, quiet=False, **kwargs):
@@ -20,10 +22,10 @@ def get_source(year, force=False, quiet=False, **kwargs):
     prepare_dirs(year)
     for contest in utils.metadata[year]:
         filename = 'metadata/round/{}.json'.format(contest['id'])
-        if not utils.isfile(filename):
+        if not os.path.isfile(utils.data(filename)):
             exit('data for year {} does not exist.'.format(year))
         default['contest'] = contest['id']
-        for answer in json.load(utils.open(filename)):
+        for answer in json.load(open(utils.data(filename))):
             name = answer['n']
             quiet or utils.log(name)
             id_io = utils.iter_id_io(contest['problems'])
@@ -31,14 +33,14 @@ def get_source(year, force=False, quiet=False, **kwargs):
                 if not utils.exist_source(a, s):
                     continue
                 sourcezip = 'sourcezip/{}/{}/{}.zip'.format(num, io, answer['n'])
-                if not force and utils.isfile(sourcezip):
+                if not force and os.path.isfile(utils.data(sourcezip)):
                     quiet or utils.log('_')
                     continue
                 default['problem'] = num
                 default['io_set_id'] = io
                 default['username'] = name
                 result = http.request('GET', api, fields=default)
-                with utils.open(sourcezip, 'wb') as file:
+                with open(utils.data(sourcezip), 'wb') as file:
                     file.write(result.data)
                 quiet or utils.log('.')
             quiet or utils.log('\n')

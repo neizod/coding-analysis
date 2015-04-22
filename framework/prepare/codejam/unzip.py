@@ -1,3 +1,4 @@
+import os
 from zipfile import ZipFile, BadZipFile
 
 from ... import utils
@@ -6,11 +7,11 @@ from ... import utils
 def ensure_recursive_unzip(year):
     for pid, io, screen_name in utils.iter_submission(year):
         directory = 'source/{}/{}/{}/'.format(pid, io, screen_name)
-        for filename in utils.listdir(directory):
-            if utils.splitext(filename)[1] == '.zip':
-                with ZipFile(utils.datapath + directory + filename) as z:
-                    z.extractall(utils.datapath + directory)
-                utils.remove(directory + filename)
+        for filename in os.listdir(utils.data(directory)):
+            if os.path.splitext(utils.data(filename))[1] == '.zip':
+                with ZipFile(utils.data(directory, filename)) as z:
+                    z.extractall(utils.data(directory))
+                os.remove(utils.data(directory, filename))
 
 
 
@@ -19,20 +20,20 @@ def unzip_source(year, force=False, quiet=False, **kwargs):
     for pid, io, screen_name in utils.iter_submission(year):
         zipfiles = 'sourcezip/{}/{}/{}.zip'.format(pid, io, screen_name)
         directory = 'source/{}/{}/{}/'.format(pid, io, screen_name)
-        utils.makedirs(directory)
+        os.makedirs(utils.data(directory), exist_ok=True)
         quiet or utils.log(directory)
-        if force or not utils.listdir(directory):
+        if force or not os.listdir(utils.data(directory)):
             quiet or utils.log(' unzipped\n')
             try:
-                with ZipFile(utils.datapath + zipfiles) as z:
-                    z.extractall(utils.datapath + directory)
+                with ZipFile(utils.data(zipfiles)) as z:
+                    z.extractall(utils.data(directory))
             except BadZipFile:
                 bad_zipfiles += [zipfiles]
         else:
             quiet or utils.log(' exists\n')
     if bad_zipfiles:
         for zipfile in bad_zipfiles:
-            utils.renames(zipfile, 'badzip/' + zipfile)
+            os.renames(utils.data(zipfile), utils.data('badzip', zipfile))
         raise BadZipFile(bad_zipfiles)
     ensure_recursive_unzip(year)
 
