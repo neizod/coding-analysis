@@ -1,38 +1,38 @@
 from zipfile import ZipFile, BadZipFile
 
-from ... import utils as dry
+from ... import utils
 
 
 def ensure_recursive_unzip(year):
-    for pid, io, screen_name in dry.iter_submission(year):
+    for pid, io, screen_name in utils.iter_submission(year):
         directory = 'source/{}/{}/{}/'.format(pid, io, screen_name)
-        for filename in dry.listdir(directory):
-            if dry.splitext(filename)[1] == '.zip':
-                with ZipFile(dry.datapath + directory + filename) as z:
-                    z.extractall(dry.datapath + directory)
-                dry.remove(directory + filename)
+        for filename in utils.listdir(directory):
+            if utils.splitext(filename)[1] == '.zip':
+                with ZipFile(utils.datapath + directory + filename) as z:
+                    z.extractall(utils.datapath + directory)
+                utils.remove(directory + filename)
 
 
 
 def unzip_source(year, force=False, quiet=False, **kwargs):
     bad_zipfiles = []
-    for pid, io, screen_name in dry.iter_submission(year):
+    for pid, io, screen_name in utils.iter_submission(year):
         zipfiles = 'sourcezip/{}/{}/{}.zip'.format(pid, io, screen_name)
         directory = 'source/{}/{}/{}/'.format(pid, io, screen_name)
-        dry.makedirs(directory)
-        quiet or dry.log(directory)
-        if force or not dry.listdir(directory):
-            quiet or dry.log(' unzipped\n')
+        utils.makedirs(directory)
+        quiet or utils.log(directory)
+        if force or not utils.listdir(directory):
+            quiet or utils.log(' unzipped\n')
             try:
-                with ZipFile(dry.datapath + zipfiles) as z:
-                    z.extractall(dry.datapath + directory)
+                with ZipFile(utils.datapath + zipfiles) as z:
+                    z.extractall(utils.datapath + directory)
             except BadZipFile:
                 bad_zipfiles += [zipfiles]
         else:
-            quiet or dry.log(' exists\n')
+            quiet or utils.log(' exists\n')
     if bad_zipfiles:
         for zipfile in bad_zipfiles:
-            dry.renames(zipfile, 'badzip/' + zipfile)
+            utils.renames(zipfile, 'badzip/' + zipfile)
         raise BadZipFile(bad_zipfiles)
     ensure_recursive_unzip(year)
 
