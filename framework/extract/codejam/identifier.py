@@ -1,7 +1,7 @@
 import os
 import json
 
-from ..._utils import datapath, iter_submission, readsource
+from ..._utils import datapath, log, iter_submission, readsource
 from ..._utils import word_processor
 
 

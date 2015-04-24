@@ -5,10 +5,6 @@ import yaml
 import importlib
 
 basepath = os.path.dirname(__file__) + '/'
-datapath = basepath + '../../data/codejam/'
-
-metadata = yaml.load(open(datapath + 'metadata/main.yaml'))
-lang_name = yaml.load(open(datapath + 'lang_name.yaml'))
 
 
 def submodules(_file, _name):
@@ -18,7 +14,7 @@ def submodules(_file, _name):
 
 
 def datapath(*path):
-    return os.path.join(datapath, *path)
+    return os.path.join(basepath, '../../data/codejam', *path)
 
 
 def log(*sentences):
@@ -64,3 +60,7 @@ def iter_submission(year):
             for pid, io, a, s in iter_answer(contest['problems'], answer_set):
                 if exist_source(a, s):
                     yield pid, io, screen_name
+
+
+metadata = yaml.load(open(datapath('metadata/main.yaml')))
+lang_name = yaml.load(open(datapath('lang_name.yaml')))
