@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import os
 import codecs
 from collections import Counter, defaultdict
