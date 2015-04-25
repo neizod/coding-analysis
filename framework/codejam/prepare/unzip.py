@@ -41,8 +41,6 @@ def unzip_source(year, force=False, quiet=False, **kwargs):
 def update_parser(subparsers):
     subparser = subparsers.add_parser('unzip', description='''
         This method will unzip downloaded source code files.''')
-    subparser.add_argument('year', type=int, help='''
-        year of contest to unzip source code files.''')
     subparser.add_argument('-f', '--force', action='store_true', help='''
         force unzip source code files if destination exists.''')
     subparser.add_argument('-q', '--quiet', action='store_true', help='''

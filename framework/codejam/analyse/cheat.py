@@ -20,8 +20,6 @@ def update_parser(subparsers):
     subparser = subparsers.add_parser('cheat', description='''
         This method will analyse cheating by copy-paste source code
         from multiple contestants.''')
-    subparser.add_argument('year', type=int, help='''
-        year of a contest.''')
     # TODO force
     subparser.add_argument('-q', '--quiet', action='store_true', help='''
         run the script quietly.''')

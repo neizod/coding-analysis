@@ -16,8 +16,6 @@ def warmup_source(year, quiet=False, **kwargs):
 def update_parser(subparsers):
     subparser = subparsers.add_parser('warmup', description='''
         This method will warmup source code files for futher analysis.''')
-    subparser.add_argument('year', type=int, help='''
-        year of the contest.''')
     subparser.add_argument('-q', '--quiet', action='store_true', help='''
         run script quietly.''')
     subparser.set_defaults(function=warmup_source)

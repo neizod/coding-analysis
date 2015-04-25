@@ -51,8 +51,6 @@ def update_parser(subparsers):
         This script will download Google Code Jam submitted zipped sources.
         You need to run get_metadata script with supply argument of that year
         to build up list of contestants first.''')
-    subparser.add_argument('year', type=int, help='''
-        year of a contest to download sources.''')
     subparser.add_argument('-f', '--force', action='store_true', help='''
         force download source file if exists.''')
     subparser.add_argument('-q', '--quiet', action='store_true', help='''

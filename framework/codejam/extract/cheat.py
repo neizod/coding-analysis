@@ -40,8 +40,6 @@ def extract_cheat(year, force=False, quiet=False, **kwargs):
 def update_parser(subparsers):
     subparser = subparsers.add_parser('cheat', description='''
         This method will extract set of duplicated source codes.''')
-    subparser.add_argument('year', type=int, help='''
-        year of a contest.''')
     # TODO force
     subparser.add_argument('-f', '--force', action='store_true', help='''
         force''')

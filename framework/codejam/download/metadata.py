@@ -35,8 +35,6 @@ def update_parser(subparsers):
     subparser = subparsers.add_parser('metadata', description='''
         This script will download Google Code Jam each round metadata
         of a suppliment year, and store each as JSON file.''')
-    subparser.add_argument('year', type=int, help='''
-        year of a contest to download sources.''')
     subparser.add_argument('-f', '--force', action='store_true', help='''
         force download metadata file if exists.''')
     subparser.add_argument('-q', '--quiet', action='store_true', help='''

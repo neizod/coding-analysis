@@ -34,8 +34,6 @@ def update_parser(subparsers):
     subparser = subparsers.add_parser('identifier-readable', description='''
         This method will analyse identifier readable from extracted data
         of submitted Google Code Jam source code.''')
-    subparser.add_argument('year', type=int, help='''
-        year of a contest.''')
     # TODO force
     subparser.add_argument('-q', '--quiet', action='store_true', help='''
         run the script quietly.''')
