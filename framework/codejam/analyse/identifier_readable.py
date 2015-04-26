@@ -1,5 +1,6 @@
 import os
 import json
+import logging
 
 from ..._utils import datapath
 from ..._utils import word_processor
@@ -35,6 +36,6 @@ def update_parser(subparsers):
         This method will analyse identifier readable from extracted data
         of submitted Google Code Jam source code.''')
     # TODO force
-    subparser.add_argument('-q', '--quiet', action='store_true', help='''
-        run the script quietly.''')
+    subparser.add_argument('-q', '--quiet', action='store_const',
+        const=logging.WARNING, help='''run the script quietly.''')
     subparser.set_defaults(function=calculate_identifier_readable)

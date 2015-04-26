@@ -1,21 +1,21 @@
 import os
 import json
 import urllib3
+import logging
 from itertools import count
 
-from ..._utils import datapath, metadata, log
+from ..._utils import datapath, metadata
 
 
-def get_metadata(year, force=False, quiet=False, **kwargs):
+def get_metadata(year, force=False, **kwargs):
     http = urllib3.PoolManager()
     api = metadata['api']
     default = {'cmd': 'GetScoreboard', 'show_type': 'all'}
-    os.makedirs(datapath('metadata/round'), exist_ok=True)
+    os.makedirs(datapath('metadata', 'round'), exist_ok=True)
     for contest in metadata[year]:
-        filename = 'metadata/round/{}.json'.format(contest['id'])
-        if not force and os.path.isfile(datapath(filename)):
+        filepath = datapath('metadata', 'round', str(contest['id'])+'.json')
+        if not force and os.path.isfile(filepath):
             continue
-        quiet or log(contest['id'])
         default['contest_id'] = contest['id']
         contest_stat = []
         for i in count(1, 30):
@@ -23,12 +23,11 @@ def get_metadata(year, force=False, quiet=False, **kwargs):
             result = http.request('GET', api, fields=default)
             data = json.loads(result.data.decode('utf-8'))
             contest_stat += data['rows']
-            quiet or log('.')
+            logging.info('downloading: {} {}'.format(contest['id'], i))
             if i + 30 > data['stat']['nrp']:
                 break
-        with open(datapath(filename), 'w') as file:
+        with open(filepath, 'w') as file:
             json.dump(contest_stat, file, sort_keys=True, indent=4)
-        quiet or log('\n')
 
 
 def update_parser(subparsers):
@@ -37,6 +36,6 @@ def update_parser(subparsers):
         of a suppliment year, and store each as JSON file.''')
     subparser.add_argument('-f', '--force', action='store_true', help='''
         force download metadata file if exists.''')
-    subparser.add_argument('-q', '--quiet', action='store_true', help='''
-        run the script quietly.''')
+    subparser.add_argument('-q', '--quiet', action='store_const',
+        const=logging.WARNING, help='''run the script quietly.''')
     subparser.set_defaults(function=get_metadata)

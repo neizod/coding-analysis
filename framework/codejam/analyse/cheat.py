@@ -1,5 +1,6 @@
 import os
 import json
+import logging
 
 from ..._utils import datapath
 
@@ -21,6 +22,6 @@ def update_parser(subparsers):
         This method will analyse cheating by copy-paste source code
         from multiple contestants.''')
     # TODO force
-    subparser.add_argument('-q', '--quiet', action='store_true', help='''
-        run the script quietly.''')
+    subparser.add_argument('-q', '--quiet', action='store_const',
+        const=logging.WARNING, help='''run the script quietly.''')
     subparser.set_defaults(function=calculate_cheat)

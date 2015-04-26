@@ -1,9 +1,10 @@
 import os
 import json
 import urllib3
+import logging
 from itertools import count
 
-from ..._utils import datapath, metadata, log, iter_id_io, exist_source
+from ..._utils import datapath, metadata, iter_id_io, exist_source
 
 
 def prepare_dirs(year):
@@ -15,35 +16,33 @@ def prepare_dirs(year):
                 os.makedirs(datapath('sourcezip', pid, io), exist_ok=True)
 
 
-def get_source(year, force=False, quiet=False, **kwargs):
+def get_source(year, force=False, **kwargs):
     http = urllib3.PoolManager()
     api = metadata['api']
     default = {'cmd': 'GetSourceCode'}
     prepare_dirs(year)
     for contest in metadata[year]:
-        filename = 'metadata/round/{}.json'.format(contest['id'])
-        if not os.path.isfile(datapath(filename)):
+        filepath = datapath('metadata', 'round', str(contest['id'])+'.json')
+        if not os.path.isfile(filepath):
             exit('data for year {} does not exist.'.format(year))
         default['contest'] = contest['id']
-        for answer in json.load(open(datapath(filename))):
+        for answer in json.load(open(filepath)):
             name = answer['n']
-            quiet or log(name)
             id_io = iter_id_io(contest['problems'])
             for a, s, o, (num, io) in zip(answer['att'], answer['ss'], answer['oa'], id_io):
                 if not exist_source(a, s):
                     continue
-                sourcezip = 'sourcezip/{}/{}/{}.zip'.format(num, io, answer['n'])
-                if not force and os.path.isfile(datapath(sourcezip)):
-                    quiet or log('_')
+                zippath = datapath('sourcezip', num, io, name+'.zip')
+                if not force and os.path.isfile(zippath):
+                    logging.info('ignore: {} {} {}'.format(num, io, name))
                     continue
+                logging.info('downloading: {} {} {}'.format(num, io, name))
                 default['problem'] = num
                 default['io_set_id'] = io
                 default['username'] = name
                 result = http.request('GET', api, fields=default)
-                with open(datapath(sourcezip), 'wb') as file:
+                with open(zippath, 'wb') as file:
                     file.write(result.data)
-                quiet or log('.')
-            quiet or log('\n')
 
 
 def update_parser(subparsers):
@@ -53,6 +52,6 @@ def update_parser(subparsers):
         to build up list of contestants first.''')
     subparser.add_argument('-f', '--force', action='store_true', help='''
         force download source file if exists.''')
-    subparser.add_argument('-q', '--quiet', action='store_true', help='''
-        run the script quietly.''')
+    subparser.add_argument('-q', '--quiet', action='store_const',
+        const=logging.WARNING, help='''run the script quietly.''')
     subparser.set_defaults(function=get_source)

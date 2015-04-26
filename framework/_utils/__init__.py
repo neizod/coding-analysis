@@ -13,8 +13,8 @@ def submodules(_file, _name):
         if not name.startswith('_') and not name.startswith('.')]
 
 
-def datapath(*path):
-    return os.path.join(basepath, '../../data/codejam', *path)
+def datapath(*ps):
+    return os.path.join(basepath, '../../data/codejam', *(str(p) for p in ps))
 
 
 def log(*sentences):

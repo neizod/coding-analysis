@@ -1,8 +1,9 @@
 import os
 import json
+import logging
 from collections import defaultdict
 
-from ..._utils import datapath, readsource, log, iter_submission
+from ..._utils import datapath, readsource, iter_submission
 
 
 def find_plagiarism(contents):
@@ -17,23 +18,23 @@ def find_plagiarism(contents):
     return [{'pid': pid, 'cheats': cheats} for pid, cheats in plag_set.items()]
 
 
-def extract_cheat(year, force=False, quiet=False, **kwargs):
+def extract_cheat(year, force=False, **kwargs):
     os.makedirs(datapath('extract'), exist_ok=True)
-    output_file = 'extract/cheat.json'
-    if not force and os.path.isfile(datapath(output_file)):
+    output_file = datapath('extract', 'cheat.json')
+    if not force and os.path.isfile(output_file):
         return
     contents = defaultdict(list)
     for pid, io, screen_name in iter_submission(year):
-        directory = 'source/{}/{}/{}/'.format(pid, io, screen_name)
-        quiet or log(directory)
-        for filename in os.listdir(datapath(directory)):
-            if not os.path.isfile(datapath(directory, filename)):
+        directory = datapath('source', pid, io, screen_name)
+        logging.info('extracting: {} {} {}'.format(pid, io, screen_name))
+        for filename in os.listdir(directory):
+            filepath = datapath(directory, filename)
+            if not os.path.isfile(filepath):
                 continue
-            sourcecode = readsource(datapath(directory, filename))
+            sourcecode = readsource(filepath)
             contents[sourcecode] += [{'pid': pid, 'io': io, 'screen_name': screen_name}]
-        quiet or log('  done\n')
     extracted_data = find_plagiarism(contents)
-    with open(datapath(output_file), 'w') as file:
+    with open(output_file, 'w') as file:
         json.dump(extracted_data, file, indent=2)
 
 
@@ -43,6 +44,6 @@ def update_parser(subparsers):
     # TODO force
     subparser.add_argument('-f', '--force', action='store_true', help='''
         force''')
-    subparser.add_argument('-q', '--quiet', action='store_true', help='''
-        run the script quietly.''')
+    subparser.add_argument('-q', '--quiet', action='store_const',
+        const=logging.WARNING, help='''run the script quietly.''')
     subparser.set_defaults(function=extract_cheat)
