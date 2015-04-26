@@ -15,4 +15,5 @@ def run():
     if 'function' in args:
         args.function(**vars(args))
     else:
-        parser.print_help()
+        import sys
+        parser.parse_args(sys.argv[1:] + ['--help'])
