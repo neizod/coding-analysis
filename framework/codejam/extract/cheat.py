@@ -32,6 +32,8 @@ def extract_cheat(year, force=False, **kwargs):
             if not os.path.isfile(filepath):
                 continue
             sourcecode = readsource(filepath)
+            if not sourcecode:
+                continue
             contents[sourcecode] += [{'pid': pid, 'io': io, 'screen_name': screen_name}]
     extracted_data = find_plagiarism(contents)
     with open(output_file, 'w') as file:
