@@ -21,10 +21,10 @@ def summary_row(answer):
 
 
 def calculate_identifier_length(year, **kwargs):
-    os.makedirs(datapath('result'), exist_ok=True)
-    with open(datapath('result', 'language.txt'), 'w') as file:
+    os.makedirs(datapath('codejam', 'result'), exist_ok=True)
+    with open(datapath('codejam', 'result', 'language.txt'), 'w') as file:
         file.write('pid io screen_name language\n')
-        for answer in json.load(open(datapath('extract', 'language.json'))):
+        for answer in json.load(open(datapath('codejam', 'extract', 'language.json'))):
             file.write(summary_row(answer))
 
 

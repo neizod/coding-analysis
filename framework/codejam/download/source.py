@@ -8,12 +8,12 @@ from ..._utils import datapath, metadata, iter_id_io, exist_source
 
 
 def prepare_dirs(year):
-    os.makedirs(datapath('sourcezip'), exist_ok=True)
+    os.makedirs(datapath('codejam', 'sourcezip'), exist_ok=True)
     for contest in metadata[year]:
         for problem in contest['problems']:
             pid = problem['id']
             for io in range(problem['io']):
-                os.makedirs(datapath('sourcezip', pid, io), exist_ok=True)
+                os.makedirs(datapath('codejam', 'sourcezip', pid, io), exist_ok=True)
 
 
 def get_source(year, force=False, **kwargs):
@@ -22,7 +22,7 @@ def get_source(year, force=False, **kwargs):
     default = {'cmd': 'GetSourceCode'}
     prepare_dirs(year)
     for contest in metadata[year]:
-        filepath = datapath('metadata', 'round', str(contest['id'])+'.json')
+        filepath = datapath('codejam', 'metadata', 'round', str(contest['id'])+'.json')
         if not os.path.isfile(filepath):
             exit('data for year {} does not exist.'.format(year))
         default['contest'] = contest['id']
@@ -32,7 +32,7 @@ def get_source(year, force=False, **kwargs):
             for a, s, o, (num, io) in zip(answer['att'], answer['ss'], answer['oa'], id_io):
                 if not exist_source(a, s):
                     continue
-                zippath = datapath('sourcezip', num, io, name+'.zip')
+                zippath = datapath('codejam', 'sourcezip', num, io, name+'.zip')
                 if not force and os.path.isfile(zippath):
                     logging.info('ignore: {} {} {}'.format(num, io, name))
                     continue

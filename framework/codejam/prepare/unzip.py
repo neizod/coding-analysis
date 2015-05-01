@@ -7,9 +7,9 @@ from ..._utils import datapath, iter_submission
 
 def ensure_recursive_unzip(year):
     for pid, io, screen_name in utils.iter_submission(year):
-        directory = datapath('source', pid, io, screen_name)
+        directory = datapath('codejam', 'source', pid, io, screen_name)
         for filename in os.listdir(directory):
-            filepath = datapath(directory, filename)
+            filepath = datapath('codejam', directory, filename)
             if os.path.splitext(filepath)[1] == '.zip':
                 with ZipFile(filepath) as z:
                     z.extractall(directory)
@@ -19,8 +19,8 @@ def ensure_recursive_unzip(year):
 def unzip_source(year, force=False, **kwargs):
     bad_zipfiles = []
     for pid, io, screen_name in iter_submission(year):
-        zippath = datapath('sourcezip', pid, io, screen_name+'.zip')
-        directory = datapath('source', pid, io, screen_name)
+        zippath = datapath('codejam', 'sourcezip', pid, io, screen_name+'.zip')
+        directory = datapath('codejam', 'source', pid, io, screen_name)
         os.makedirs(directory, exist_ok=True)
         logging.info('unzipping: {} {} {}'.format(pid, io, screen_name))
         if force or not os.listdir(directory):
@@ -31,7 +31,7 @@ def unzip_source(year, force=False, **kwargs):
                 bad_zipfiles += [zippath]
     if bad_zipfiles:
         for zippath in bad_zipfiles:
-            os.renames(zippath, datapath('badzip', zippath))
+            os.renames(zippath, datapath('codejam', 'badzip', zippath))
         raise BadZipFile(bad_zipfiles)
     ensure_recursive_unzip(year)
 

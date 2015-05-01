@@ -19,16 +19,16 @@ def find_plagiarism(contents):
 
 
 def extract_cheat(year, force=False, **kwargs):
-    os.makedirs(datapath('extract'), exist_ok=True)
-    output_file = datapath('extract', 'cheat.json')
+    os.makedirs(datapath('codejam', 'extract'), exist_ok=True)
+    output_file = datapath('codejam', 'extract', 'cheat.json')
     if not force and os.path.isfile(output_file):
         return
     contents = defaultdict(list)
     for pid, io, screen_name in iter_submission(year):
-        directory = datapath('source', pid, io, screen_name)
+        directory = datapath('codejam', 'source', pid, io, screen_name)
         logging.info('extracting: {} {} {}'.format(pid, io, screen_name))
         for filename in os.listdir(directory):
-            filepath = datapath(directory, filename)
+            filepath = datapath('codejam', directory, filename)
             if not os.path.isfile(filepath):
                 continue
             sourcecode = readsource(filepath)

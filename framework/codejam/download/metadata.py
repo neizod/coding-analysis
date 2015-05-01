@@ -11,9 +11,9 @@ def get_metadata(year, force=False, **kwargs):
     http = urllib3.PoolManager()
     api = metadata['api']
     default = {'cmd': 'GetScoreboard', 'show_type': 'all'}
-    os.makedirs(datapath('metadata', 'round'), exist_ok=True)
+    os.makedirs(datapath('codejam', 'metadata', 'round'), exist_ok=True)
     for contest in metadata[year]:
-        filepath = datapath('metadata', 'round', str(contest['id'])+'.json')
+        filepath = datapath('codejam', 'metadata', 'round', str(contest['id'])+'.json')
         if not force and os.path.isfile(filepath):
             continue
         default['contest_id'] = contest['id']

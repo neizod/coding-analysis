@@ -7,17 +7,17 @@ from ..._utils import word_processor
 
 
 def extract_identifier(year, force=False, **kwargs):
-    os.makedirs(datapath('extract'), exist_ok=True)
-    output_file = datapath('extract', 'language.json')
+    os.makedirs(datapath('codejam', 'extract'), exist_ok=True)
+    output_file = datapath('codejam', 'extract', 'language.json')
     if not force and os.path.isfile(output_file):
         return
     extracted_data = []
     for pid, io, screen_name in iter_submission(year):
-        directory = datapath('source', pid, io, screen_name)
+        directory = datapath('codejam', 'source', pid, io, screen_name)
         logging.info('extracting: {} {} {}'.format(pid, io, screen_name))
         languages = set()
         for filename in os.listdir(directory):
-            filepath = datapath(directory, filename)
+            filepath = datapath('codejam', directory, filename)
             if not os.path.isfile(filepath):
                 continue
             _, ext = os.path.splitext(filepath)
@@ -32,7 +32,7 @@ def extract_identifier(year, force=False, **kwargs):
             'screen_name': screen_name,
             'language': languages.pop() if len(languages) == 1 else None,
         }]
-    with open(datapath(output_file), 'w') as file:
+    with open(datapath('codejam', output_file), 'w') as file:
         json.dump(extracted_data, file, indent=2)
 
 

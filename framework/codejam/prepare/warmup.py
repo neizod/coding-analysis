@@ -6,10 +6,10 @@ from ..._utils import datapath, iter_submission, readsource
 
 def warmup_source(year, **kwargs):
     for pid, io, screen_name in iter_submission(year):
-        directory = datapath('source', pid, io, screen_name)
+        directory = datapath('codejam', 'source', pid, io, screen_name)
         logging.info('warming-up: {} {} {}'.format(pid, io, screen_name))
         for filename in os.listdir(directory):
-            filepath = datapath(directory, filename)
+            filepath = datapath('codejam', directory, filename)
             if os.path.isfile(filepath):
                 _ensure_readfile = len(readsource(filepath))
 

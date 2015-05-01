@@ -4,22 +4,20 @@ import json
 import yaml
 import importlib
 
-basepath = os.path.dirname(__file__) + '/'
-
 
 def submodules(_file, _name):
     return [importlib.import_module('.' + os.path.splitext(name)[0], _name)
-        for name in os.listdir(os.path.dirname(_file))
-        if not name.startswith('_') and not name.startswith('.')]
+            for name in os.listdir(os.path.dirname(_file))
+            if not name.startswith(('.', '_'))]
+
+
+def make_ext(name, ext):
+    return '{}{}{}'.format(name, os.extsep, ext)
 
 
 def datapath(*ps):
-    return os.path.join(basepath, '../../data/codejam', *(str(p) for p in ps))
-
-
-def log(*sentences):
-    print(*sentences, end='')
-    sys.stdout.flush()
+    basepath = os.path.dirname(__file__)
+    return os.path.join(basepath, '..', '..', 'data', *(str(p) for p in ps))
 
 
 def readsource(filename):
@@ -30,9 +28,7 @@ def readsource(filename):
 
 
 def exist_source(attempt, submittime):
-    if not attempt or submittime == -1:
-        return False
-    return True
+    return attempt and submittime != -1
 
 
 def iter_id_io(problems):
@@ -54,13 +50,13 @@ def iter_answer(problems, answer_set):
 
 def iter_submission(year):
     for contest in metadata[year]:
-        filename = 'metadata/round/{}.json'.format(contest['id'])
-        for answer_set in json.load(open(datapath(filename))):
+        file_ext = make_ext(contest['id'], 'json')
+        filepath = datapath('codejam', 'metadata', 'round', file_ext)
+        for answer_set in json.load(open(filepath)):
             screen_name = answer_set['n']
             for pid, io, a, s in iter_answer(contest['problems'], answer_set):
                 if exist_source(a, s):
                     yield pid, io, screen_name
 
 
-metadata = yaml.load(open(datapath('metadata/main.yaml')))
-lang_name = yaml.load(open(datapath('lang_name.yaml')))
+metadata = yaml.load(open(datapath('codejam', 'metadata/main.yaml')))

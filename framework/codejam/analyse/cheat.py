@@ -10,10 +10,10 @@ def summary_row(answer):
 
 
 def calculate_cheat(year, **kwargs):
-    os.makedirs(datapath('result'), exist_ok=True)
-    with open(datapath('result', 'cheat.txt'), 'w') as file:
+    os.makedirs(datapath('codejam', 'result'), exist_ok=True)
+    with open(datapath('codejam', 'result', 'cheat.txt'), 'w') as file:
         file.write('pid nos-cheat\n')
-        for answer in json.load(open(datapath('extract', 'cheat.json'))):
+        for answer in json.load(open(datapath('codejam', 'extract', 'cheat.json'))):
             file.write(summary_row(answer))
 
 
