@@ -1,4 +1,4 @@
-from .._utils import submodules
+from framework._utils import submodules
 
 
 def update_parser(subparsers):

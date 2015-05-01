@@ -2,7 +2,7 @@ import logging
 import argparse
 import argcomplete
 
-from ._utils import submodules
+from framework._utils import submodules
 
 
 def run():

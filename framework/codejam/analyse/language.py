@@ -4,8 +4,8 @@ import logging
 import statistics as stat
 from collections import Counter, defaultdict
 
-from ..._utils import datapath
-from ..._utils import word_processor
+from framework._utils import datapath
+from framework._utils import word_processor
 
 
 def repr_or_na(data):

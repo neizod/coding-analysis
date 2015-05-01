@@ -2,9 +2,9 @@ import os
 import json
 import logging
 
-from ..._utils import datapath
-from ..._utils import word_processor
-from ..._utils.word_processor import Identifier
+from framework._utils import datapath
+from framework._utils import word_processor
+from framework._utils.word_processor import Identifier
 
 
 def repr_or_na(data):

@@ -2,8 +2,8 @@ import os
 import json
 import logging
 
-from ..._utils import datapath, iter_submission, readsource
-from ..._utils import word_processor
+from framework._utils import datapath, iter_submission, readsource
+from framework._utils import word_processor
 
 
 def extract_identifier(year, force=False, **kwargs):

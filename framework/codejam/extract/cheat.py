@@ -3,7 +3,7 @@ import json
 import logging
 from collections import defaultdict
 
-from ..._utils import datapath, readsource, iter_submission
+from framework._utils import datapath, readsource, iter_submission
 
 
 def find_plagiarism(contents):

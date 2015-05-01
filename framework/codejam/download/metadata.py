@@ -4,7 +4,7 @@ import urllib3
 import logging
 from itertools import count
 
-from ..._utils import datapath, metadata
+from framework._utils import datapath, metadata
 
 
 def get_metadata(year, force=False, **kwargs):
