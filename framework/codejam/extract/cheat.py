@@ -3,8 +3,8 @@ import json
 import logging
 from collections import defaultdict
 
-from framework._utils import datapath, readsource, iter_submission
-
+from framework._utils import datapath
+from framework.codejam._helper import readsource, iter_submission
 
 def find_plagiarism(contents):
     def compressed(submit):

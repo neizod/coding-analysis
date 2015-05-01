@@ -2,8 +2,9 @@ import os
 import json
 import logging
 
-from framework._utils import datapath, iter_submission, readsource
+from framework._utils import datapath
 from framework._utils import word_processor
+from framework.codejam._helper import readsource, iter_submission
 
 
 def extract_identifier(year, force=False, **kwargs):

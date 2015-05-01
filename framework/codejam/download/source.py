@@ -4,8 +4,8 @@ import urllib3
 import logging
 from itertools import count
 
-from framework._utils import datapath, metadata, iter_id_io, exist_source
-
+from framework._utils import datapath
+from framework.codejam._helper import metadata, iter_id_io, exist_source
 
 def prepare_dirs(year):
     os.makedirs(datapath('codejam', 'sourcezip'), exist_ok=True)

@@ -1,7 +1,8 @@
 import os
 import logging
 
-from framework._utils import datapath, iter_submission, readsource
+from framework._utils import datapath
+from framework.codejam._helper import readsource, iter_submission
 
 
 def warmup_source(year, **kwargs):

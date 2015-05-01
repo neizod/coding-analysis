@@ -4,7 +4,8 @@ import urllib3
 import logging
 from itertools import count
 
-from framework._utils import datapath, metadata
+from framework._utils import datapath
+from framework.codejam._helper import metadata
 
 
 def get_metadata(year, force=False, **kwargs):

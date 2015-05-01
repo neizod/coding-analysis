@@ -2,7 +2,8 @@ import os
 import logging
 from zipfile import ZipFile, BadZipFile
 
-from framework._utils import datapath, iter_submission
+from framework._utils import datapath
+from framework.codejam._helper import iter_submission
 
 
 def ensure_recursive_unzip(year):
