@@ -7,7 +7,7 @@ from framework.codejam._helper import iter_submission
 
 
 def ensure_recursive_unzip(year):
-    for pid, io, screen_name in utils.iter_submission(year):
+    for _, pid, io, screen_name in utils.iter_submission(year):
         directory = datapath('codejam', 'source', pid, io, screen_name)
         for filename in os.listdir(directory):
             filepath = datapath('codejam', directory, filename)
@@ -19,7 +19,7 @@ def ensure_recursive_unzip(year):
 
 def unzip_source(year, force=False, **kwargs):
     bad_zipfiles = []
-    for pid, io, screen_name in iter_submission(year):
+    for _, pid, io, screen_name in iter_submission(year):
         zippath = datapath('codejam', 'sourcezip', pid, io, screen_name+'.zip')
         directory = datapath('codejam', 'source', pid, io, screen_name)
         os.makedirs(directory, exist_ok=True)

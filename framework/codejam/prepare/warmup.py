@@ -6,7 +6,7 @@ from framework.codejam._helper import readsource, iter_submission
 
 
 def warmup_source(year, **kwargs):
-    for pid, io, screen_name in iter_submission(year):
+    for _, pid, io, screen_name in iter_submission(year):
         directory = datapath('codejam', 'source', pid, io, screen_name)
         logging.info('warming-up: {} {} {}'.format(pid, io, screen_name))
         for filename in os.listdir(directory):

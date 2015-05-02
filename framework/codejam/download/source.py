@@ -5,44 +5,27 @@ import logging
 from itertools import count
 
 from framework._utils import datapath
-from framework.codejam._helper import metadata, iter_id_io, exist_source
-
-def prepare_dirs(year):
-    os.makedirs(datapath('codejam', 'sourcezip'), exist_ok=True)
-    for contest in metadata[year]:
-        for problem in contest['problems']:
-            pid = problem['id']
-            for io in range(problem['io']):
-                os.makedirs(datapath('codejam', 'sourcezip', pid, io), exist_ok=True)
+from framework.codejam._helper import api, iter_submission
 
 
 def get_source(year, force=False, **kwargs):
     http = urllib3.PoolManager()
-    api = metadata['api']
     default = {'cmd': 'GetSourceCode'}
-    prepare_dirs(year)
-    for contest in metadata[year]:
-        filepath = datapath('codejam', 'metadata', 'round', str(contest['id'])+'.json')
-        if not os.path.isfile(filepath):
-            exit('data for year {} does not exist.'.format(year))
-        default['contest'] = contest['id']
-        for answer in json.load(open(filepath)):
-            name = answer['n']
-            id_io = iter_id_io(contest['problems'])
-            for a, s, o, (num, io) in zip(answer['att'], answer['ss'], answer['oa'], id_io):
-                if not exist_source(a, s):
-                    continue
-                zippath = datapath('codejam', 'sourcezip', num, io, name+'.zip')
-                if not force and os.path.isfile(zippath):
-                    logging.info('ignore: {} {} {}'.format(num, io, name))
-                    continue
-                logging.info('downloading: {} {} {}'.format(num, io, name))
-                default['problem'] = num
-                default['io_set_id'] = io
-                default['username'] = name
-                result = http.request('GET', api, fields=default)
-                with open(zippath, 'wb') as file:
-                    file.write(result.data)
+    for cid, pid, io, screen_name in iter_submission(year):
+        directory = datapath('codejam', 'sourcezip', pid, io)
+        os.makedirs(directory, exist_ok=True)
+        zippath = datapath(directory, screen_name+'.zip')
+        if not force and os.path.isfile(zippath):
+            logging.info('ignore: {} {} {}'.format(pid, io, screen_name))
+            continue
+        default['contest'] = cid
+        default['problem'] = pid
+        default['io_set_id'] = io
+        default['username'] = screen_name
+        logging.info('downloading: {} {} {}'.format(pid, io, screen_name))
+        result = http.request('GET', api, fields=default)
+        with open(zippath, 'wb') as file:
+            file.write(result.data)
 
 
 def update_parser(subparsers):

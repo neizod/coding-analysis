@@ -13,7 +13,7 @@ def extract_identifier(year, force=False, **kwargs):
     if not force and os.path.isfile(output_file):
         return
     extracted_data = []
-    for pid, io, screen_name in iter_submission(year):
+    for _, pid, io, screen_name in iter_submission(year):
         directory = datapath('codejam', 'source', pid, io, screen_name)
         logging.info('extracting: {} {} {}'.format(pid, io, screen_name))
         languages = set()

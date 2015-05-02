@@ -4,6 +4,10 @@ import yaml
 from framework._utils import datapath, make_ext
 
 
+api = 'https://code.google.com/codejam/contest/scoreboard/do/'
+metadata = yaml.load(open(datapath('codejam', 'metadata', 'main.yaml')))
+
+
 def readsource(filename):
     try:
         return open(filename).read()
@@ -32,6 +36,10 @@ def iter_answer(problems, answer_set):
         yield pid, io, att, stime
 
 
+def iter_contest(year):
+    yield from (contest['id'] for contest in metadata[year])
+
+
 def iter_submission(year):
     for contest in metadata[year]:
         file_ext = make_ext(contest['id'], 'json')
@@ -40,7 +48,4 @@ def iter_submission(year):
             screen_name = answer_set['n']
             for pid, io, a, s in iter_answer(contest['problems'], answer_set):
                 if exist_source(a, s):
-                    yield pid, io, screen_name
-
-
-metadata = yaml.load(open(datapath('codejam', 'metadata', 'main.yaml')))
+                    yield contest['id'], pid, io, screen_name

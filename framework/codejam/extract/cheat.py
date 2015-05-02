@@ -24,7 +24,7 @@ def extract_cheat(year, force=False, **kwargs):
     if not force and os.path.isfile(output_file):
         return
     contents = defaultdict(list)
-    for pid, io, screen_name in iter_submission(year):
+    for _, pid, io, screen_name in iter_submission(year):
         directory = datapath('codejam', 'source', pid, io, screen_name)
         logging.info('extracting: {} {} {}'.format(pid, io, screen_name))
         for filename in os.listdir(directory):
