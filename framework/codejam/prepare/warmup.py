@@ -1,7 +1,7 @@
 import os
 import logging
 
-from framework._utils import datapath
+from framework._utils import datapath, hook_common_arguments
 from framework.codejam._helper import readsource, iter_submission
 
 
@@ -18,6 +18,5 @@ def warmup_source(year, **kwargs):
 def update_parser(subparsers):
     subparser = subparsers.add_parser('warmup', description='''
         This method will warmup source code files for futher analysis.''')
-    subparser.add_argument('-q', '--quiet', action='store_const',
-        const=logging.WARNING, help='''run the script quietly.''')
     subparser.set_defaults(function=warmup_source)
+    hook_common_arguments(subparser)

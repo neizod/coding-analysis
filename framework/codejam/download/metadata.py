@@ -4,7 +4,7 @@ import urllib3
 import logging
 from itertools import count
 
-from framework._utils import datapath
+from framework._utils import datapath, hook_common_arguments
 from framework.codejam._helper import api, iter_contest
 
 
@@ -34,8 +34,5 @@ def update_parser(subparsers):
     subparser = subparsers.add_parser('metadata', description='''
         This script will download Google Code Jam each round metadata
         of a suppliment year, and store each as JSON file.''')
-    subparser.add_argument('-f', '--force', action='store_true', help='''
-        force download metadata file if exists.''')
-    subparser.add_argument('-q', '--quiet', action='store_const',
-        const=logging.WARNING, help='''run the script quietly.''')
     subparser.set_defaults(function=get_metadata)
+    hook_common_arguments(subparser)

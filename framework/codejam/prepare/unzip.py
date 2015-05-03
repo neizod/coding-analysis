@@ -2,7 +2,7 @@ import os
 import logging
 from zipfile import ZipFile, BadZipFile
 
-from framework._utils import datapath
+from framework._utils import datapath, hook_common_arguments
 from framework.codejam._helper import iter_submission
 
 
@@ -40,8 +40,5 @@ def unzip_source(year, force=False, **kwargs):
 def update_parser(subparsers):
     subparser = subparsers.add_parser('unzip', description='''
         This method will unzip downloaded source code files.''')
-    subparser.add_argument('-f', '--force', action='store_true', help='''
-        force unzip source code files if destination exists.''')
-    subparser.add_argument('-q', '--quiet', action='store_const',
-        const=logging.WARNING, help='''run the script quietly.''')
     subparser.set_defaults(function=unzip_source)
+    hook_common_arguments(subparser)

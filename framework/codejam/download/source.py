@@ -4,7 +4,7 @@ import urllib3
 import logging
 from itertools import count
 
-from framework._utils import datapath
+from framework._utils import datapath, hook_common_arguments
 from framework.codejam._helper import api, iter_submission
 
 
@@ -33,8 +33,5 @@ def update_parser(subparsers):
         This script will download Google Code Jam submitted zipped sources.
         You need to run get_metadata script with supply argument of that year
         to build up list of contestants first.''')
-    subparser.add_argument('-f', '--force', action='store_true', help='''
-        force download source file if exists.''')
-    subparser.add_argument('-q', '--quiet', action='store_const',
-        const=logging.WARNING, help='''run the script quietly.''')
     subparser.set_defaults(function=get_source)
+    hook_common_arguments(subparser)

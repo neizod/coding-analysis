@@ -4,7 +4,7 @@ import logging
 import statistics as stat
 from collections import Counter, defaultdict
 
-from framework._utils import datapath
+from framework._utils import datapath, hook_common_arguments
 from framework._utils import word_processor
 
 
@@ -31,7 +31,5 @@ def calculate_identifier_length(year, **kwargs):
 def update_parser(subparsers):
     subparser = subparsers.add_parser('language', description='''
         This method will analyse language used in each subbmited code.''')
-    # TODO force
-    subparser.add_argument('-q', '--quiet', action='store_const',
-        const=logging.WARNING, help='''run the script quietly.''')
     subparser.set_defaults(function=calculate_identifier_length)
+    hook_common_arguments(subparser)

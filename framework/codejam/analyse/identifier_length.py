@@ -3,7 +3,7 @@ import json
 import logging
 import statistics as stat
 
-from framework._utils import datapath
+from framework._utils import datapath, hook_common_arguments
 from framework._utils import word_processor
 
 
@@ -35,7 +35,5 @@ def update_parser(subparsers):
     subparser = subparsers.add_parser('identifier-length', description='''
         This method will analyse identifier length from extracted data
         of submitted Google Code Jam source code.''')
-    # TODO force
-    subparser.add_argument('-q', '--quiet', action='store_const',
-        const=logging.WARNING, help='''run the script quietly.''')
     subparser.set_defaults(function=calculate_identifier_length)
+    hook_common_arguments(subparser)

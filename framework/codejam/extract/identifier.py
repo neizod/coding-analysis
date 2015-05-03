@@ -2,7 +2,7 @@ import os
 import json
 import logging
 
-from framework._utils import datapath
+from framework._utils import datapath, hook_common_arguments
 from framework._utils import word_processor
 from framework.codejam._helper import readsource, iter_submission
 
@@ -42,8 +42,5 @@ def update_parser(subparsers):
     subparser = subparsers.add_parser('identifier', description='''
         This method will extract all identifiers in submitted source code
         from each contestants for futher analysis.''')
-    subparser.add_argument('-f', '--force', action='store_true', help='''
-        force extract even extracted data already exists.''')
-    subparser.add_argument('-q', '--quiet', action='store_const',
-        const=logging.WARNING, help='''run the script quietly.''')
     subparser.set_defaults(function=extract_identifier)
+    hook_common_arguments(subparser)

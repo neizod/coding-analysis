@@ -3,7 +3,7 @@ import json
 import logging
 from collections import defaultdict
 
-from framework._utils import datapath
+from framework._utils import datapath, hook_common_arguments
 from framework.codejam._helper import readsource, iter_submission
 
 def find_plagiarism(contents):
@@ -43,9 +43,5 @@ def extract_cheat(year, force=False, **kwargs):
 def update_parser(subparsers):
     subparser = subparsers.add_parser('cheat', description='''
         This method will extract set of duplicated source codes.''')
-    # TODO force
-    subparser.add_argument('-f', '--force', action='store_true', help='''
-        force''')
-    subparser.add_argument('-q', '--quiet', action='store_const',
-        const=logging.WARNING, help='''run the script quietly.''')
     subparser.set_defaults(function=extract_cheat)
+    hook_common_arguments(subparser)

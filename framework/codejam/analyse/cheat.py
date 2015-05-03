@@ -2,7 +2,7 @@ import os
 import json
 import logging
 
-from framework._utils import datapath
+from framework._utils import datapath, hook_common_arguments
 
 
 def summary_row(answer):
@@ -21,7 +21,5 @@ def update_parser(subparsers):
     subparser = subparsers.add_parser('cheat', description='''
         This method will analyse cheating by copy-paste source code
         from multiple contestants.''')
-    # TODO force
-    subparser.add_argument('-q', '--quiet', action='store_const',
-        const=logging.WARNING, help='''run the script quietly.''')
     subparser.set_defaults(function=calculate_cheat)
+    hook_common_arguments(subparser)
