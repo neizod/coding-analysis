@@ -20,7 +20,7 @@ def find_plagiarism(contents):
 
 def main(year, force=False, **kwargs):
     os.makedirs(datapath('codejam', 'extract'), exist_ok=True)
-    output_file = datapath('codejam', 'extract', 'cheat.json')
+    output_file = datapath('codejam', 'extract', 'cheat-{}.json'.format(year))
     if not force and os.path.isfile(output_file):
         return
     contents = defaultdict(list)

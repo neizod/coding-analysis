@@ -22,9 +22,9 @@ def summary_row(answer):
 
 def main(year, **kwargs):
     os.makedirs(datapath('codejam', 'result'), exist_ok=True)
-    with open(datapath('codejam', 'result', 'language.txt'), 'w') as file:
+    with open(datapath('codejam', 'result', 'language-{}.txt'.format(year)), 'w') as file:
         file.write('pid io screen_name language\n')
-        for answer in json.load(open(datapath('codejam', 'extract', 'language.json'))):
+        for answer in json.load(open(datapath('codejam', 'extract', 'language-{}.json'.format(year)))):
             file.write(summary_row(answer))
 
 

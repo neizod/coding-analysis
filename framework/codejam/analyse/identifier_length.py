@@ -25,9 +25,9 @@ def summary_row(answer):
 
 def main(year, **kwargs):
     os.makedirs(datapath('codejam', 'result'), exist_ok=True)
-    with open(datapath('codejam', 'result', 'identifier-length.txt'), 'w') as file:
+    with open(datapath('codejam', 'result', 'identifier-length-{}.txt'.format(year)), 'w') as file:
         file.write('pid io screen_name identifier-length\n')
-        for answer in json.load(open(datapath('codejam', 'extract', 'identifier.json'))):
+        for answer in json.load(open(datapath('codejam', 'extract', 'identifier-{}.json'.format(year)))):
             file.write(summary_row(answer))
 
 
