@@ -9,7 +9,7 @@ def summary_row(answer):
     return '{} {}\n'.format(answer['pid'], len(answer['cheats']))
 
 
-def calculate_cheat(year, **kwargs):
+def main(year, **kwargs):
     os.makedirs(datapath('codejam', 'result'), exist_ok=True)
     with open(datapath('codejam', 'result', 'cheat.txt'), 'w') as file:
         file.write('pid nos-cheat\n')
@@ -21,5 +21,4 @@ def update_parser(subparsers):
     subparser = subparsers.add_parser('cheat', description='''
         This method will analyse cheating by copy-paste source code
         from multiple contestants.''')
-    subparser.set_defaults(function=calculate_cheat)
-    hook_common_arguments(subparser)
+    hook_common_arguments(subparser, main)

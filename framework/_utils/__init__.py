@@ -15,12 +15,14 @@ def hook_submodules(parser, _file, _name):
         module.update_parser(subparsers)
 
 
-def hook_common_arguments(parser):
+def hook_common_arguments(parser, function=None):
     parser.add_argument('-f', '--force', action='store_true',
         help='''force run this method despite the exists result.''')
     parser.add_argument('-q', '--quiet', action='store_const',
         const=logging.WARNING, default=logging.INFO,
         help='''run this method without showing any information.''')
+    if function is not None:
+        parser.set_defaults(function=function)
 
 
 def make_ext(name, ext):

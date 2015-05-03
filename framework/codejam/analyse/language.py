@@ -20,7 +20,7 @@ def summary_row(answer):
             repr_or_na(answer['language']))
 
 
-def calculate_identifier_length(year, **kwargs):
+def main(year, **kwargs):
     os.makedirs(datapath('codejam', 'result'), exist_ok=True)
     with open(datapath('codejam', 'result', 'language.txt'), 'w') as file:
         file.write('pid io screen_name language\n')
@@ -31,5 +31,4 @@ def calculate_identifier_length(year, **kwargs):
 def update_parser(subparsers):
     subparser = subparsers.add_parser('language', description='''
         This method will analyse language used in each subbmited code.''')
-    subparser.set_defaults(function=calculate_identifier_length)
-    hook_common_arguments(subparser)
+    hook_common_arguments(subparser, main)

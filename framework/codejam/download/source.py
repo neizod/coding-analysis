@@ -8,7 +8,7 @@ from framework._utils import datapath, hook_common_arguments
 from framework.codejam._helper import api, iter_submission
 
 
-def get_source(year, force=False, **kwargs):
+def main(year, force=False, **kwargs):
     http = urllib3.PoolManager()
     default = {'cmd': 'GetSourceCode'}
     for cid, pid, io, screen_name in iter_submission(year):
@@ -33,5 +33,4 @@ def update_parser(subparsers):
         This script will download Google Code Jam submitted zipped sources.
         You need to run get_metadata script with supply argument of that year
         to build up list of contestants first.''')
-    subparser.set_defaults(function=get_source)
-    hook_common_arguments(subparser)
+    hook_common_arguments(subparser, main)

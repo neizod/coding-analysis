@@ -23,7 +23,7 @@ def summary_row(answer):
             repr_or_na(mean))
 
 
-def calculate_identifier_readable(year, **kwargs):
+def main(year, **kwargs):
     os.makedirs(datapath('codejam', 'result'), exist_ok=True)
     with open(datapath('codejam', 'result', 'identifier-readable.txt'), 'w') as file:
         file.write('pid io screen_name identifier-readable\n')
@@ -35,5 +35,4 @@ def update_parser(subparsers):
     subparser = subparsers.add_parser('identifier-readable', description='''
         This method will analyse identifier readable from extracted data
         of submitted Google Code Jam source code.''')
-    subparser.set_defaults(function=calculate_identifier_readable)
-    hook_common_arguments(subparser)
+    hook_common_arguments(subparser, main)

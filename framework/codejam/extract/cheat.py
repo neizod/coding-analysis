@@ -18,7 +18,7 @@ def find_plagiarism(contents):
     return [{'pid': pid, 'cheats': cheats} for pid, cheats in plag_set.items()]
 
 
-def extract_cheat(year, force=False, **kwargs):
+def main(year, force=False, **kwargs):
     os.makedirs(datapath('codejam', 'extract'), exist_ok=True)
     output_file = datapath('codejam', 'extract', 'cheat.json')
     if not force and os.path.isfile(output_file):
@@ -43,5 +43,4 @@ def extract_cheat(year, force=False, **kwargs):
 def update_parser(subparsers):
     subparser = subparsers.add_parser('cheat', description='''
         This method will extract set of duplicated source codes.''')
-    subparser.set_defaults(function=extract_cheat)
-    hook_common_arguments(subparser)
+    hook_common_arguments(subparser, main)

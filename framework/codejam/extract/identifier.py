@@ -7,7 +7,7 @@ from framework._utils import word_processor
 from framework.codejam._helper import readsource, iter_submission
 
 
-def extract_identifier(year, force=False, **kwargs):
+def main(year, force=False, **kwargs):
     os.makedirs(datapath('codejam', 'extract'), exist_ok=True)
     output_file = datapath('codejam', 'extract', 'identifier.json')
     if not force and os.path.isfile(output_file):
@@ -42,5 +42,4 @@ def update_parser(subparsers):
     subparser = subparsers.add_parser('identifier', description='''
         This method will extract all identifiers in submitted source code
         from each contestants for futher analysis.''')
-    subparser.set_defaults(function=extract_identifier)
-    hook_common_arguments(subparser)
+    hook_common_arguments(subparser, main)

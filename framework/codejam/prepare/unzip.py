@@ -17,7 +17,7 @@ def ensure_recursive_unzip(year):
                 os.remove(filepath)
 
 
-def unzip_source(year, force=False, **kwargs):
+def main(year, force=False, **kwargs):
     bad_zipfiles = []
     for _, pid, io, screen_name in iter_submission(year):
         zippath = datapath('codejam', 'sourcezip', pid, io, screen_name+'.zip')
@@ -40,5 +40,4 @@ def unzip_source(year, force=False, **kwargs):
 def update_parser(subparsers):
     subparser = subparsers.add_parser('unzip', description='''
         This method will unzip downloaded source code files.''')
-    subparser.set_defaults(function=unzip_source)
-    hook_common_arguments(subparser)
+    hook_common_arguments(subparser, main)

@@ -8,7 +8,7 @@ from framework._utils import datapath, hook_common_arguments
 from framework.codejam._helper import api, iter_contest
 
 
-def get_metadata(year, force=False, **kwargs):
+def main(year, force=False, **kwargs):
     http = urllib3.PoolManager()
     default = {'cmd': 'GetScoreboard', 'show_type': 'all'}
     os.makedirs(datapath('codejam', 'metadata', 'round'), exist_ok=True)
@@ -34,5 +34,4 @@ def update_parser(subparsers):
     subparser = subparsers.add_parser('metadata', description='''
         This script will download Google Code Jam each round metadata
         of a suppliment year, and store each as JSON file.''')
-    subparser.set_defaults(function=get_metadata)
-    hook_common_arguments(subparser)
+    hook_common_arguments(subparser, main)
