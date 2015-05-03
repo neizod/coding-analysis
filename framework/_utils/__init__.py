@@ -8,6 +8,12 @@ def submodules(_file, _name):
             if not name.startswith(('.', '_'))]
 
 
+def hook_submodules(parser, _file, _name):
+    subparsers = parser.add_subparsers()
+    for module in submodules(_file, _name):
+        module.update_parser(subparsers)
+
+
 def make_ext(name, ext):
     return '{}{}{}'.format(name, os.extsep, ext)
 
