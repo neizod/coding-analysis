@@ -1,14 +1,12 @@
 import os
-import json
 import urllib3
 import logging
-from itertools import count
 
 from framework._utils import datapath, hook_common_arguments
 from framework.codejam._helper import api, iter_submission
 
 
-def main(year, force=False, **kwargs):
+def main(year, force=False, **_):
     http = urllib3.PoolManager()
     default = {'cmd': 'GetSourceCode'}
     for cid, pid, io, screen_name in iter_submission(year):

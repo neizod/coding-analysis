@@ -6,7 +6,7 @@ from framework._utils import datapath, hook_common_arguments
 from framework.github._helper import make_url, iter_repos
 
 
-def main(**kwargs):
+def main(**_):
     os.makedirs(datapath('github', 'repos'), exist_ok=True)
     for repo in iter_repos():
         directory = datapath('github', 'repos', repo['name'])

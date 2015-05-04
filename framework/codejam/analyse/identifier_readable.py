@@ -1,9 +1,7 @@
 import os
 import json
-import logging
 
 from framework._utils import datapath, hook_common_arguments
-from framework._utils import word_processor
 from framework._utils.word_processor import Identifier
 
 
@@ -23,7 +21,7 @@ def summary_row(answer):
             repr_or_na(mean))
 
 
-def main(year, **kwargs):
+def main(year, **_):
     os.makedirs(datapath('codejam', 'result'), exist_ok=True)
     with open(datapath('codejam', 'result', 'identifier-readable-{}.txt'.format(year)), 'w') as file:
         file.write('pid io screen_name identifier-readable\n')

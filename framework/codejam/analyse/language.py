@@ -1,11 +1,7 @@
 import os
 import json
-import logging
-import statistics as stat
-from collections import Counter, defaultdict
 
 from framework._utils import datapath, hook_common_arguments
-from framework._utils import word_processor
 
 
 def repr_or_na(data):
@@ -20,7 +16,7 @@ def summary_row(answer):
             repr_or_na(answer['language']))
 
 
-def main(year, **kwargs):
+def main(year, **_):
     os.makedirs(datapath('codejam', 'result'), exist_ok=True)
     with open(datapath('codejam', 'result', 'language-{}.txt'.format(year)), 'w') as file:
         file.write('pid io screen_name language\n')

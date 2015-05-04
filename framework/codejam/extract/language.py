@@ -4,10 +4,10 @@ import logging
 
 from framework._utils import datapath, hook_common_arguments
 from framework._utils import word_processor
-from framework.codejam._helper import readsource, iter_submission
+from framework.codejam._helper import iter_submission
 
 
-def main(year, force=False, **kwargs):
+def main(year, force=False, **_):
     os.makedirs(datapath('codejam', 'extract'), exist_ok=True)
     output_file = datapath('codejam', 'extract', 'language-{}.json'.format(year))
     if not force and os.path.isfile(output_file):

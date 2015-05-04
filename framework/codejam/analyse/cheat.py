@@ -1,6 +1,5 @@
 import os
 import json
-import logging
 
 from framework._utils import datapath, hook_common_arguments
 
@@ -9,7 +8,7 @@ def summary_row(answer):
     return '{} {}\n'.format(answer['pid'], len(answer['cheats']))
 
 
-def main(year, **kwargs):
+def main(year, **_):
     os.makedirs(datapath('codejam', 'result'), exist_ok=True)
     with open(datapath('codejam', 'result', 'cheat-{}.txt'.format(year)), 'w') as file:
         file.write('pid nos-cheat\n')

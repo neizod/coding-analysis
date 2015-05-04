@@ -8,7 +8,7 @@ from framework._utils import datapath, hook_common_arguments
 from framework.codejam._helper import api, iter_contest
 
 
-def main(year, force=False, **kwargs):
+def main(year, force=False, **_):
     http = urllib3.PoolManager()
     default = {'cmd': 'GetScoreboard', 'show_type': 'all'}
     os.makedirs(datapath('codejam', 'metadata', 'round'), exist_ok=True)

@@ -7,7 +7,7 @@ from framework._utils import word_processor
 from framework.codejam._helper import readsource, iter_submission
 
 
-def main(year, force=False, **kwargs):
+def main(year, force=False, **_):
     os.makedirs(datapath('codejam', 'extract'), exist_ok=True)
     output_file = datapath('codejam', 'extract', 'identifier-{}.json'.format(year))
     if not force and os.path.isfile(output_file):
