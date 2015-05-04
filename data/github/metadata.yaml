@@ -1,44 +1,86 @@
-php:
-  - briannesbitt/Carbon
-  - bcit-ci/CodeIgniter
-  - composer/composer
-  - mledoze/countries
-  - webslide/deprecated-scanner
-  - laravel/framework
-  - kohana/kohana
-  - github.com/laravel/laravel
-  - PHPMailer/PHPMailer
-  - clickalicious/phpMemAdmin
-  - piwik/piwik
-  - gherkins/regexpbuilderphp
-  - roots/sage
-  - slimphp/Slim
-  - symfony/symfony
-  - brandonwamboldt/utilphp
-  - WordPress/WordPress
-  - yiisoft/yii2
-python:
-  - ansible/ansible
-  - bup/bup
-  - django/django
-  - USArmyResearchLab/Dshell
-  - docker/fig
-  - mitsuhiko/flask
-  - jakubroztocil/httpie
-  - ipython/ipython
-  - Flolagale/mailin
-  - KeyboardFire/mkcast
-  - Zulko/moviepy
-  - powerline/powerline
-  - jonathanslenders/ptpython
-  - binux/pyspider
-  - marcwebbie/pysswords
-  - dropbox/pyston
-  - reddit/reddit
-  - kennethreitz/requests
-  - shadowsocks/shadowsocks
-  - honnibal/spaCy
-  - tweepy/tweepy
-  - ryanss/vim-hackernews
-  - Valloric/YouCompleteMe
-  - rg3/youtube-dl
+PHP:
+  - name: Carbon
+    user: briannesbitt
+  - name: CodeIgniter
+    user: bcit-ci
+  - name: composer
+    user: composer
+  - name: countries
+    user: mledoze
+  - name: deprecated-scanner
+    user: webslide
+  - name: framework
+    user: laravel
+  - name: kohana
+    user: kohana
+  - name: laravel
+    user: github.com/laravel
+  - name: PHPMailer
+    user: PHPMailer
+  - name: phpMemAdmin
+    user: clickalicious
+  - name: piwik
+    user: piwik
+  - name: regexpbuilderphp
+    user: gherkins
+  - name: sage
+    user: roots
+  - name: Slim
+    user: slimphp
+  - name: symfony
+    user: symfony
+  - name: utilphp
+    user: brandonwamboldt
+  - name: WordPress
+    user: WordPress
+  - name: yii2
+    user: yiisoft
+Python:
+  - name: ansible
+    user: ansible
+  - name: bup
+    user: bup
+  - name: django
+    user: django
+  - name: Dshell
+    user: USArmyResearchLab
+  - name: fig
+    user: docker
+  - name: flask
+    user: mitsuhiko
+  - name: httpie
+    user: jakubroztocil
+  - name: ipython
+    user: ipython
+  - name: mailin
+    user: Flolagale
+  - name: mkcast
+    user: KeyboardFire
+  - name: moviepy
+    user: Zulko
+  - name: powerline
+    user: powerline
+  - name: ptpython
+    user: jonathanslenders
+  - name: pyspider
+    user: binux
+  - name: pysswords
+    user: marcwebbie
+  - name: pyston
+    user: dropbox
+  - name: reddit
+    user: reddit
+  - name: requests
+    user: kennethreitz
+  - name: shadowsocks
+    user: shadowsocks
+  - name: spaCy
+    user: honnibal
+  - name: tweepy
+    user: tweepy
+  - name: vim-hackernews
+    user: ryanss
+  - name: YouCompleteMe
+    user: Valloric
+  - name: youtube-dl
+    user: rg3
