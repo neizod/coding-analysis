@@ -28,7 +28,7 @@ class CodeJamExtractCheat(SubparsersHook):
         contents = defaultdict(list)
         for _, pid, io, screen_name in iter_submission(year):
             directory = datapath('codejam', 'source', pid, io, screen_name)
-            logging.info('extracting: {} {} {}'.format(pid, io, screen_name))
+            logging.info('extracting: %i %i %s', pid, io, screen_name)
             for filename in os.listdir(directory):
                 filepath = datapath('codejam', directory, filename)
                 if not os.path.isfile(filepath):

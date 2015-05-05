@@ -14,7 +14,7 @@ class CodeJamPrepareWarmup(SubparsersHook):
                 filepath = datapath('codejam', directory, filename)
                 if os.path.isfile(filepath):
                     wc += len(readsource(filepath))
-            logging.info('warm-up: {} {} {} {}'.format(pid, io, screen_name, wc))
+            logging.info('warm-up: %i %i %s %i', pid, io, screen_name, wc)
 
     def modify_parser(self):
         self.parser.description = '''

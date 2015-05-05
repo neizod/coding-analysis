@@ -24,7 +24,7 @@ class CodeJamPrepareUnzip(SubparsersHook):
             zippath = datapath('codejam', 'sourcezip', pid, io, screen_name+'.zip')
             directory = datapath('codejam', 'source', pid, io, screen_name)
             os.makedirs(directory, exist_ok=True)
-            logging.info('unzipping: {} {} {}'.format(pid, io, screen_name))
+            logging.info('unzipping: %i %i %s', pid, io, screen_name)
             if force or not os.listdir(directory):
                 try:
                     with ZipFile(zippath) as z:

@@ -12,10 +12,10 @@ class GitHubDownloadRepos(SubparsersHook):
         for repo in iter_repos():
             directory = datapath('github', 'repos', repo['name'])
             if not os.path.isdir(directory):
-                logging.info('downloading: {}'.format(repo['name']))
+                logging.info('downloading: %s', repo['name'])
                 git.Repo.clone_from(make_url(repo), directory)
             else:
-                logging.info('updating: {}'.format(repo['name']))
+                logging.info('updating: %s', repo['name'])
                 git.Repo(directory).remotes.origin.pull()
 
     def modify_parser(self):

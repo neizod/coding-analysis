@@ -16,7 +16,7 @@ class CodeJamExtractIdentifier(SubparsersHook):
         extracted_data = []
         for _, pid, io, screen_name in iter_submission(year):
             directory = datapath('codejam', 'source', pid, io, screen_name)
-            logging.info('extracting: {} {} {}'.format(pid, io, screen_name))
+            logging.info('extracting: %i %i %s', pid, io, screen_name)
             identifiers = set()
             for filename in os.listdir(directory):
                 filepath = datapath('codejam', directory, filename)

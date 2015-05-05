@@ -24,7 +24,7 @@ class CodeJamDownloadMetadata(SubparsersHook):
                 result = http.request('GET', api, fields=default)
                 data = json.loads(result.data.decode('utf-8'))
                 contest_stat += data['rows']
-                logging.info('downloading: {} {}'.format(cid, i))
+                logging.info('downloading: %i %i', cid, i)
                 if i + 30 > data['stat']['nrp']:
                     break
             with open(filepath, 'w') as file:

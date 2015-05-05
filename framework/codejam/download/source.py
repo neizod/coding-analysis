@@ -15,13 +15,13 @@ class CodeJamDownloadMetadata(SubparsersHook):
             os.makedirs(directory, exist_ok=True)
             zippath = datapath(directory, screen_name+'.zip')
             if not force and os.path.isfile(zippath):
-                logging.info('ignore: {} {} {}'.format(pid, io, screen_name))
+                logging.info('ignore: %i %i %s', pid, io, screen_name)
                 continue
             default['contest'] = cid
             default['problem'] = pid
             default['io_set_id'] = io
             default['username'] = screen_name
-            logging.info('downloading: {} {} {}'.format(pid, io, screen_name))
+            logging.info('downloading: %i %i %s', pid, io, screen_name)
             result = http.request('GET', api, fields=default)
             with open(zippath, 'wb') as file:
                 file.write(result.data)
