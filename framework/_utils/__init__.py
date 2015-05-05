@@ -7,6 +7,9 @@ import argcomplete
 
 
 class SubparsersHook(object):
+
+    _fake = None
+
     def main(self):
         if os.path.split(self._file)[-1] != '__init__.py':
             raise NotImplementedError
@@ -15,10 +18,25 @@ class SubparsersHook(object):
         pass
 
     def __init__(self, parser=None):
-        self._name = inspect.getmodule(type(self)).__name__
-        self._file = inspect.getfile(type(self))
-        self._make_simple_parser(parser)
+        self._init_handle_name_file()
+        self._init_simple_parser(parser)
         self.modify_parser()
+        self._init_decide_hook_method()
+
+    def _init_handle_name_file(self):
+        if self._fake is not None:
+            structure = self._fake.split('.') + ['__init__.py']
+            directory, last = os.path.split(__file__)
+            while last != structure[0]:
+                directory, last = os.path.split(directory)
+            self._file = os.path.join(directory, *structure)
+            self._name = self._fake
+        else:
+            defined_module = inspect.getmodule(type(self))
+            self._file = defined_module.__file__
+            self._name = defined_module.__name__
+
+    def _init_decide_hook_method(self):
         if os.path.split(self._file)[-1] == '__init__.py':
             self._hook_submodules()
         else:
@@ -26,7 +44,7 @@ class SubparsersHook(object):
         if len(self._name.split('.')) == 1:
             argcomplete.autocomplete(self.parser)
 
-    def _make_simple_parser(self, parser):
+    def _init_simple_parser(self, parser):
         if parser is not None:
             parser_name = self._name.split('.')[-1].replace('_', '-')
             self.parser = parser.add_parser(parser_name)
@@ -41,6 +59,8 @@ class SubparsersHook(object):
 
     def _get_classes_from_submodules(self):
         for module in self._list_submodules():
+            if not hasattr(module, '__file__'):
+                yield type('', (SubparsersHook,), {'_fake': module.__name__})
             for _, cls in inspect.getmembers(module):
                 if inspect.isclass(cls):
                     yield cls
