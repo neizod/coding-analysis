@@ -1,6 +1,5 @@
-from framework._utils import hook_submodules
+from framework._utils import SubparsersHook
 
 
-def update_parser(subparsers):
-    subparser = subparsers.add_parser('download')
-    hook_submodules(subparser, __file__, __name__)
+class CodeJamDownload(SubparsersHook):
+    pass
