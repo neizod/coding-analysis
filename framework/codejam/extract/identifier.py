@@ -2,8 +2,7 @@ import os
 import json
 import logging
 
-from framework._utils import SubparsersHook, datapath
-from framework._utils import word_processor
+from framework._utils import SubparsersHook, datapath, source
 from framework.codejam._helper import readsource, iter_submission
 
 
@@ -24,7 +23,7 @@ class CodeJamExtractIdentifier(SubparsersHook):
                     continue
                 _, ext = os.path.splitext(filepath)
                 try:
-                    prolang = word_processor.select(ext)
+                    prolang = source.select(ext)
                 except KeyError:
                     continue
                 sourcecode = readsource(filepath)

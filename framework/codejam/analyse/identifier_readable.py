@@ -2,7 +2,7 @@ import os
 import json
 
 from framework._utils import SubparsersHook, datapath
-from framework._utils.word_processor import Identifier
+from framework._utils.source import Identifier
 
 
 def repr_or_na(data):
