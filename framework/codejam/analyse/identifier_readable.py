@@ -1,7 +1,7 @@
 import os
 import json
 
-from framework._utils import SubparsersHook, datapath
+from framework._utils import FunctionHook, datapath
 from framework._utils.source import Identifier
 
 
@@ -9,7 +9,7 @@ def repr_or_na(data):
     return repr(data) if data is not None else 'NA'
 
 
-class CodeJamAnalyseIdentifierReadable(SubparsersHook):
+class CodeJamAnalyseIdentifierReadable(FunctionHook):
     @staticmethod
     def summary_row(answer):
         if not answer['identifiers']:

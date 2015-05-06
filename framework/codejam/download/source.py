@@ -2,11 +2,11 @@ import os
 import urllib3
 import logging
 
-from framework._utils import SubparsersHook, datapath
+from framework._utils import FunctionHook, datapath
 from framework.codejam._helper import api, iter_submission
 
 
-class CodeJamDownloadMetadata(SubparsersHook):
+class CodeJamDownloadMetadata(FunctionHook):
     def main(self, year, force=False, **_):
         http = urllib3.PoolManager()
         default = {'cmd': 'GetSourceCode'}

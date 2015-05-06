@@ -2,11 +2,11 @@ import os
 import logging
 from zipfile import ZipFile, BadZipFile
 
-from framework._utils import SubparsersHook, datapath
+from framework._utils import FunctionHook, datapath
 from framework.codejam._helper import iter_submission
 
 
-class CodeJamPrepareUnzip(SubparsersHook):
+class CodeJamPrepareUnzip(FunctionHook):
     @staticmethod
     def ensure_recursive_unzip(year):
         for _, pid, io, screen_name in iter_submission(year):

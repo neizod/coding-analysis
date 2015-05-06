@@ -10,8 +10,6 @@ _LANG_DICT = {}
 
 def _lazy_init():
     if not _LANG_DICT:
-        #global _LANG_DICT
-        #_LANG_DICT = {}
         directory = datapath('_config', 'language')
         for filename in os.listdir(directory):
             filepath = os.path.join(directory, filename)

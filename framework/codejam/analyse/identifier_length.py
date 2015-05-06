@@ -2,14 +2,10 @@ import os
 import json
 import statistics as stat
 
-from framework._utils import SubparsersHook, datapath
+from framework._utils import FunctionHook, datapath
 
 
-def repr_or_na(data):
-    return repr(data) if data is not None else 'NA'
-
-
-class CodeJamAnalyseIdentifierLength(SubparsersHook):
+class CodeJamAnalyseIdentifierLength(FunctionHook):
     @staticmethod
     def summary_row(answer):
         if not answer['identifiers']:
@@ -20,7 +16,7 @@ class CodeJamAnalyseIdentifierLength(SubparsersHook):
                 answer['pid'],
                 answer['io'],
                 answer['screen_name'],
-                repr_or_na(mean))
+                mean)
 
     def main(self, year, **_):
         os.makedirs(datapath('codejam', 'result'), exist_ok=True)

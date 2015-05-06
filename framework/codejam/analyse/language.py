@@ -1,14 +1,14 @@
 import os
 import json
 
-from framework._utils import SubparsersHook, datapath
+from framework._utils import FunctionHook, datapath
 
 
 def repr_or_na(data):
     return repr(data) if data is not None else 'NA'
 
 
-class CodeJamAnalyseLanguage(SubparsersHook):
+class CodeJamAnalyseLanguage(FunctionHook):
     @staticmethod
     def summary_row(answer):
         if len(answer['languages']) != 1:

@@ -3,11 +3,11 @@ import json
 import logging
 from collections import defaultdict
 
-from framework._utils import SubparsersHook, datapath, write
+from framework._utils import FunctionHook, datapath, write
 from framework.codejam._helper import readsource, iter_submission
 
 
-class CodeJamExtractCheat(SubparsersHook):
+class CodeJamExtractCheat(FunctionHook):
     @staticmethod
     def find_plagiarism(contents):
         def compressed(submit):

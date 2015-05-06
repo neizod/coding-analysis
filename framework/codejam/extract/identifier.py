@@ -2,11 +2,11 @@ import os
 import json
 import logging
 
-from framework._utils import SubparsersHook, datapath, source, write
+from framework._utils import FunctionHook, datapath, source, write
 from framework.codejam._helper import readsource, iter_submission
 
 
-class CodeJamExtractIdentifier(SubparsersHook):
+class CodeJamExtractIdentifier(FunctionHook):
     def main(self, year, force=False, **_):
         os.makedirs(datapath('codejam', 'extract'), exist_ok=True)
         output_file = datapath('codejam', 'extract', 'identifier-{}.json'.format(year))

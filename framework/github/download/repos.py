@@ -2,11 +2,11 @@ import os
 import git
 import logging
 
-from framework._utils import SubparsersHook, datapath
+from framework._utils import FunctionHook, datapath
 from framework.github._helper import make_url, iter_repos
 
 
-class GitHubDownloadRepos(SubparsersHook):
+class GitHubDownloadRepos(FunctionHook):
     def main(self, **_):
         os.makedirs(datapath('github', 'repos'), exist_ok=True)
         for repo in iter_repos():

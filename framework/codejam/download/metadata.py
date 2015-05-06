@@ -4,11 +4,11 @@ import urllib3
 import logging
 from itertools import count
 
-from framework._utils import SubparsersHook, datapath
+from framework._utils import FunctionHook, datapath
 from framework.codejam._helper import api, iter_contest
 
 
-class CodeJamDownloadMetadata(SubparsersHook):
+class CodeJamDownloadMetadata(FunctionHook):
     def main(self, year, force=False, **_):
         http = urllib3.PoolManager()
         default = {'cmd': 'GetScoreboard', 'show_type': 'all'}

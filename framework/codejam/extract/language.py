@@ -2,11 +2,11 @@ import os
 import json
 import logging
 
-from framework._utils import SubparsersHook, datapath, source, write
+from framework._utils import FunctionHook, datapath, source, write
 from framework.codejam._helper import iter_submission
 
 
-class CodeJamExtractLanguage(SubparsersHook):
+class CodeJamExtractLanguage(FunctionHook):
     def main(self, year, force=False, **_):
         os.makedirs(datapath('codejam', 'extract'), exist_ok=True)
         output_file = datapath('codejam', 'extract', 'language-{}.json'.format(year))
@@ -23,7 +23,6 @@ class CodeJamExtractLanguage(SubparsersHook):
                 'languages': sorted(source.determine_languages(directory)),
             }]
         write.json(extracted_data, open(output_file, 'w'))
-
 
     def modify_parser(self):
         self.parserdescription = '''

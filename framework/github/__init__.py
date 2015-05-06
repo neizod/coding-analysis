@@ -1,5 +1,5 @@
-from framework._utils import SubparsersHook
+from framework._utils import SubmodulesHook
 
 
-class GitHub(SubparsersHook):
+class GitHub(SubmodulesHook):
     pass

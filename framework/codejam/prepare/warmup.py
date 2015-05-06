@@ -1,11 +1,11 @@
 import os
 import logging
 
-from framework._utils import SubparsersHook, datapath
+from framework._utils import FunctionHook, datapath
 from framework.codejam._helper import readsource, iter_submission
 
 
-class CodeJamPrepareWarmup(SubparsersHook):
+class CodeJamPrepareWarmup(FunctionHook):
     def main(self, year, **_):
         for _, pid, io, screen_name in iter_submission(year):
             wc = 0

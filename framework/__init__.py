@@ -1,9 +1,9 @@
 import logging
 
-from framework._utils import SubparsersHook
+from framework._utils import SubmodulesHook
 
 
-class MainParser(SubparsersHook):
+class RootParser(SubmodulesHook):
     def main(self):
         args = self.parser.parse_args()
         if 'function' in args:
@@ -19,4 +19,4 @@ class MainParser(SubparsersHook):
 
 
 def run():
-    MainParser().main()
+    RootParser().main()
