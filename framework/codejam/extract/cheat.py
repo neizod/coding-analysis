@@ -3,7 +3,7 @@ import json
 import logging
 from collections import defaultdict
 
-from framework._utils import SubparsersHook, datapath
+from framework._utils import SubparsersHook, datapath, write
 from framework.codejam._helper import readsource, iter_submission
 
 
@@ -24,7 +24,7 @@ class CodeJamExtractCheat(SubparsersHook):
         os.makedirs(datapath('codejam', 'extract'), exist_ok=True)
         output_file = datapath('codejam', 'extract', 'cheat-{}.json'.format(year))
         if not force and os.path.isfile(output_file):
-            return
+            return logging.warn('output file already exists, aborting.')
         contents = defaultdict(list)
         for _, pid, io, screen_name in iter_submission(year):
             directory = datapath('codejam', 'source', pid, io, screen_name)
@@ -38,8 +38,7 @@ class CodeJamExtractCheat(SubparsersHook):
                     continue
                 contents[sourcecode] += [{'pid': pid, 'io': io, 'screen_name': screen_name}]
         extracted_data = self.find_plagiarism(contents)
-        with open(output_file, 'w') as file:
-            json.dump(extracted_data, file, indent=2)
+        write.json(extracted_data, open(output_file, 'w'), depth=4)
 
     def modify_parser(self):
         self.parser.description = '''

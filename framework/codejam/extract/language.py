@@ -2,7 +2,7 @@ import os
 import json
 import logging
 
-from framework._utils import SubparsersHook, datapath, source
+from framework._utils import SubparsersHook, datapath, source, write
 from framework.codejam._helper import iter_submission
 
 
@@ -22,8 +22,7 @@ class CodeJamExtractLanguage(SubparsersHook):
                 'screen_name': screen_name,
                 'languages': sorted(source.determine_languages(directory)),
             }]
-        with open(datapath('codejam', output_file), 'w') as file:
-            json.dump(extracted_data, file, indent=2)
+        write.json(extracted_data, open(output_file, 'w'))
 
 
     def modify_parser(self):
