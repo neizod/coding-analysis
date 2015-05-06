@@ -11,27 +11,16 @@ class CodeJamExtractLanguage(SubparsersHook):
         os.makedirs(datapath('codejam', 'extract'), exist_ok=True)
         output_file = datapath('codejam', 'extract', 'language-{}.json'.format(year))
         if not force and os.path.isfile(output_file):
-            return
+            return logging.warn('output file already exists, aborting.')
         extracted_data = []
         for _, pid, io, screen_name in iter_submission(year):
             directory = datapath('codejam', 'source', pid, io, screen_name)
             logging.info('extracting: %i %i %s', pid, io, screen_name)
-            languages = set()
-            for filename in os.listdir(directory):
-                filepath = datapath('codejam', directory, filename)
-                if not os.path.isfile(filepath):
-                    continue
-                _, ext = os.path.splitext(filepath)
-                try:
-                    prolang = source.select(ext)
-                except KeyError:
-                    continue
-                languages |= {prolang.name}
             extracted_data += [{
                 'pid': pid,
                 'io': io,
                 'screen_name': screen_name,
-                'language': languages.pop() if len(languages) == 1 else None,
+                'languages': sorted(source.determine_languages(directory)),
             }]
         with open(datapath('codejam', output_file), 'w') as file:
             json.dump(extracted_data, file, indent=2)
