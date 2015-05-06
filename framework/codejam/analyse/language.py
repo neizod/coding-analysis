@@ -13,11 +13,10 @@ class CodeJamAnalyseLanguage(FunctionHook):
     def summary_row(answer):
         if len(answer['languages']) != 1:
             return ''
-        return '{} {} {} {}\n'.format(
-                answer['pid'],
-                answer['io'],
-                answer['screen_name'],
-                repr_or_na(answer['languages'].pop()))
+        return '{} {} {} {}\n'.format(answer['pid'],
+                                      answer['io'],
+                                      answer['screen_name'],
+                                      repr_or_na(answer['languages'].pop()))
 
     def main(self, year, **_):
         os.makedirs(datapath('codejam', 'result'), exist_ok=True)

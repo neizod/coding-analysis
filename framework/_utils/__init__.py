@@ -83,9 +83,11 @@ class FunctionHook(BaseParserHook):
         raise NotImplementedError
 
     def _init_hook_arguments(self):
-        self.parser.add_argument('-f', '--force', action='store_true',
+        self.parser.add_argument(
+            '-f', '--force', action='store_true',
             help='''force run this method despite the exists result.''')
-        self.parser.add_argument('-q', '--quiet', action='store_const',
+        self.parser.add_argument(
+            '-q', '--quiet', action='store_const',
             const=logging.WARNING, default=logging.INFO,
             help='''run this method without showing any information.''')
         self.parser.set_defaults(function=self.main)

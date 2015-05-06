@@ -17,19 +17,12 @@ class Identifier(object):
         return all(cls._readable(word) for word in cls.re_word_spec.findall(identifier))
 
 
-
 class WordProcessor(object):
 
-    def __init__(self, name,
-                       quoting=None,
-                       line_comment=None,
-                       block_comment=None,
-                       keywords=None,
-                       noise=r'[^a-zA-Z_0-9]',
-                       numeric=r'\b[0-9]+[ejl]?\b',
-                       std_functions=None,
-                       lib_functions=None,
-                       **_):
+    def __init__(self, name, quoting=None, line_comment=None,
+                 block_comment=None, keywords=None,
+                 noise=r'[^a-zA-Z_0-9]', numeric=r'\b[0-9]+[ejl]?\b',
+                 std_functions=None, lib_functions=None, **_):
         self.name = name
         self.re_quoting = re.compile(quoting, flags=re.DOTALL)
         self.re_line_comment = re.compile(line_comment)
@@ -68,7 +61,6 @@ class WordProcessor(object):
         intercode = self.strip_numeric(intercode)
         return Counter(intercode.split())
 
-
     def get_line_of_blocks(self, sourcecode):
         if self.name == 'Python':
             return self._python_line_of_blocks(sourcecode)
@@ -76,7 +68,6 @@ class WordProcessor(object):
             return self._java_line_of_blocks(sourcecode)
         else:
             return self._cpp_line_of_blocks(sourcecode)
-
 
     def _python_line_of_blocks(self, sourcecode):
         lines = sourcecode.splitlines()
@@ -102,7 +93,6 @@ class WordProcessor(object):
                 blocks[-1][1] += 1
         return blocks
 
-
     def _cpp_line_of_blocks(self, sourcecode):
         sourcecode = self.strip_string(sourcecode)
         sourcecode = self.strip_comment(sourcecode)
@@ -126,7 +116,6 @@ class WordProcessor(object):
             if depth > 0 and char == '\n':
                 blocks[-1][1] += 1
         return [[it, length] for it, length in blocks if it.find('=') == -1]
-
 
     def _java_line_of_blocks(self, sourcecode):
         sourcecode = self.strip_string(sourcecode)

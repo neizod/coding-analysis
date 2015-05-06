@@ -12,11 +12,10 @@ class CodeJamAnalyseIdentifierLength(FunctionHook):
             mean = None
         else:
             mean = stat.mean(len(iden) for iden in answer['identifiers'])
-        return '{} {} {} {}\n'.format(
-                answer['pid'],
-                answer['io'],
-                answer['screen_name'],
-                mean)
+        return '{} {} {} {}\n'.format(answer['pid'],
+                                      answer['io'],
+                                      answer['screen_name'],
+                                      mean)
 
     def main(self, year, **_):
         os.makedirs(datapath('codejam', 'result'), exist_ok=True)
@@ -24,7 +23,6 @@ class CodeJamAnalyseIdentifierLength(FunctionHook):
             file.write('pid io screen_name identifier-length\n')
             for answer in json.load(open(datapath('codejam', 'extract', 'identifier-{}.json'.format(year)))):
                 file.write(self.summary_row(answer))
-
 
     def modify_parser(self):
         self.parser.description = '''

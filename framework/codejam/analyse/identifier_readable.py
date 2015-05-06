@@ -16,11 +16,10 @@ class CodeJamAnalyseIdentifierReadable(FunctionHook):
             mean = None
         else:
             mean = sum(Identifier.is_readable(iden) for iden in answer['identifiers']) / len(answer['identifiers'])
-        return '{} {} {} {}\n'.format(
-                answer['pid'],
-                answer['io'],
-                answer['screen_name'],
-                repr_or_na(mean))
+        return '{} {} {} {}\n'.format(answer['pid'],
+                                      answer['io'],
+                                      answer['screen_name'],
+                                      repr_or_na(mean))
 
     def main(self, year, **_):
         os.makedirs(datapath('codejam', 'result'), exist_ok=True)
