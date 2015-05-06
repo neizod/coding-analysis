@@ -28,7 +28,8 @@ class WordProcessor(object):
                        noise=r'[^a-zA-Z_0-9]',
                        numeric=r'\b[0-9]+[ejl]?\b',
                        std_functions=None,
-                       lib_functions=None ):
+                       lib_functions=None,
+                       **_):
         self.name = name
         self.re_quoting = re.compile(quoting, flags=re.DOTALL)
         self.re_line_comment = re.compile(line_comment)
