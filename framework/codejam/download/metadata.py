@@ -5,7 +5,7 @@ import logging
 from itertools import count
 
 from framework._utils import FunctionHook, datapath
-from framework.codejam._helper import api, iter_contest
+from framework.codejam._helper import API, iter_contest
 
 
 class CodeJamDownloadMetadata(FunctionHook):
@@ -21,7 +21,7 @@ class CodeJamDownloadMetadata(FunctionHook):
             contest_stat = []
             for i in count(1, 30):
                 default['start_pos'] = i
-                result = http.request('GET', api, fields=default)
+                result = http.request('GET', API, fields=default)
                 data = json.loads(result.data.decode('utf-8'))
                 contest_stat += data['rows']
                 logging.info('downloading: %i %i', cid, i)

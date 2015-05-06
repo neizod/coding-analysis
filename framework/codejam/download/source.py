@@ -3,7 +3,7 @@ import urllib3
 import logging
 
 from framework._utils import FunctionHook, datapath
-from framework.codejam._helper import api, iter_submission
+from framework.codejam._helper import API, iter_submission
 
 
 class CodeJamDownloadMetadata(FunctionHook):
@@ -22,7 +22,7 @@ class CodeJamDownloadMetadata(FunctionHook):
             default['io_set_id'] = io
             default['username'] = screen_name
             logging.info('downloading: %i %i %s', pid, io, screen_name)
-            result = http.request('GET', api, fields=default)
+            result = http.request('GET', API, fields=default)
             with open(zippath, 'wb') as file:
                 file.write(result.data)
 

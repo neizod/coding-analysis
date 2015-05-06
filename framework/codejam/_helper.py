@@ -1,15 +1,16 @@
 import json
 import yaml
+from itertools import repeat
 
-from framework._utils import datapath, make_ext
+from framework._utils import datapath, make_ext, flat_zip
 
 
-api = 'https://code.google.com/codejam/contest/scoreboard/do/'
-metadata = yaml.load(open(datapath('codejam', 'metadata', 'main.yaml')))
+API = 'https://code.google.com/codejam/contest/scoreboard/do/'
+METADATA = yaml.load(open(datapath('codejam', 'metadata', 'main.yaml')))
 
 
 def available_years():
-    return metadata.keys()
+    return METADATA.keys()
 
 
 def readsource(filename):
@@ -19,37 +20,34 @@ def readsource(filename):
         return open(filename, encoding='latin1').read()
 
 
-def exist_source(attempt, submittime):
-    return attempt and submittime != -1
+def exist_source(attempt, submit_time):
+    return attempt and submit_time != -1
 
 
 def iter_id_io(problems):
     for problem in problems:
-        c = 0
-        while c < problem['io']:
-            yield problem['id'], c
-            c += 1
+        yield from zip(repeat(problem['id']), range(problem['io']))
 
 
-def iter_answer(problems, answer_set):
-    it_problems = iter_id_io(problems)
-    it_answer = zip(answer_set['att'], answer_set['ss'])
-    for _ in answer_set:
-        pid, io = next(it_problems)
-        att, stime = next(it_answer)
-        yield pid, io, att, stime
+def iter_answer(problems, answer):
+    yield from flat_zip(iter_id_io(problems), answer['att'], answer['ss'])
 
 
 def iter_contest(year):
-    yield from (contest['id'] for contest in metadata[year])
+    yield from (contest['id'] for contest in METADATA[year])
 
 
 def iter_submission(year):
-    for contest in metadata[year]:
-        file_ext = make_ext(contest['id'], 'json')
-        filepath = datapath('codejam', 'metadata', 'round', file_ext)
-        for answer_set in json.load(open(filepath)):
-            screen_name = answer_set['n']
-            for pid, io, a, s in iter_answer(contest['problems'], answer_set):
-                if exist_source(a, s):
-                    yield contest['id'], pid, io, screen_name
+    for cid, uname, pid, pio, attempt, submit_time in iter_all_attempt(year):
+        if exist_source(attempt, submit_time):
+            yield cid, pid, pio, uname
+
+
+def iter_all_attempt(year):
+    for contest in METADATA[year]:
+        filename = make_ext(contest['id'], 'json')
+        filepath = datapath('codejam', 'metadata', 'round', filename)
+        for answer in json.load(open(filepath)):
+            yield from flat_zip(repeat(contest['id']),
+                                repeat(answer['n']),
+                                iter_answer(contest['problems'], answer))
