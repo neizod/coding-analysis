@@ -3,7 +3,7 @@ import enchant
 from collections import Counter
 
 
-class Identifier(object):
+class Identifier(str):
 
     english_dictionary = enchant.Dict('en_US')
     re_word_spec = re.compile(r'[A-Z]?[a-z]+|[A-Z]+(?=[A-Z][a-z]|[0-9]|$)')
@@ -12,9 +12,11 @@ class Identifier(object):
     def _readable(cls, word):
         return len(word) > 1 and cls.english_dictionary.check(word)
 
-    @classmethod
-    def is_readable(cls, identifier):
-        return all(cls._readable(word) for word in cls.re_word_spec.findall(identifier))
+    def _split_words(self):
+        return self.re_word_spec.findall(self)
+
+    def readable(self):
+        return all(self._readable(word) for word in self._split_words())
 
 
 class WordProcessor(object):

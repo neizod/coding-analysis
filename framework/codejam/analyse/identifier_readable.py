@@ -1,8 +1,7 @@
 import os
 import json
 
-from framework._utils import FunctionHook, datapath
-from framework._utils.source import Identifier
+from framework._utils import FunctionHook, datapath, source
 
 
 def repr_or_na(data):
@@ -15,7 +14,7 @@ class CodeJamAnalyseIdentifierReadable(FunctionHook):
         if not answer['identifiers']:
             mean = None
         else:
-            mean = sum(Identifier.is_readable(iden) for iden in answer['identifiers']) / len(answer['identifiers'])
+            mean = sum(source.Identifier(string).readable() for string in answer['identifiers']) / len(answer['identifiers'])
         return '{} {} {} {}\n'.format(answer['pid'],
                                       answer['io'],
                                       answer['screen_name'],
