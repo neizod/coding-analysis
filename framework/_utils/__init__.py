@@ -9,6 +9,26 @@ from operator import add
 from functools import reduce
 
 
+class LazyLoader(object):
+
+    data = {}
+    name = NotImplemented
+
+    @staticmethod
+    def load_data():
+        raise NotImplementedError
+
+    def __enter__(self):
+        if self.name is NotImplemented:
+            raise NotImplementedError
+        if self.name not in self.data:
+            self.data[self.name] = self.load_data()
+        return self.data[self.name]
+
+    def __exit__(self, *_):
+        pass
+
+
 class BaseParserHook(object):
     def modify_parser(self):
         pass

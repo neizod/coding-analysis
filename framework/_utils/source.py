@@ -4,10 +4,7 @@ import yaml
 import enchant
 from collections import Counter
 
-from framework._utils import datapath
-
-
-_LANG_DICT = {}
+from framework._utils import LazyLoader, datapath
 
 
 class Identifier(str):
@@ -151,27 +148,33 @@ class WordProcessor(object):
         return [[it, length] for it, length in blocks if it.find('=') == -1]
 
 
-def _lazy_init():
-    if not _LANG_DICT:
+class LazyLangDict(LazyLoader):
+
+    name = 'lang_dict'
+
+    @staticmethod
+    def load_data():
+        result = {}
         directory = datapath('_config', 'language')
         for filename in os.listdir(directory):
             filepath = os.path.join(directory, filename)
             language_spec = yaml.load(open(filepath))
             source_processor = WordProcessor(**language_spec)
             for extension in language_spec['extensions']:
-                _LANG_DICT['.'+extension] = source_processor
+                result['.'+extension] = source_processor
+        return result
 
 
 def determine_languages(directory):
-    _lazy_init()
-    used_languages = set()
-    for filename in os.listdir(directory):
-        _, ext = os.path.splitext(filename)
-        if ext in _LANG_DICT:
-            used_languages |= {_LANG_DICT[ext].name}
-    return used_languages
+    with LazyLangDict() as lang_dict:
+        used_languages = set()
+        for filename in os.listdir(directory):
+            _, ext = os.path.splitext(filename)
+            if ext in lang_dict:
+                used_languages |= {lang_dict[ext].name}
+        return used_languages
 
 
 def select(ext):
-    _lazy_init()
-    return _LANG_DICT[ext.lower()]
+    with LazyLangDict() as lang_dict:
+        return lang_dict[ext.lower()]
