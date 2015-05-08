@@ -1,13 +1,13 @@
 import os
 import json
-import statistics as stat
 
-from framework._utils import FunctionHook, datapath
+from framework._utils import FunctionHook
 
 
 class CodeJamAnalyseIdentifierLength(FunctionHook):
     @staticmethod
     def summary_row(answer):
+        import statistics as stat
         if not answer['identifiers']:
             mean = None
         else:
@@ -18,6 +18,7 @@ class CodeJamAnalyseIdentifierLength(FunctionHook):
                                       mean)
 
     def main(self, year, **_):
+        from framework._utils import datapath
         os.makedirs(datapath('codejam', 'result'), exist_ok=True)
         with open(datapath('codejam', 'result', 'identifier-length-{}.txt'.format(year)), 'w') as file:
             file.write('pid io screen_name identifier-length\n')

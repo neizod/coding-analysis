@@ -1,14 +1,13 @@
 import os
 import logging
-from zipfile import ZipFile, BadZipFile
 
-from framework._utils import FunctionHook, datapath
-from framework.codejam._helper import iter_submission
+from framework._utils import FunctionHook
 
 
 class CodeJamPrepareUnzip(FunctionHook):
     @staticmethod
     def ensure_recursive_unzip(year):
+        from zipfile import ZipFile, BadZipFile
         for _, pid, io, screen_name in iter_submission(year):
             directory = datapath('codejam', 'source', pid, io, screen_name)
             for filename in os.listdir(directory):
@@ -19,6 +18,9 @@ class CodeJamPrepareUnzip(FunctionHook):
                     os.remove(filepath)
 
     def main(self, year, force=False, **_):
+        from zipfile import ZipFile, BadZipFile
+        from framework._utils import datapath
+        from framework.codejam._helper import iter_submission
         bad_zipfiles = []
         for _, pid, io, screen_name in iter_submission(year):
             zippath = datapath('codejam', 'sourcezip', pid, io, screen_name+'.zip')

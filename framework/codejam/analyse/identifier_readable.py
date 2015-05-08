@@ -1,7 +1,7 @@
 import os
 import json
 
-from framework._utils import FunctionHook, datapath, source
+from framework._utils import FunctionHook
 
 
 def repr_or_na(data):
@@ -11,6 +11,7 @@ def repr_or_na(data):
 class CodeJamAnalyseIdentifierReadable(FunctionHook):
     @staticmethod
     def summary_row(answer):
+        from framework._utils import source
         if not answer['identifiers']:
             mean = None
         else:
@@ -21,6 +22,7 @@ class CodeJamAnalyseIdentifierReadable(FunctionHook):
                                       repr_or_na(mean))
 
     def main(self, year, **_):
+        from framework._utils import datapath
         os.makedirs(datapath('codejam', 'result'), exist_ok=True)
         with open(datapath('codejam', 'result', 'identifier-readable-{}.txt'.format(year)), 'w') as file:
             file.write('pid io screen_name identifier-readable\n')

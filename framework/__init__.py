@@ -1,4 +1,5 @@
 import logging
+import sys
 
 from framework._utils import SubmodulesHook
 
@@ -10,7 +11,6 @@ class RootParser(SubmodulesHook):
             logging.basicConfig(level=args.quiet)
             args.function(**vars(args))
         else:
-            import sys
             self.parser.parse_args(sys.argv[1:] + ['--help'])
 
     def modify_parser(self):

@@ -1,15 +1,16 @@
 import os
 import json
-import urllib3
 import logging
 from itertools import count
 
-from framework._utils import FunctionHook, datapath
-from framework.codejam._helper import API, iter_contest
+from framework._utils import FunctionHook
 
 
 class CodeJamDownloadMetadata(FunctionHook):
     def main(self, year, force=False, **_):
+        import urllib3
+        from framework._utils import datapath
+        from framework.codejam._helper import API, iter_contest
         http = urllib3.PoolManager()
         default = {'cmd': 'GetScoreboard', 'show_type': 'all'}
         os.makedirs(datapath('codejam', 'metadata', 'round'), exist_ok=True)

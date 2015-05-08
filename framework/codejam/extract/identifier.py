@@ -1,13 +1,13 @@
 import os
-import json
 import logging
 
-from framework._utils import FunctionHook, datapath, source, write
-from framework.codejam._helper import readsource, iter_submission
+from framework._utils import FunctionHook
 
 
 class CodeJamExtractIdentifier(FunctionHook):
     def main(self, year, force=False, **_):
+        from framework._utils import datapath, source, write
+        from framework.codejam._helper import readsource, iter_submission
         os.makedirs(datapath('codejam', 'extract'), exist_ok=True)
         output_file = datapath('codejam', 'extract', 'identifier-{}.json'.format(year))
         if not force and os.path.isfile(output_file):

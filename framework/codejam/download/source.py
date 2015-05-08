@@ -1,13 +1,14 @@
 import os
-import urllib3
 import logging
 
-from framework._utils import FunctionHook, datapath
-from framework.codejam._helper import API, iter_submission
+from framework._utils import FunctionHook
 
 
 class CodeJamDownloadMetadata(FunctionHook):
     def main(self, year, force=False, **_):
+        import urllib3
+        from framework._utils import datapath
+        from framework.codejam._helper import API, iter_submission
         http = urllib3.PoolManager()
         default = {'cmd': 'GetSourceCode'}
         for cid, pid, io, screen_name in iter_submission(year):

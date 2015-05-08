@@ -2,7 +2,7 @@ import os
 import json
 from itertools import chain
 
-from framework._utils import AnalyserHook, datapath, write
+from framework._utils import AnalyserHook
 
 
 class CodeJamAnalyseCheat(AnalyserHook):
@@ -12,6 +12,7 @@ class CodeJamAnalyseCheat(AnalyserHook):
             yield [row['pid'], len(row['cheats'])]
 
     def main(self, year, **_):
+        from framework._utils import datapath, write
         base_module = self._name.split('.')[1]
         os.makedirs(datapath(base_module, 'analyse'), exist_ok=True)
         extract_filepath = datapath(base_module, 'extract', 'cheat-{}.json'.format(year))

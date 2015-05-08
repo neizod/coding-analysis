@@ -9,10 +9,6 @@ API = 'https://code.google.com/codejam/contest/scoreboard/do/'
 METADATA = yaml.load(open(datapath('codejam', 'metadata', 'main.yaml')))
 
 
-def available_years():
-    return METADATA.keys()
-
-
 def readsource(filename):
     try:
         return open(filename).read()

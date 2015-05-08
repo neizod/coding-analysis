@@ -1,7 +1,7 @@
 import os
 import json
 
-from framework._utils import FunctionHook, datapath
+from framework._utils import FunctionHook
 
 
 def repr_or_na(data):
@@ -19,6 +19,7 @@ class CodeJamAnalyseLanguage(FunctionHook):
                                       repr_or_na(answer['languages'].pop()))
 
     def main(self, year, **_):
+        from framework._utils import datapath
         os.makedirs(datapath('codejam', 'result'), exist_ok=True)
         with open(datapath('codejam', 'result', 'language-{}.txt'.format(year)), 'w') as file:
             file.write('pid io screen_name language\n')
