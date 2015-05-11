@@ -149,9 +149,6 @@ class WordProcessor(object):
 
 
 class LazyLangDict(LazyLoader):
-
-    name = 'lang_dict'
-
     @staticmethod
     def load_data():
         result = {}

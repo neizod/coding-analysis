@@ -2,11 +2,16 @@ import json
 import yaml
 from itertools import repeat
 
-from framework._utils import datapath, make_ext, flat_zip
+from framework._utils import LazyLoader, datapath, make_ext, flat_zip
 
 
 API = 'https://code.google.com/codejam/contest/scoreboard/do/'
-METADATA = yaml.load(open(datapath('codejam', 'metadata', 'main.yaml')))
+
+
+class LazyMetadata(LazyLoader):
+    @staticmethod
+    def load_data():
+        return yaml.load(open(datapath('codejam', 'metadata', 'main.yaml')))
 
 
 def readsource(filename):
@@ -30,7 +35,8 @@ def iter_answer(problems, answer):
 
 
 def iter_contest(year):
-    yield from (contest['id'] for contest in METADATA[year])
+    with LazyMetadata() as metadata:
+        yield from (contest['id'] for contest in metadata[year])
 
 
 def iter_submission(year):
@@ -40,10 +46,11 @@ def iter_submission(year):
 
 
 def iter_all_attempt(year):
-    for contest in METADATA[year]:
-        filename = make_ext(contest['id'], 'json')
-        filepath = datapath('codejam', 'metadata', 'round', filename)
-        for answer in json.load(open(filepath)):
-            yield from flat_zip(repeat(contest['id']),
-                                repeat(answer['n']),
-                                iter_answer(contest['problems'], answer))
+    with LazyMetadata() as metadata:
+        for contest in metadata[year]:
+            filename = make_ext(contest['id'], 'json')
+            filepath = datapath('codejam', 'metadata', 'round', filename)
+            for answer in json.load(open(filepath)):
+                yield from flat_zip(repeat(contest['id']),
+                                    repeat(answer['n']),
+                                    iter_answer(contest['problems'], answer))

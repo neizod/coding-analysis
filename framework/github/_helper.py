@@ -1,10 +1,15 @@
 import yaml
 
-from framework._utils import datapath
+from framework._utils import LazyLoader, datapath
 
 
 API = 'https://github.com'
-METADATA = yaml.load(open(datapath('github', 'metadata.yaml')))
+
+
+class LazyMetadata(LazyLoader):
+    @staticmethod
+    def load_data():
+        return yaml.load(open(datapath('github', 'metadata.yaml')))
 
 
 def make_url(repo):
@@ -12,7 +17,8 @@ def make_url(repo):
 
 
 def iter_repos(language=None):
-    for repo_language, repos in METADATA.items():
-        if language is not None and repo_language != language:
-            continue
-        yield from repos
+    with LazyMetadata() as metadata:
+        for repo_language, repositories in metadata.items():
+            if language is not None and repo_language != language:
+                continue
+            yield from repositories

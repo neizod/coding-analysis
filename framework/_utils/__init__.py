@@ -11,19 +11,16 @@ from functools import reduce
 
 class LazyLoader(object):
 
-    data = {}
-    name = NotImplemented
+    data = NotImplemented
 
     @staticmethod
     def load_data():
         raise NotImplementedError
 
     def __enter__(self):
-        if self.name is NotImplemented:
-            raise NotImplementedError
-        if self.name not in self.data:
-            self.data[self.name] = self.load_data()
-        return self.data[self.name]
+        if self.data is NotImplemented:
+            self.data = self.load_data()
+        return self.data
 
     def __exit__(self, *_):
         pass
