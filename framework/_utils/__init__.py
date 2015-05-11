@@ -72,9 +72,11 @@ class SubmodulesHook(BaseParserHook):
 
     def _get_classes_from_submodules(self):
         for module in self._list_submodules():
-            if not hasattr(module, '__file__'):
-                yield self._dynamic_fake_subclass(module.__name__)
-            yield from self._get_lineage_classes(module)
+            classes = list(self._get_lineage_classes(module))
+            if classes:
+                yield from iter(classes)
+            elif os.path.split(module.__file__)[-1] == '__init__.py':
+                yield self._dynamic_fake_subclass(module)
 
     @staticmethod
     def _get_lineage_classes(module):
@@ -83,16 +85,12 @@ class SubmodulesHook(BaseParserHook):
                 yield cls
 
     @staticmethod
-    def _dynamic_fake_subclass(module_name):
-        class FakeHook(SubmodulesHook):
+    def _dynamic_fake_subclass(module):
+        class FakeModuleHook(SubmodulesHook):
             def _init_handle_name_file(self):
-                structure = module_name.split('.') + ['__init__.py']
-                directory, last = os.path.split(__file__)
-                while last != structure[0]:
-                    directory, last = os.path.split(directory)
-                self._file = os.path.join(directory, *structure)
-                self._name = module_name
-        return FakeHook
+                self._file = module.__file__
+                self._name = module.__name__
+        return FakeModuleHook
 
 
 class FunctionHook(BaseParserHook):
