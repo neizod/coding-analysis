@@ -1,11 +1,14 @@
-import logging
 import sys
+import logging
 
 from framework._utils import SubmodulesHook
 
 
 class RootParser(SubmodulesHook):
-    def main(self):
+    ''' This is master control for the coding-analysis framework. '''
+
+    def run(self):
+        ''' excute function if specify, otherwise try to show full help. '''
         args = self.parser.parse_args()
         if 'function' in args:
             logging.basicConfig(level=args.quiet)
@@ -13,10 +16,7 @@ class RootParser(SubmodulesHook):
         else:
             self.parser.parse_args(sys.argv[1:] + ['--help'])
 
-    def modify_parser(self):
-        self.parser.description = '''
-            This is master control file of the coding-analysis framework.'''
-
 
 def run():
-    RootParser().main()
+    ''' simple interface for outside script to call the framework. '''
+    RootParser().run()

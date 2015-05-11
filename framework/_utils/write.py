@@ -2,6 +2,8 @@ import sys
 
 
 def json(data, file=sys.stdout, depth=3):
+    ''' write json with compact but readable form: indent size = 2 spaces,
+        and no more indent if exceed depth. '''
     from re import sub
     from json import dumps
     pattern = r'\n {{{},}}(  |(?=\]|\}}))'.format(2*max(0, depth-1))
@@ -9,6 +11,7 @@ def json(data, file=sys.stdout, depth=3):
 
 
 def table(data, file=sys.stdout):
+    ''' write table-like for futher using in R. '''
     from csv import writer, QUOTE_NONE
     writer_obj = writer(file, quoting=QUOTE_NONE, lineterminator='\n',
                         delimiter=' ', escapechar='\\', doublequote=False)

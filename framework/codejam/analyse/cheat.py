@@ -5,6 +5,9 @@ from framework._utils import AnalyserHook
 
 
 class CodeJamAnalyseCheat(AnalyserHook):
+    ''' This method will analyse cheating by copy-paste source code in
+        multiple contestants. '''
+
     @staticmethod
     def analyse(data):
         for row in data:
@@ -23,8 +26,3 @@ class CodeJamAnalyseCheat(AnalyserHook):
         result = chain([['pid', 'nos-cheat']],
                        self.analyse(json.load(open(usepath))))
         write.table(result, open(outpath, 'w'))
-
-    def modify_parser(self):
-        self.parser.description = '''
-            This method will analyse cheating by copy-paste source code
-            from multiple contestants.'''

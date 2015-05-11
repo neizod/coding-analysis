@@ -5,6 +5,8 @@ from framework._utils import AnalyserHook
 
 
 class CodeJamAnalyseLanguage(AnalyserHook):
+    ''' This method will analyse language used in each subbmited code. '''
+
     @staticmethod
     def analyse(data):
         for row in data:
@@ -26,7 +28,3 @@ class CodeJamAnalyseLanguage(AnalyserHook):
         result = chain([['pid', 'io', 'uname', 'language']],
                        self.analyse(json.load(open(usepath))))
         write.table(result, open(outpath, 'w'))
-
-    def modify_parser(self):
-        self.parser.description = '''
-            This method will analyse language used in each subbmited code.'''

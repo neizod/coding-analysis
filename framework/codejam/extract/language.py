@@ -5,6 +5,9 @@ from framework._utils import FunctionHook
 
 
 class CodeJamExtractLanguage(FunctionHook):
+    ''' This method will extract name of programming language used
+        in each submission. '''
+
     def main(self, year, force=False, **_):
         from framework._utils import source, write
         from framework._utils.misc import datapath, make_ext
@@ -25,8 +28,3 @@ class CodeJamExtractLanguage(FunctionHook):
                 'languages': sorted(source.determine_languages(directory)),
             }]
         write.json(extracted_data, open(outpath, 'w'))
-
-    def modify_parser(self):
-        self.parserdescription = '''
-            This method will extract name of programming language used
-            in each submission.'''

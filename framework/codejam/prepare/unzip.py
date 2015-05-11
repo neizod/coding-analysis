@@ -5,8 +5,13 @@ from framework._utils import FunctionHook
 
 
 class CodeJamPrepareUnzip(FunctionHook):
+    ''' This method will unzip downloaded source code files. '''
+
     @staticmethod
     def ensure_recursive_unzip(year):
+        ''' some of the contestants will zip their work before submit answer
+            since they want to submit multiple files or size of submit files
+            are larger than the accepted policy, so 2nd unzip is require. '''
         from zipfile import ZipFile
         from framework._utils.misc import datapath
         from framework.codejam._helper import iter_submission
@@ -39,7 +44,3 @@ class CodeJamPrepareUnzip(FunctionHook):
                 os.renames(zippath, datapath('codejam', 'badzip', zippath))
             raise BadZipFile(bad_zipfiles)
         self.ensure_recursive_unzip(year)
-
-    def modify_parser(self):
-        self.parser.description = '''
-            This method will unzip downloaded source code files.'''

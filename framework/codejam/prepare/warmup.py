@@ -5,6 +5,8 @@ from framework._utils import FunctionHook
 
 
 class CodeJamPrepareWarmup(FunctionHook):
+    ''' This method will warmup source code files for futher analysis. '''
+
     def main(self, year, **_):
         from framework._utils.misc import datapath
         from framework.codejam._helper import readsource, iter_submission
@@ -16,7 +18,3 @@ class CodeJamPrepareWarmup(FunctionHook):
                 if os.path.isfile(filepath):
                     count += len(readsource(filepath))
             logging.info('warm-up: %i %i %s %i', pid, pio, uname, count)
-
-    def modify_parser(self):
-        self.parser.description = '''
-            This method will warmup source code files for futher analysis.'''

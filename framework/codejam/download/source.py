@@ -5,6 +5,10 @@ from framework._utils import FunctionHook
 
 
 class CodeJamDownloadMetadata(FunctionHook):
+    ''' This script will download Google Code Jam submitted zip sources.
+        You need to run get_metadata script with supply argument of that
+        year to build up list of contestants first.'''
+
     def main(self, year, force=False, **_):
         import urllib3
         from framework._utils.misc import datapath, make_ext
@@ -25,9 +29,3 @@ class CodeJamDownloadMetadata(FunctionHook):
             logging.info('downloading: %i %i %s', pid, pio, uname)
             result = http.request('GET', API, fields=default)
             open(zippath, 'wb').write(result.data)
-
-    def modify_parser(self):
-        self.parser.description = '''
-            This script will download Google Code Jam submitted zipped sources.
-            You need to run get_metadata script with supply argument of that
-            year to build up list of contestants first.'''

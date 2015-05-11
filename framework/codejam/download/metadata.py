@@ -1,14 +1,17 @@
 import os
 import logging
-from itertools import count
 
 from framework._utils import FunctionHook
 
 
 class CodeJamDownloadMetadata(FunctionHook):
+    ''' This script will download Google Code Jam each round metadata
+        of a suppliment year, and store each as JSON file. '''
+
     def main(self, year, force=False, **_):
         import json
         import urllib3
+        from itertools import count
         from framework._utils import write
         from framework._utils.misc import datapath, make_ext
         from framework.codejam._helper import API, iter_contest
@@ -32,8 +35,3 @@ class CodeJamDownloadMetadata(FunctionHook):
                 if i + 30 > data['stat']['nrp']:
                     break
             write.json(contest_stat, open(filepath, 'w'))
-
-    def modify_parser(self):
-        self.parser.description = '''
-            This script will download Google Code Jam each round metadata
-            of a suppliment year, and store each as JSON file.'''

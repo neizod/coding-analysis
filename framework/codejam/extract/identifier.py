@@ -5,6 +5,9 @@ from framework._utils import FunctionHook
 
 
 class CodeJamExtractIdentifier(FunctionHook):
+    ''' This method will extract all identifiers in submitted source code
+        from each contestants for futher analysis. '''
+
     def main(self, year, force=False, **_):
         from framework._utils import source, write
         from framework._utils.misc import datapath, make_ext
@@ -29,7 +32,7 @@ class CodeJamExtractIdentifier(FunctionHook):
                 except KeyError:
                     continue
                 sourcecode = readsource(filepath)
-                identifiers |= prolang.get_variable_names(sourcecode).keys()
+                identifiers |= prolang.get_identifiers(sourcecode).keys()
             extracted_data += [{
                 'pid': pid,
                 'io': pio,
@@ -37,8 +40,3 @@ class CodeJamExtractIdentifier(FunctionHook):
                 'identifiers': sorted(identifiers),
             }]
         write.json(extracted_data, open(outpath, 'w'))
-
-    def modify_parser(self):
-        self.parser.description = '''
-            This method will extract all identifiers in submitted source code
-            from each contestants for futher analysis.'''

@@ -5,8 +5,11 @@ from framework._utils import FunctionHook
 
 
 class CodeJamExtractCheat(FunctionHook):
+    ''' This method will extract set of duplicated source codes. '''
+
     @staticmethod
     def find_plagiarism(contents):
+        ''' returns all set of names which has same source code. '''
         from collections import defaultdict
         compressed = lambda submit: {key: value
                                      for key, value in submit.items()
@@ -42,7 +45,3 @@ class CodeJamExtractCheat(FunctionHook):
                 contents[code] += [{'pid': pid, 'io': pio, 'uname': uname}]
         extracted_data = self.find_plagiarism(contents)
         write.json(extracted_data, open(outpath, 'w'), depth=4)
-
-    def modify_parser(self):
-        self.parser.description = '''
-            This method will extract set of duplicated source codes.'''

@@ -5,6 +5,9 @@ from framework._utils import AnalyserHook
 
 
 class CodeJamAnalyseIdentifierReadable(AnalyserHook):
+    ''' This method will analyse identifier readable from extracted data
+        of submitted Google Code Jam source code. '''
+
     @staticmethod
     def analyse(data):
         from framework._utils.source import Identifier
@@ -30,8 +33,3 @@ class CodeJamAnalyseIdentifierReadable(AnalyserHook):
         result = chain([['pid', 'io', 'uname', 'identifier-readable']],
                        self.analyse(json.load(open(usepath))))
         write.table(result, open(outpath, 'w'))
-
-    def modify_parser(self):
-        self.parser.description = '''
-            This method will analyse identifier readable from extracted data
-            of submitted Google Code Jam source code.'''

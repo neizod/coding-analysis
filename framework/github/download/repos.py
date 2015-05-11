@@ -5,6 +5,8 @@ from framework._utils import FunctionHook
 
 
 class GitHubDownloadRepos(FunctionHook):
+    ''' download/update git repositories from GitHub.'''
+
     def main(self, **_):
         import git
         from framework._utils.misc import datapath
@@ -18,7 +20,3 @@ class GitHubDownloadRepos(FunctionHook):
             else:
                 logging.info('updating: %s', repo['name'])
                 git.Repo(directory).remotes.origin.pull()
-
-    def modify_parser(self):
-        self.parser.description = '''
-            download/update git repositories from GitHub.'''

@@ -8,27 +8,40 @@ import argcomplete
 
 
 class LazyLoader(object):
+    ''' handling data to be loaded on demand. '''
 
     data = NotImplemented
 
     @staticmethod
     def load_data():
+        ''' override this method to tell what data looks like. '''
         raise NotImplementedError
 
+    @classmethod
+    def clear_data(cls):
+        ''' call this method if loaded data need to be clear out. '''
+        cls.data = NotImplemented
+
     def __enter__(self):
+        ''' pre-load data if not exists. no need to modify this method. '''
         if self.data is NotImplemented:
             type(self).data = self.load_data()
         return self.data
 
     def __exit__(self, *_):
+        ''' do nothing on exit. '''
         pass
 
 
 class BaseParserHook(object):
+    ''' handling argparse's subparser that defined over modules. '''
+
     def modify_parser(self):
+        ''' override this method to modify parser after created. '''
         pass
 
     def __init__(self, parser=None):
+        ''' make parser/subparser and try to hook submodules. '''
         self._init_handle_name_file()
         self._init_simple_parser(parser)
         self.modify_parser()
@@ -36,26 +49,33 @@ class BaseParserHook(object):
         self._init_argcomplete(parser)
 
     def _init_handle_name_file(self):
+        ''' init some value to help find location of submodules. '''
         defined_module = inspect.getmodule(type(self))
         self._file = defined_module.__file__
         self._name = defined_module.__name__
 
     def _init_simple_parser(self, parser):
+        ''' init the parser. '''
         if parser is not None:
             parser_name = self._name.split('.')[-1].replace('_', '-')
             self.parser = parser.add_parser(parser_name)
         else:
             self.parser = argparse.ArgumentParser()
+        self.parser.description = self.__doc__
 
     def _init_hook_arguments(self):
+        ''' override this method to tell how to hook submodules/arguments. '''
         raise NotImplementedError
 
     def _init_argcomplete(self, parser):
+        ''' init argcomplete to let using command line easier. '''
         if parser is None:
             argcomplete.autocomplete(self.parser)
 
 
 class SubmodulesHook(BaseParserHook):
+    ''' handling non-terminal perser to auto hook submodules. '''
+
     def _init_hook_arguments(self):
         subparsers = self.parser.add_subparsers()
         for cls in self._get_classes_from_submodules():
@@ -63,12 +83,14 @@ class SubmodulesHook(BaseParserHook):
                 cls(subparsers)
 
     def _list_submodules(self):
+        ''' yields all submodules that this module can reach. '''
         module_relpath = lambda name: '.{}'.format(os.path.splitext(name)[0])
         for name in os.listdir(os.path.dirname(self._file)):
             if not name.startswith(('.', '_')):
                 yield importlib.import_module(module_relpath(name), self._name)
 
     def _get_classes_from_submodules(self):
+        ''' yields all classes in submodules that this module can reach. '''
         for module in self._list_submodules():
             classes = list(self._get_lineage_classes(module))
             if classes:
@@ -78,13 +100,16 @@ class SubmodulesHook(BaseParserHook):
 
     @staticmethod
     def _get_lineage_classes(module):
+        ''' yields all lineage of BaseParserHook defined in a module. '''
         for _, cls in inspect.getmembers(module):
             if inspect.isclass(cls) and issubclass(cls, BaseParserHook):
                 yield cls
 
     @staticmethod
     def _dynamic_fake_subclass(module):
+        ''' returns a new subclass of SubmodulesHook with fake name/file. '''
         class FakeModuleHook(SubmodulesHook):
+            ''' handling empty __init__.py file to be auto-hooked. '''
             def _init_handle_name_file(self):
                 self._file = module.__file__
                 self._name = module.__name__
@@ -92,7 +117,10 @@ class SubmodulesHook(BaseParserHook):
 
 
 class FunctionHook(BaseParserHook):
+    ''' handling terminal perser to auto hook common arguments. '''
+
     def main(self):
+        ''' override this method to tell what to do if this gets called. '''
         raise NotImplementedError
 
     def _init_hook_arguments(self):
@@ -107,5 +135,9 @@ class FunctionHook(BaseParserHook):
 
 
 class AnalyserHook(FunctionHook):
-    def analyse(self):
+    ''' handling terminal parser that doing analyse data. '''
+
+    @staticmethod
+    def analyse(data):
+        ''' override this method to tell how to analyse data. '''
         raise NotImplementedError

@@ -2,4 +2,4 @@ from framework._utils import SubmodulesHook
 
 
 class GitHub(SubmodulesHook):
-    pass
+    ''' This is main control for mining GitHub repositories. '''

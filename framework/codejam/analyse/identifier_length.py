@@ -5,6 +5,9 @@ from framework._utils import AnalyserHook
 
 
 class CodeJamAnalyseIdentifierLength(AnalyserHook):
+    ''' This method will analyse identifier length from extracted data of
+        submitted Google Code Jam source code. '''
+
     @staticmethod
     def analyse(data):
         import statistics as stat
@@ -27,8 +30,3 @@ class CodeJamAnalyseIdentifierLength(AnalyserHook):
         result = chain([['pid', 'io', 'uname', 'identifier-length']],
                        self.analyse(json.load(open(usepath))))
         write.table(result, open(outpath, 'w'))
-
-    def modify_parser(self):
-        self.parser.description = '''
-            This method will analyse identifier length from extracted data
-            of submitted Google Code Jam source code.'''
