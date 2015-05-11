@@ -24,9 +24,9 @@ class CodeJamAnalyseIdentifierReadable(AnalyserHook):
         base_module = self._name.split('.')[1]
         os.makedirs(datapath('codejam', 'result'), exist_ok=True)
         usepath = datapath(base_module, 'extract',
-                           make_ext('identifier-{}'.format(year), 'json'))
+                           make_ext('identifier', year, 'json'))
         outpath = datapath(base_module, 'result',
-                           make_ext('identifier-readable-{}'.format(year), 'txt'))
+                           make_ext('identifier-readable', year, 'txt'))
         result = chain([['pid', 'io', 'uname', 'identifier-readable']],
                        self.analyse(json.load(open(usepath))))
         write.table(result, open(outpath, 'w'))

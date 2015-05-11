@@ -17,9 +17,9 @@ class CodeJamAnalyseCheat(AnalyserHook):
         base_module = self._name.split('.')[1]
         os.makedirs(datapath(base_module, 'result'), exist_ok=True)
         usepath = datapath(base_module, 'extract',
-                           make_ext('cheat-{}'.format(year), 'json'))
+                           make_ext('cheat', year, 'json'))
         outpath = datapath(base_module, 'result',
-                           make_ext('cheat-{}'.format(year), 'txt'))
+                           make_ext('cheat', year, 'txt'))
         result = chain([['pid', 'nos-cheat']],
                        self.analyse(json.load(open(usepath))))
         write.table(result, open(outpath, 'w'))

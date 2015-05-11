@@ -11,7 +11,7 @@ class CodeJamExtractIdentifier(FunctionHook):
         from framework.codejam._helper import readsource, iter_submission
         os.makedirs(datapath('codejam', 'extract'), exist_ok=True)
         outpath = datapath('codejam', 'extract',
-                           make_ext('identifier-{}'.format(year), 'json'))
+                           make_ext('identifier', year, 'json'))
         if not force and os.path.isfile(outpath):
             return logging.warn('output file already exists, aborting.')
         extracted_data = []

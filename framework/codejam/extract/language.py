@@ -11,7 +11,7 @@ class CodeJamExtractLanguage(FunctionHook):
         from framework.codejam._helper import iter_submission
         os.makedirs(datapath('codejam', 'extract'), exist_ok=True)
         outpath = datapath('codejam', 'extract',
-                           make_ext('language-{}'.format(year), 'json'))
+                           make_ext('language', year, 'json'))
         if not force and os.path.isfile(outpath):
             return logging.warn('output file already exists, aborting.')
         extracted_data = []

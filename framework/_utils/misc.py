@@ -1,13 +1,14 @@
 import os
 
 
-def make_ext(name, ext):
-    return '{}{}{}'.format(name, os.extsep, ext)
+def make_ext(*name_parts):
+    return os.extsep.join(str(part) for part in name_parts)
 
 
-def datapath(*ps):
-    basepath = os.path.dirname(__file__)
-    return os.path.join(basepath, '..', '..', 'data', *(str(p) for p in ps))
+def datapath(*paths):
+    return os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                        '..', '..', 'data',
+                                        *(str(path) for path in paths)))
 
 
 def flat_zip(*iterators):

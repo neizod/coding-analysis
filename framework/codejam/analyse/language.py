@@ -20,9 +20,9 @@ class CodeJamAnalyseLanguage(AnalyserHook):
         base_module = self._name.split('.')[1]
         os.makedirs(datapath(base_module, 'result'), exist_ok=True)
         usepath = datapath(base_module, 'extract',
-                           make_ext('language-{}'.format(year), 'json'))
+                           make_ext('language', year, 'json'))
         outpath = datapath(base_module, 'result',
-                           make_ext('language-{}'.format(year), 'txt'))
+                           make_ext('language', year, 'txt'))
         result = chain([['pid', 'io', 'uname', 'language']],
                        self.analyse(json.load(open(usepath))))
         write.table(result, open(outpath, 'w'))

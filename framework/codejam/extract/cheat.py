@@ -25,7 +25,7 @@ class CodeJamExtractCheat(FunctionHook):
         from framework.codejam._helper import readsource, iter_submission
         os.makedirs(datapath('codejam', 'extract'), exist_ok=True)
         outpath = datapath('codejam', 'extract',
-                           make_ext('cheat-{}'.format(year), 'json'))
+                           make_ext('cheat', year, 'json'))
         if not force and os.path.isfile(outpath):
             return logging.warn('output file already exists, aborting.')
         contents = defaultdict(list)
