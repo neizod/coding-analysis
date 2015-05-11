@@ -40,17 +40,23 @@ class BaseParserHook(object):
         ''' override this method to modify parser after created. '''
         pass
 
-    def __init__(self, parser=None):
+    @classmethod
+    def inject(cls, module):
+        ''' inject module __file__/__name__ when try to create object. '''
+        return lambda parser: cls(parser, module)
+
+    def __init__(self, parser=None, module=None):
         ''' make parser/subparser and try to hook submodules. '''
-        self._init_handle_name_file()
+        self._init_retrive_file_name(module)
         self._init_simple_parser(parser)
         self.modify_parser()
         self._init_hook_arguments()
         self._init_argcomplete(parser)
 
-    def _init_handle_name_file(self):
-        ''' init some value to help find location of submodules. '''
-        defined_module = inspect.getmodule(type(self))
+    def _init_retrive_file_name(self, defined_module):
+        ''' init some values to help find location of submodules. '''
+        if defined_module is None:
+            defined_module = inspect.getmodule(type(self))
         self._file = defined_module.__file__
         self._name = defined_module.__name__
 
@@ -108,12 +114,7 @@ class SubmodulesHook(BaseParserHook):
     @staticmethod
     def _dynamic_fake_subclass(module):
         ''' returns a new subclass of SubmodulesHook with fake name/file. '''
-        class FakeModuleHook(SubmodulesHook):
-            ''' handling empty __init__.py file to be auto-hooked. '''
-            def _init_handle_name_file(self):
-                self._file = module.__file__
-                self._name = module.__name__
-        return FakeModuleHook
+        return SubmodulesHook.inject(module)
 
 
 class FunctionHook(BaseParserHook):
