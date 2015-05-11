@@ -9,7 +9,8 @@ class CodeJamDownloadMetadata(FunctionHook):
     def main(self, year, force=False, **_):
         import json
         import urllib3
-        from framework._utils import datapath, make_ext, write
+        from framework._utils import write
+        from framework._utils.misc import datapath, make_ext
         from framework.codejam._helper import API, iter_contest
         http = urllib3.PoolManager()
         default = {'cmd': 'GetScoreboard', 'show_type': 'all'}

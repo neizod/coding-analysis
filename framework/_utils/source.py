@@ -4,7 +4,8 @@ import yaml
 import enchant
 from collections import Counter
 
-from framework._utils import LazyLoader, datapath
+from framework._utils import LazyLoader
+from framework._utils.misc import datapath
 
 
 class Identifier(str):

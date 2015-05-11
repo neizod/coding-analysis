@@ -8,7 +8,7 @@ class CodeJamPrepareUnzip(FunctionHook):
     @staticmethod
     def ensure_recursive_unzip(year):
         from zipfile import ZipFile
-        from framework._utils import datapath
+        from framework._utils.misc import datapath
         from framework.codejam._helper import iter_submission
         for _, pid, pio, uname in iter_submission(year):
             directory = datapath('codejam', 'source', pid, pio, uname)
@@ -20,7 +20,7 @@ class CodeJamPrepareUnzip(FunctionHook):
 
     def main(self, year, force=False, **_):
         from zipfile import ZipFile, BadZipFile
-        from framework._utils import datapath, make_ext
+        from framework._utils.misc import datapath, make_ext
         from framework.codejam._helper import iter_submission
         bad_zipfiles = []
         for _, pid, pio, uname in iter_submission(year):

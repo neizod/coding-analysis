@@ -20,7 +20,8 @@ class CodeJamExtractCheat(FunctionHook):
 
     def main(self, year, force=False, **_):
         from collections import defaultdict
-        from framework._utils import datapath, make_ext, write
+        from framework._utils import write
+        from framework._utils.misc import datapath, make_ext
         from framework.codejam._helper import readsource, iter_submission
         os.makedirs(datapath('codejam', 'extract'), exist_ok=True)
         outpath = datapath('codejam', 'extract',

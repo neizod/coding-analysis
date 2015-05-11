@@ -7,7 +7,7 @@ from framework._utils import FunctionHook
 class CodeJamDownloadMetadata(FunctionHook):
     def main(self, year, force=False, **_):
         import urllib3
-        from framework._utils import datapath, make_ext
+        from framework._utils.misc import datapath, make_ext
         from framework.codejam._helper import API, iter_submission
         http = urllib3.PoolManager()
         default = {'cmd': 'GetSourceCode'}

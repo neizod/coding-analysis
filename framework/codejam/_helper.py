@@ -2,7 +2,8 @@ import json
 import yaml
 from itertools import repeat
 
-from framework._utils import LazyLoader, datapath, make_ext, flat_zip
+from framework._utils import LazyLoader
+from framework._utils.misc import datapath, make_ext, flat_zip
 
 
 API = 'https://code.google.com/codejam/contest/scoreboard/do/'

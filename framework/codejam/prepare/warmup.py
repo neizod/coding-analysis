@@ -6,7 +6,7 @@ from framework._utils import FunctionHook
 
 class CodeJamPrepareWarmup(FunctionHook):
     def main(self, year, **_):
-        from framework._utils import datapath
+        from framework._utils.misc import datapath
         from framework.codejam._helper import readsource, iter_submission
         for _, pid, pio, uname in iter_submission(year):
             count = 0

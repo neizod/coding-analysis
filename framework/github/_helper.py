@@ -1,6 +1,7 @@
 import yaml
 
-from framework._utils import LazyLoader, datapath
+from framework._utils import LazyLoader
+from framework._utils.misc import datapath
 
 
 API = 'https://github.com'
