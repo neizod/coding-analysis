@@ -1,6 +1,5 @@
 import os
 import logging
-from collections import defaultdict
 
 from framework._utils import FunctionHook
 
@@ -8,37 +7,40 @@ from framework._utils import FunctionHook
 class CodeJamExtractCheat(FunctionHook):
     @staticmethod
     def find_plagiarism(contents):
-        def compressed(submit):
-            fields = ['io', 'screen_name']
-            return {key: value for key, value in submit.items() if key in fields}
-        plag_set = defaultdict(list)
+        from collections import defaultdict
+        compressed = lambda submit: {key: value
+                                     for key, value in submit.items()
+                                     if key in {'io', 'uname'}}
+        plag = defaultdict(list)
         for submits in contents.values():
-            if len({submit['screen_name'] for submit in submits}) > 1:
+            if len({submit['uname'] for submit in submits}) > 1:
                 pid = next(submit['pid'] for submit in submits)
-                plag_set[pid] += [[compressed(submit) for submit in submits]]
-        return [{'pid': pid, 'cheats': cheats} for pid, cheats in plag_set.items()]
+                plag[pid] += [[compressed(submit) for submit in submits]]
+        return [{'pid': pid, 'cheats': cheats} for pid, cheats in plag.items()]
 
     def main(self, year, force=False, **_):
-        from framework._utils import datapath, write
+        from collections import defaultdict
+        from framework._utils import datapath, make_ext, write
         from framework.codejam._helper import readsource, iter_submission
         os.makedirs(datapath('codejam', 'extract'), exist_ok=True)
-        output_file = datapath('codejam', 'extract', 'cheat-{}.json'.format(year))
-        if not force and os.path.isfile(output_file):
+        outpath = datapath('codejam', 'extract',
+                           make_ext('cheat-{}'.format(year), 'json'))
+        if not force and os.path.isfile(outpath):
             return logging.warn('output file already exists, aborting.')
         contents = defaultdict(list)
-        for _, pid, io, screen_name in iter_submission(year):
-            directory = datapath('codejam', 'source', pid, io, screen_name)
-            logging.info('extracting: %i %i %s', pid, io, screen_name)
+        for _, pid, pio, uname in iter_submission(year):
+            directory = datapath('codejam', 'source', pid, pio, uname)
+            logging.info('extracting: %i %i %s', pid, pio, uname)
             for filename in os.listdir(directory):
                 filepath = datapath('codejam', directory, filename)
                 if not os.path.isfile(filepath):
                     continue
-                sourcecode = readsource(filepath)
-                if not sourcecode:
+                code = readsource(filepath)
+                if not code:
                     continue
-                contents[sourcecode] += [{'pid': pid, 'io': io, 'screen_name': screen_name}]
+                contents[code] += [{'pid': pid, 'io': pio, 'uname': uname}]
         extracted_data = self.find_plagiarism(contents)
-        write.json(extracted_data, open(output_file, 'w'), depth=4)
+        write.json(extracted_data, open(outpath, 'w'), depth=4)
 
     def modify_parser(self):
         self.parser.description = '''

@@ -1,30 +1,30 @@
 import os
 import json
 
-from framework._utils import FunctionHook
+from framework._utils import AnalyserHook
 
 
-def repr_or_na(data):
-    return repr(data) if data is not None else 'NA'
-
-
-class CodeJamAnalyseLanguage(FunctionHook):
+class CodeJamAnalyseLanguage(AnalyserHook):
     @staticmethod
-    def summary_row(answer):
-        if len(answer['languages']) != 1:
-            return ''
-        return '{} {} {} {}\n'.format(answer['pid'],
-                                      answer['io'],
-                                      answer['screen_name'],
-                                      repr_or_na(answer['languages'].pop()))
+    def analyse(data):
+        for row in data:
+            if len(row['languages']) != 1:
+                continue
+            yield [row['pid'], row['io'], row['uname'],
+                   row['languages'].pop()]
 
     def main(self, year, **_):
-        from framework._utils import datapath
-        os.makedirs(datapath('codejam', 'result'), exist_ok=True)
-        with open(datapath('codejam', 'result', 'language-{}.txt'.format(year)), 'w') as file:
-            file.write('pid io screen_name language\n')
-            for answer in json.load(open(datapath('codejam', 'extract', 'language-{}.json'.format(year)))):
-                file.write(self.summary_row(answer))
+        from itertools import chain
+        from framework._utils import datapath, make_ext, write
+        base_module = self._name.split('.')[1]
+        os.makedirs(datapath(base_module, 'result'), exist_ok=True)
+        usepath = datapath(base_module, 'extract',
+                           make_ext('language-{}'.format(year), 'json'))
+        outpath = datapath(base_module, 'result',
+                           make_ext('language-{}'.format(year), 'txt'))
+        result = chain([['pid', 'io', 'uname', 'language']],
+                       self.analyse(json.load(open(usepath))))
+        write.table(result, open(outpath, 'w'))
 
     def modify_parser(self):
         self.parser.description = '''

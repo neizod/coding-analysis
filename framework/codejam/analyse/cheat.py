@@ -1,6 +1,5 @@
 import os
 import json
-from itertools import chain
 
 from framework._utils import AnalyserHook
 
@@ -12,13 +11,17 @@ class CodeJamAnalyseCheat(AnalyserHook):
             yield [row['pid'], len(row['cheats'])]
 
     def main(self, year, **_):
-        from framework._utils import datapath, write
+        from itertools import chain
+        from framework._utils import datapath, make_ext, write
         base_module = self._name.split('.')[1]
-        os.makedirs(datapath(base_module, 'analyse'), exist_ok=True)
-        extract_filepath = datapath(base_module, 'extract', 'cheat-{}.json'.format(year))
-        analyse_filepath = datapath(base_module, 'analyse', 'cheat-{}.txt'.format(year))
-        output = chain([['pid', 'nos-cheat']], self.analyse(json.load(open(extract_filepath))))
-        write.table(output, open(analyse_filepath, 'w'))
+        os.makedirs(datapath(base_module, 'result'), exist_ok=True)
+        usepath = datapath(base_module, 'extract',
+                           make_ext('cheat-{}'.format(year), 'json'))
+        outpath = datapath(base_module, 'result',
+                           make_ext('cheat-{}'.format(year), 'txt'))
+        result = chain([['pid', 'nos-cheat']],
+                       self.analyse(json.load(open(usepath))))
+        write.table(result, open(outpath, 'w'))
 
     def modify_parser(self):
         self.parser.description = '''

@@ -6,23 +6,24 @@ from framework._utils import FunctionHook
 
 class CodeJamExtractLanguage(FunctionHook):
     def main(self, year, force=False, **_):
-        from framework._utils import datapath, source, write
+        from framework._utils import datapath, make_ext, source, write
         from framework.codejam._helper import iter_submission
         os.makedirs(datapath('codejam', 'extract'), exist_ok=True)
-        output_file = datapath('codejam', 'extract', 'language-{}.json'.format(year))
-        if not force and os.path.isfile(output_file):
+        outpath = datapath('codejam', 'extract',
+                           make_ext('language-{}'.format(year), 'json'))
+        if not force and os.path.isfile(outpath):
             return logging.warn('output file already exists, aborting.')
         extracted_data = []
-        for _, pid, io, screen_name in iter_submission(year):
-            directory = datapath('codejam', 'source', pid, io, screen_name)
-            logging.info('extracting: %i %i %s', pid, io, screen_name)
+        for _, pid, pio, uname in iter_submission(year):
+            directory = datapath('codejam', 'source', pid, pio, uname)
+            logging.info('extracting: %i %i %s', pid, pio, uname)
             extracted_data += [{
                 'pid': pid,
-                'io': io,
-                'screen_name': screen_name,
+                'io': pio,
+                'uname': uname,
                 'languages': sorted(source.determine_languages(directory)),
             }]
-        write.json(extracted_data, open(output_file, 'w'))
+        write.json(extracted_data, open(outpath, 'w'))
 
     def modify_parser(self):
         self.parserdescription = '''

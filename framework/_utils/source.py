@@ -23,7 +23,7 @@ class Identifier(str):
         return all(self._readable(word) for word in self._split_words())
 
 
-class WordProcessor(object):
+class SourceProcessor(object):
 
     def __init__(self, name, quoting=None, line_comment=None,
                  block_comment=None, keywords=None,
@@ -156,7 +156,7 @@ class LazyLangDict(LazyLoader):
         for filename in os.listdir(directory):
             filepath = os.path.join(directory, filename)
             language_spec = yaml.load(open(filepath))
-            source_processor = WordProcessor(**language_spec)
+            source_processor = SourceProcessor(**language_spec)
             for extension in language_spec['extensions']:
                 result['.'+extension] = source_processor
         return result

@@ -1,5 +1,4 @@
 import os
-import json
 import logging
 from itertools import count
 
@@ -8,15 +7,18 @@ from framework._utils import FunctionHook
 
 class CodeJamDownloadMetadata(FunctionHook):
     def main(self, year, force=False, **_):
+        import json
         import urllib3
-        from framework._utils import datapath
+        from framework._utils import datapath, make_ext, write
         from framework.codejam._helper import API, iter_contest
         http = urllib3.PoolManager()
         default = {'cmd': 'GetScoreboard', 'show_type': 'all'}
         os.makedirs(datapath('codejam', 'metadata', 'round'), exist_ok=True)
         for cid in iter_contest(year):
-            filepath = datapath('codejam', 'metadata', 'round', str(cid)+'.json')
+            filepath = datapath('codejam', 'metadata', 'round',
+                                make_ext(cid, 'json'))
             if not force and os.path.isfile(filepath):
+                logging.info('ignore: %i', cid)
                 continue
             default['contest_id'] = cid
             contest_stat = []
@@ -28,8 +30,7 @@ class CodeJamDownloadMetadata(FunctionHook):
                 logging.info('downloading: %i %i', cid, i)
                 if i + 30 > data['stat']['nrp']:
                     break
-            with open(filepath, 'w') as file:
-                json.dump(contest_stat, file, sort_keys=True, indent=4)
+            write.json(contest_stat, open(filepath, 'w'))
 
     def modify_parser(self):
         self.parser.description = '''

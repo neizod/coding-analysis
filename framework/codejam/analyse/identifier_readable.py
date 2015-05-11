@@ -1,33 +1,34 @@
 import os
 import json
 
-from framework._utils import FunctionHook
+from framework._utils import AnalyserHook
 
 
-def repr_or_na(data):
-    return repr(data) if data is not None else 'NA'
-
-
-class CodeJamAnalyseIdentifierReadable(FunctionHook):
+class CodeJamAnalyseIdentifierReadable(AnalyserHook):
     @staticmethod
-    def summary_row(answer):
-        from framework._utils import source
-        if not answer['identifiers']:
-            mean = None
-        else:
-            mean = sum(source.Identifier(string).readable() for string in answer['identifiers']) / len(answer['identifiers'])
-        return '{} {} {} {}\n'.format(answer['pid'],
-                                      answer['io'],
-                                      answer['screen_name'],
-                                      repr_or_na(mean))
+    def analyse(data):
+        from framework._utils.source import Identifier
+        mean_readable = lambda identifiers: (
+            sum(Identifier(iden).readable() for iden in identifiers) //
+            len(identifiers))
+        for row in data:
+            if not row['identifiers']:
+                continue
+            yield [row['pid'], row['io'], row['uname'],
+                   mean_readable(row['identifiers'])]
 
     def main(self, year, **_):
-        from framework._utils import datapath
+        from itertools import chain
+        from framework._utils import datapath, make_ext, write
+        base_module = self._name.split('.')[1]
         os.makedirs(datapath('codejam', 'result'), exist_ok=True)
-        with open(datapath('codejam', 'result', 'identifier-readable-{}.txt'.format(year)), 'w') as file:
-            file.write('pid io screen_name identifier-readable\n')
-            for answer in json.load(open(datapath('codejam', 'extract', 'identifier-{}.json'.format(year)))):
-                file.write(self.summary_row(answer))
+        usepath = datapath(base_module, 'extract',
+                           make_ext('identifier-{}'.format(year), 'json'))
+        outpath = datapath(base_module, 'result',
+                           make_ext('identifier-readable-{}'.format(year), 'txt'))
+        result = chain([['pid', 'io', 'uname', 'identifier-readable']],
+                       self.analyse(json.load(open(usepath))))
+        write.table(result, open(outpath, 'w'))
 
     def modify_parser(self):
         self.parser.description = '''

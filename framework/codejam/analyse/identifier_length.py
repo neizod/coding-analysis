@@ -1,29 +1,31 @@
 import os
 import json
 
-from framework._utils import FunctionHook
+from framework._utils import AnalyserHook
 
 
-class CodeJamAnalyseIdentifierLength(FunctionHook):
+class CodeJamAnalyseIdentifierLength(AnalyserHook):
     @staticmethod
-    def summary_row(answer):
+    def analyse(data):
         import statistics as stat
-        if not answer['identifiers']:
-            mean = None
-        else:
-            mean = stat.mean(len(iden) for iden in answer['identifiers'])
-        return '{} {} {} {}\n'.format(answer['pid'],
-                                      answer['io'],
-                                      answer['screen_name'],
-                                      mean)
+        for row in data:
+            if not row['identifiers']:
+                continue
+            yield [row['pid'], row['io'], row['uname'],
+                   stat.mean(len(iden) for iden in row['identifiers'])]
 
     def main(self, year, **_):
-        from framework._utils import datapath
+        from itertools import chain
+        from framework._utils import datapath, make_ext, write
+        base_module = self._name.split('.')[1]
         os.makedirs(datapath('codejam', 'result'), exist_ok=True)
-        with open(datapath('codejam', 'result', 'identifier-length-{}.txt'.format(year)), 'w') as file:
-            file.write('pid io screen_name identifier-length\n')
-            for answer in json.load(open(datapath('codejam', 'extract', 'identifier-{}.json'.format(year)))):
-                file.write(self.summary_row(answer))
+        usepath = datapath(base_module, 'extract',
+                           make_ext('identifier-{}'.format(year), 'json'))
+        outpath = datapath(base_module, 'result',
+                           make_ext('identifier-length-{}'.format(year), 'txt'))
+        result = chain([['pid', 'io', 'uname', 'identifier-length']],
+                       self.analyse(json.load(open(usepath))))
+        write.table(result, open(outpath, 'w'))
 
     def modify_parser(self):
         self.parser.description = '''

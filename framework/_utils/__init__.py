@@ -19,7 +19,7 @@ class LazyLoader(object):
 
     def __enter__(self):
         if self.data is NotImplemented:
-            self.data = self.load_data()
+            type(self).data = self.load_data()
         return self.data
 
     def __exit__(self, *_):

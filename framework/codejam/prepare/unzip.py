@@ -7,30 +7,31 @@ from framework._utils import FunctionHook
 class CodeJamPrepareUnzip(FunctionHook):
     @staticmethod
     def ensure_recursive_unzip(year):
-        from zipfile import ZipFile, BadZipFile
-        for _, pid, io, screen_name in iter_submission(year):
-            directory = datapath('codejam', 'source', pid, io, screen_name)
+        from zipfile import ZipFile
+        from framework._utils import datapath
+        from framework.codejam._helper import iter_submission
+        for _, pid, pio, uname in iter_submission(year):
+            directory = datapath('codejam', 'source', pid, pio, uname)
             for filename in os.listdir(directory):
                 filepath = datapath('codejam', directory, filename)
                 if os.path.splitext(filepath)[1] == '.zip':
-                    with ZipFile(filepath) as z:
-                        z.extractall(directory)
+                    ZipFile(filepath).extractall(directory)
                     os.remove(filepath)
 
     def main(self, year, force=False, **_):
         from zipfile import ZipFile, BadZipFile
-        from framework._utils import datapath
+        from framework._utils import datapath, make_ext
         from framework.codejam._helper import iter_submission
         bad_zipfiles = []
-        for _, pid, io, screen_name in iter_submission(year):
-            zippath = datapath('codejam', 'sourcezip', pid, io, screen_name+'.zip')
-            directory = datapath('codejam', 'source', pid, io, screen_name)
+        for _, pid, pio, uname in iter_submission(year):
+            zipname = make_ext(uname, 'zip')
+            zippath = datapath('codejam', 'sourcezip', pid, pio, zipname)
+            directory = datapath('codejam', 'source', pid, pio, uname)
             os.makedirs(directory, exist_ok=True)
-            logging.info('unzipping: %i %i %s', pid, io, screen_name)
+            logging.info('unzipping: %i %i %s', pid, pio, uname)
             if force or not os.listdir(directory):
                 try:
-                    with ZipFile(zippath) as z:
-                        z.extractall(directory)
+                    ZipFile(zippath).extractall(directory)
                 except BadZipFile:
                     bad_zipfiles += [zippath]
         if bad_zipfiles:
