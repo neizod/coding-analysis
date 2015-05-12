@@ -1,5 +1,5 @@
 name: JavaScript
-extensions: [js]
+extensions: [.js]
 line_comment: //.*
 block_comment: /\*.*\*/
 quoting: (\"|\')([^\1\\]*?(\\.[^\1\\]*?)*?)\1

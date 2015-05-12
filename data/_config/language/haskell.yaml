@@ -1,5 +1,5 @@
 name: Haskell
-extensions: [hs, lhs]
+extensions: [.hs, .lhs]
 line_comment: --.*
 quoting: '"(?:[^"\\]|\\.)*"|''([^''\\]|\\.)'''
 keywords: [as, case, of, class, data, data family, data

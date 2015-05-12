@@ -1,5 +1,5 @@
 name: C
-extensions: [c]
+extensions: [.c]
 line_comment: //.*
 block_comment: /\*.*\*/
 quoting: '"(?:[^"\\]|\\.)*"|''([^''\\]|\\.)'''

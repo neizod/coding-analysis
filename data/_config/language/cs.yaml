@@ -1,5 +1,5 @@
 name: C#
-extensions: [cs]
+extensions: [.cs]
 line_comment: //.*
 block_comment: /\*.*\*/
 quoting: '"(?:[^"\\]|\\.)*"|''([^''\\]|\\.)'''

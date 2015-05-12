@@ -28,15 +28,63 @@ class Identifier(str):
         return all(self._readable(word) for word in self._split_words())
 
 
+class SourceCode(object):
+    ''' handling source code. '''
+
+    @classmethod
+    def determine_language(cls, filepath):
+        ''' returns language used by looking at file name. '''
+        with LazyLangDict() as lang_dict:
+            ext = os.path.splitext(filepath)[-1]
+            for _ in range(2):
+                for lang_obj in lang_dict.values():
+                    if ext in lang_obj.extensions:
+                        return lang_obj.name
+                ext = ext.lower()
+            return NotImplemented
+
+    @classmethod
+    def open(cls, filepath, language=None):
+        ''' make source code object by open file and guess used language. '''
+        if language is None:
+            language = cls.determine_language(filepath)
+        try:
+            source_code = open(filepath).read()
+        except UnicodeError:
+            source_code = open(filepath, encoding='latin1').read()
+        return cls(source_code, language)
+
+    def get_identifiers(self):
+        ''' returns all identifiers in source code. '''
+        if self._language_driver is NotImplemented:
+            raise NotImplementedError
+        return self._language_driver.get_identifiers(self.source_code)
+
+    def __init__(self, source_code, language):
+        ''' make source code object from providing code and language. '''
+        self.source_code = source_code
+        self.language = language
+        self._init_select_driver()
+
+    def _init_select_driver(self):
+        ''' init language driver to be used when processing source code. '''
+        with LazyLangDict() as lang_dict:
+            try:
+                self._language_driver = lang_dict[self.language]
+            except KeyError:
+                self._language_driver = NotImplemented
+
+
 class SourceProcessor(object):
     ''' handling processing over source code. '''
 
-    def __init__(self, name, quoting=None, line_comment=None,
-                 block_comment=None, keywords=None,
+    def __init__(self, name, extensions=None, quoting=None,
+                 line_comment=None, block_comment=None, keywords=None,
                  noise=r'[^a-zA-Z_0-9]', numeric=r'\b[0-9]+[ejl]?\b',
                  std_functions=None, lib_functions=None, **_):
         ''' make processor object with supplied langauge spec. '''
         self.name = name
+        self.extensions = extensions
         self.re_quoting = re.compile(quoting, flags=re.DOTALL)
         self.re_line_comment = re.compile(line_comment)
         self.re_block_comment = None and re.compile(block_comment, flags=re.DOTALL)
@@ -174,26 +222,7 @@ class LazyLangDict(LazyLoader):
         result = {}
         directory = datapath('_config', 'language')
         for filename in os.listdir(directory):
-            filepath = os.path.join(directory, filename)
-            language_spec = yaml.load(open(filepath))
+            language_spec = yaml.load(open(os.path.join(directory, filename)))
             source_processor = SourceProcessor(**language_spec)
-            for extension in language_spec['extensions']:
-                result['.'+extension] = source_processor
+            result[source_processor.name] = source_processor
         return result
-
-
-def determine_languages(directory):
-    ''' returns all known programming languages used in a directory. '''
-    with LazyLangDict() as lang_dict:
-        used_languages = set()
-        for filename in os.listdir(directory):
-            _, ext = os.path.splitext(filename)
-            if ext in lang_dict:
-                used_languages |= {lang_dict[ext].name}
-        return used_languages
-
-
-def select(ext):
-    ''' main interface to use pre-defined language source processor. '''
-    with LazyLangDict() as lang_dict:
-        return lang_dict[ext.lower()]

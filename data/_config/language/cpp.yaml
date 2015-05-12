@@ -1,5 +1,5 @@
 name: C++
-extensions: [cc, cpp, cxx, c++, C]
+extensions: [.cc, .cpp, .cxx, .c++, .C]
 line_comment: //.*
 block_comment: /\*.*\*/
 quoting: '"(?:[^"\\]|\\.)*"|''([^''\\]|\\.)'''

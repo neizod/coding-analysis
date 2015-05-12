@@ -1,5 +1,5 @@
 name: Go
-extensions: [go]
+extensions: [.go]
 line_comment: //.*
 block_comment: /\*.*\*/
 quoting: (\"|\`)([^\1\\]*?(\\.[^\1\\]*?)*?)\1

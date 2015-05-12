@@ -1,5 +1,5 @@
 name: PHP
-extensions: [php]
+extensions: [.php]
 line_comment: '#.*|//.*'
 block_comment: /\*.*\*/
 quoting: (\"|\')([^\1\\]*?(\\.[^\1\\]*?)*?)\1

@@ -1,5 +1,5 @@
 name: Java
-extensions: [java]
+extensions: [.java]
 line_comment: //.*
 block_comment: /\*.*\*/
 quoting: '"(?:[^"\\]|\\.)*"|''([^''\\]|\\.)'''

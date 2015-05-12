@@ -1,5 +1,5 @@
 name: Scala
-extensions: [scala]
+extensions: [.scala]
 line_comment: //.*
 block_comment: /\*.*\*/
 quoting: '"(?:[^"\\]|\\.)*"|''([^''\\]|\\.)'''

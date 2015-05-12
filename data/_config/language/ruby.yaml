@@ -1,5 +1,5 @@
 name: Ruby
-extensions: [rb]
+extensions: [.rb]
 line_comment: '#.*'
 quoting: (\"|\')([^\1\\]*?(\\.[^\1\\]*?)*?)\1
 keywords: [__ENCODING__, __LINE__, __FILE__, BEGIN,

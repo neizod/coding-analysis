@@ -1,5 +1,5 @@
 name: Perl
-extensions: [pl]
+extensions: [.pl]
 line_comment: '#.*'
 quoting: (\"|\')([^\1\\]*?(\\.[^\1\\]*?)*?)\1
 keywords: [__DATA__, __END__, __FILE__, __LINE__, __PACKAGE__,
