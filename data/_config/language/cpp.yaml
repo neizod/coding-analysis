@@ -1,6 +1,6 @@
 name: C++
 extensions: [.cc, .cpp, .cxx, .c++, .C]
-line_comment: //.*
+line_comment: //.*?
 block_comment: /\*.*\*/
 quoting: '"(?:[^"\\]|\\.)*"|''([^''\\]|\\.)'''
 keywords: [alignas, alignof, and, and_eq, asm, auto,

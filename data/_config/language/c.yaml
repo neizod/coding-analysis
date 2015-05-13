@@ -1,6 +1,6 @@
 name: C
 extensions: [.c]
-line_comment: //.*
+line_comment: //.*?
 block_comment: /\*.*\*/
 quoting: '"(?:[^"\\]|\\.)*"|''([^''\\]|\\.)'''
 keywords: [auto, break, case, char, const, continue,

@@ -1,0 +1,6 @@
+line_comment: '$^'
+block_comment: '$^'
+quoting: '$^'
+numeric: '\b[0-9]+[ejl]?\b'
+noise: '[^a-zA-Z_0-9]'
+keywords: '$^'

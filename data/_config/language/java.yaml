@@ -1,6 +1,6 @@
 name: Java
 extensions: [.java]
-line_comment: //.*
+line_comment: //.*?
 block_comment: /\*.*\*/
 quoting: '"(?:[^"\\]|\\.)*"|''([^''\\]|\\.)'''
 keywords: [abstract, assert, boolean, break, byte, case,

@@ -20,7 +20,7 @@ class CodeJamExtractIdentifier(FunctionHook):
                 continue
             source_code = SourceCode.open(filepath)
             try:
-                identifiers |= source_code.get_identifiers().keys()
+                identifiers |= source_code.identifiers().keys()
             except NotImplementedError:
                 continue
         return identifiers

@@ -1,6 +1,6 @@
 name: Haskell
 extensions: [.hs, .lhs]
-line_comment: --.*
+line_comment: --.*?
 quoting: '"(?:[^"\\]|\\.)*"|''([^''\\]|\\.)'''
 keywords: [as, case, of, class, data, data family, data
     instance, default, deriving, deriving instance,

@@ -1,6 +1,6 @@
 name: Go
 extensions: [.go]
-line_comment: //.*
+line_comment: //.*?
 block_comment: /\*.*\*/
 quoting: (\"|\`)([^\1\\]*?(\\.[^\1\\]*?)*?)\1
 keywords: [break, case, chan, const, continue, default,

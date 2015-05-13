@@ -1,6 +1,6 @@
 name: PHP
 extensions: [.php]
-line_comment: '#.*|//.*'
+line_comment: '#.*?|//.*?'
 block_comment: /\*.*\*/
 quoting: (\"|\')([^\1\\]*?(\\.[^\1\\]*?)*?)\1
 keywords: [__halt_compiler, abstract, and, array, as,

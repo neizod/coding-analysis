@@ -1,6 +1,6 @@
 name: C#
 extensions: [.cs]
-line_comment: //.*
+line_comment: //.*?
 block_comment: /\*.*\*/
 quoting: '"(?:[^"\\]|\\.)*"|''([^''\\]|\\.)'''
 keywords: [abstract, as, base, bool, break, byte, case,

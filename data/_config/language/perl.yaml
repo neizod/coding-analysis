@@ -1,6 +1,6 @@
 name: Perl
 extensions: [.pl]
-line_comment: '#.*'
+line_comment: '#.*?'
 quoting: (\"|\')([^\1\\]*?(\\.[^\1\\]*?)*?)\1
 keywords: [__DATA__, __END__, __FILE__, __LINE__, __PACKAGE__,
   and, cmp, continue, CORE, do, else, elsif, eq, exp,

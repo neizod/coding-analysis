@@ -1,6 +1,6 @@
 name: Scala
 extensions: [.scala]
-line_comment: //.*
+line_comment: //.*?
 block_comment: /\*.*\*/
 quoting: '"(?:[^"\\]|\\.)*"|''([^''\\]|\\.)'''
 keywords: [abstract, case, catch, class, def, do, else,
