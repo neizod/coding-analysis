@@ -41,6 +41,14 @@ def iter_contest(year):
         yield from (contest['id'] for contest in metadata[year])
 
 
+def iter_contest_problem_name(year):
+    with LazyMetadata() as metadata:
+        for contest in metadata[year]:
+            for problem in contest['problems']:
+                yield (contest['id'], contest['name'],
+                       problem['id'], problem['name'])
+
+
 def iter_submission(year):
     ''' yields all submissions data of a year when data can have source. '''
     for cid, uname, pid, pio, attempt, submit_time in iter_all_attempt(year):

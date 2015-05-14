@@ -9,10 +9,12 @@ class CodeJamAnalyseCheat(AnalyserHook):
 
     @staticmethod
     def analyse(data):
+        from statistics import mean
         for row in data:
             if not row['cyclomatic-complexity']:
                 continue
             yield [row['pid'], row['io'], row['uname'],
+                   mean(row['cyclomatic-complexity']),
                    max(row['cyclomatic-complexity'])]
 
     def main(self, year, **_):
@@ -25,6 +27,8 @@ class CodeJamAnalyseCheat(AnalyserHook):
                            make_ext('cyclomatic-complexity', year, 'json'))
         outpath = datapath(base_module, 'result',
                            make_ext('cyclomatic-complexity', year, 'txt'))
-        result = chain([['pid', 'io', 'uname', 'cyclomatic-complexity']],
+        result = chain([['pid', 'io', 'uname',
+                         'mean-cyclomatic-complexity',
+                         'max-cyclomatic-complexity']],
                        self.analyse(json.load(open(usepath))))
         write.table(result, open(outpath, 'w'))

@@ -14,7 +14,7 @@ def table(data, file=sys.stdout):
     ''' write table-like for futher using in R. '''
     from csv import writer, QUOTE_NONE
     writer_obj = writer(file, quoting=QUOTE_NONE, lineterminator='\n',
-                        delimiter=' ', escapechar='\\', doublequote=False)
+                        delimiter='\t', escapechar='\\', doublequote=False)
     repr_or_na = lambda cell: repr(cell) if cell is not None else 'NA'
     for row in data:
         writer_obj.writerow([repr_or_na(col) for col in row])

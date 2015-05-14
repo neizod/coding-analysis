@@ -10,10 +10,10 @@ class CodeJamAnalyseIdentifierReadable(AnalyserHook):
 
     @staticmethod
     def analyse(data):
+        from statistics import mean
         from framework._utils.source import Identifier
-        mean_readable = lambda identifiers: (
-            sum(Identifier(iden).readable() for iden in identifiers) /
-            len(identifiers))
+        mean_readable = lambda idens: (
+            mean(int(Identifier(iden).readable()) for iden in idens))
         for row in data:
             if not row['identifiers']:
                 continue

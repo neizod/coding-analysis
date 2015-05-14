@@ -10,12 +10,12 @@ class CodeJamAnalyseIdentifierLength(AnalyserHook):
 
     @staticmethod
     def analyse(data):
-        import statistics as stat
+        from  statistics import mean
         for row in data:
             if not row['identifiers']:
                 continue
             yield [row['pid'], row['io'], row['uname'],
-                   stat.mean(len(iden) for iden in row['identifiers'])]
+                   mean(len(iden) for iden in row['identifiers'])]
 
     def main(self, year, **_):
         from itertools import chain
