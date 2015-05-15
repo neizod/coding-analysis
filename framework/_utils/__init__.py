@@ -142,3 +142,16 @@ class AnalyserHook(FunctionHook):
     def analyse(data):
         ''' override this method to tell how to analyse data. '''
         raise NotImplementedError
+
+    @staticmethod
+    def prepare_input(**_):
+        ''' override this method to tell how to handle input. '''
+        return sys.stdin
+
+    @staticmethod
+    def prepare_output(result, **_):
+        ''' override this method to tell how to handle output. '''
+        sys.stdout.write(result)
+
+    def main(self, **kwds):
+        self.prepare_output(self.analyse(self.prepare_input(**kwds)), **kwds)

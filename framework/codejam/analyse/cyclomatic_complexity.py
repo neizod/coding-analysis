@@ -17,18 +17,22 @@ class CodeJamAnalyseCheat(AnalyserHook):
                    mean(row['cyclomatic-complexity']),
                    max(row['cyclomatic-complexity'])]
 
-    def main(self, year, **_):
+    @staticmethod
+    def prepare_input(year, **_):
+        from framework._utils.misc import datapath, make_ext
+        os.makedirs(datapath('codejam', 'result'), exist_ok=True)
+        usepath = datapath('codejam', 'extract',
+                           make_ext('cyclomatic-complexity', year, 'json'))
+        return json.load(open(usepath))
+
+    @staticmethod
+    def prepare_output(result, year, **_):
         from itertools import chain
         from framework._utils import write
         from framework._utils.misc import datapath, make_ext
-        base_module = self._name.split('.')[1]
-        os.makedirs(datapath(base_module, 'result'), exist_ok=True)
-        usepath = datapath(base_module, 'extract',
-                           make_ext('cyclomatic-complexity', year, 'json'))
-        outpath = datapath(base_module, 'result',
+        outpath = datapath('codejam', 'result',
                            make_ext('cyclomatic-complexity', year, 'txt'))
-        result = chain([['pid', 'io', 'uname',
-                         'mean-cyclomatic-complexity',
-                         'max-cyclomatic-complexity']],
-                       self.analyse(json.load(open(usepath))))
-        write.table(result, open(outpath, 'w'))
+        header = ['pid', 'io', 'uname',
+                  'mean-cyclomatic-complexity',
+                  'max-cyclomatic-complexity']
+        write.table(chain([header], result), open(outpath, 'w'))

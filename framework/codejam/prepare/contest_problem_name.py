@@ -12,15 +12,19 @@ class CodeJamPrepareContestProblemName(AnalyserHook):
         for cid, cname, pid, pname in data:
             yield [cid, cname, pid, pname]
 
-    def main(self, year, **_):
+    @staticmethod
+    def prepare_input(year, **_):
+        from framework._utils.misc import datapath
+        from framework.codejam._helper import iter_contest_problem_name
+        os.makedirs(datapath('codejam', 'result'), exist_ok=True)
+        return iter_contest_problem_name(year)
+
+    @staticmethod
+    def prepare_output(result, year, **_):
         from itertools import chain
         from framework._utils import write
         from framework._utils.misc import datapath, make_ext
-        from framework.codejam._helper import iter_contest_problem_name
-        base_module = self._name.split('.')[1]
-        os.makedirs(datapath(base_module, 'result'), exist_ok=True)
-        outpath = datapath(base_module, 'result',
+        outpath = datapath('codejam', 'result',
                            make_ext('contest-problem-name', year, 'txt'))
-        result = chain([['cid', 'cname', 'pid', 'pname']],
-                       self.analyse(iter_contest_problem_name(year)))
-        write.table(result, open(outpath, 'w'))
+        header = ['cid', 'cname', 'pid', 'pname']
+        write.table(chain([header], result), open(outpath, 'w'))

@@ -42,6 +42,7 @@ def iter_contest(year):
 
 
 def iter_contest_problem_name(year):
+    ''' yields contest id/name along side with problem id/name. '''
     with LazyMetadata() as metadata:
         for contest in metadata[year]:
             for problem in contest['problems']:
