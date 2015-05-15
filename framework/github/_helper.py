@@ -20,10 +20,8 @@ def make_url(repo):
     return os.path.join(API, repo['user'], make_ext(repo['name'], 'git'))
 
 
-def iter_repos(language=None):
-    ''' yields all repositories filtered by a programming language. '''
+def iter_repos():
+    ''' yields all repositories along side with language using. '''
     with LazyMetadata() as metadata:
-        for repo_language, repositories in metadata.items():
-            if language is not None and repo_language != language:
-                continue
-            yield from repositories
+        for language, repositories in metadata.items():
+            yield from ((language, repository) for repository in repositories)

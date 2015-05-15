@@ -14,7 +14,7 @@ PHP:
   - name: kohana
     user: kohana
   - name: laravel
-    user: github.com/laravel
+    user: laravel
   - name: PHPMailer
     user: PHPMailer
   - name: phpMemAdmin
