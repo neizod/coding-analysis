@@ -70,7 +70,7 @@ class GitHubExtractCompatibility(FunctionHook):
                        'php56': php56, 'files': files}
         repo_obj = self.git_snapshot(repo_obj, latest_commit)
 
-    def main(self, **_):
+    def main(self, only_repo=None, count=1, **_):
         from framework._utils import write
         from framework._utils.misc import datapath
         from framework.github._helper import iter_repos
@@ -81,11 +81,20 @@ class GitHubExtractCompatibility(FunctionHook):
         else:
             extracted_data = {}
         for lang, repo in iter_repos():
+            if only_repo is not None and repo['name'] != only_repo:
+                continue
             directory = datapath('github', 'repos', repo['name'])
             logging.info('extract: %s', repo['name'])
             if repo['name'] not in extracted_data:
                 extracted_data[repo['name']] = []
             done = extracted_data[repo['name']]
-            done += self.check_compat(lang, directory, done, limits=1)
+            done += self.check_compat(lang, directory, done, limits=count)
             done.sort(key=lambda row: row['date'])
         write.json(extracted_data, open(filepath, 'w'))
+
+    def modify_parser(self):
+        self.parser.add_argument(
+            '-r', '--only-repo', help='''only this repository.''')
+        self.parser.add_argument(
+            '-c', '--count', type=int, default=1,
+            help='''limit checkout count.''')
