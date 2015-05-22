@@ -7,8 +7,6 @@ PHP:
     user: composer
   - name: countries
     user: mledoze
-  - name: deprecated-scanner
-    user: webslide
   - name: framework
     user: laravel
   - name: kohana
@@ -17,24 +15,62 @@ PHP:
     user: laravel
   - name: PHPMailer
     user: PHPMailer
-  - name: phpMemAdmin
-    user: clickalicious
   - name: piwik
     user: piwik
-  - name: regexpbuilderphp
-    user: gherkins
   - name: sage
     user: roots
   - name: Slim
     user: slimphp
   - name: symfony
     user: symfony
-  - name: utilphp
-    user: brandonwamboldt
   - name: WordPress
     user: WordPress
   - name: yii2
     user: yiisoft
+  - name: yii
+    user: yiisoft
+  - name: Faker
+    user: fzaninotto
+  - name: cakephp
+    user: cakephp
+  - name: phabricator
+    user: phacility
+  - name: zf2
+    user: zendframework
+  - name: guzzle
+    user: guzzle
+  - name: _s
+    user: Automattic
+  - name: Mobile-Detect
+    user: serbanghita
+  - name: sovereign
+    user: al3x
+  - name: phpunit
+    user: sebastianbergmann
+  - name: PHPExcel
+    user: PHPOffice
+  - name: openbay
+    user: isohuntto
+  - name: daux.io
+    user: justinwalsh
+  - name: monolog
+    user: Seldaek
+  - name: core
+    user: owncloud
+  - name: react
+    user: reactphp
+  - name: assetic
+    user: kriswallsmith
+  - name: ThinkUp
+    user: ThinkUpLLC
+  - name: october
+    user: octobercms
+  - name: twitteroauth
+    user: abraham
+  - name: Silex
+    user: silexphp
+  - name: DesignPatternsPHP
+    user: domnikl
 Python:
   - name: ansible
     user: ansible
@@ -44,7 +80,7 @@ Python:
     user: django
   - name: Dshell
     user: USArmyResearchLab
-  - name: fig
+  - name: compose
     user: docker
   - name: flask
     user: mitsuhiko
@@ -52,20 +88,14 @@ Python:
     user: jakubroztocil
   - name: ipython
     user: ipython
-  - name: mailin
-    user: Flolagale
   - name: mkcast
     user: KeyboardFire
   - name: moviepy
     user: Zulko
   - name: powerline
     user: powerline
-  - name: ptpython
-    user: jonathanslenders
   - name: pyspider
     user: binux
-  - name: pysswords
-    user: marcwebbie
   - name: pyston
     user: dropbox
   - name: reddit
@@ -74,13 +104,45 @@ Python:
     user: kennethreitz
   - name: shadowsocks
     user: shadowsocks
-  - name: spaCy
-    user: honnibal
   - name: tweepy
     user: tweepy
-  - name: vim-hackernews
-    user: ryanss
   - name: YouCompleteMe
     user: Valloric
   - name: youtube-dl
     user: rg3
+  - name: tornado
+    user: tornadoweb
+  - name: scrapy
+    user: scrapy
+  - name: thefuck
+    user: nvbn
+  - name: goagent
+    user: goagent
+  - name: sentry
+    user: getsentry
+  - name: scikit-learn
+    user: scikit-learn
+  - name: fabric
+    user: fabric
+  - name: salt
+    user: saltstack
+  - name: beets
+    user: sampsyo
+  - name: Flashlight
+    user: nate-parrott
+  - name: ajenti
+    user: Eugeny
+  - name: huxley
+    user: facebookarchive
+  - name: celery
+    user: celery
+  - name: pandas
+    user: pydata
+  - name: legit
+    user: kennethreitz
+  - name: sshuttle
+    user: apenwarr
+  - name: boto
+    user: boto
+  - name: python-patterns
+    user: faif
