@@ -14,6 +14,8 @@ class GitHubAnalyseCompatibility(AnalyserHook):
         ymd = lambda epoch: time.strftime('%Y-%m-%d', time.gmtime(epoch))
         results = {'Python': [], 'PHP': []}
         for language, repo in iter_repos():
+            if repo['name'] not in data:
+                continue
             for row in data[repo['name']]:
                 sum_row = [repo['name'], ymd(row['date']), row['files']]
                 if language == 'Python':

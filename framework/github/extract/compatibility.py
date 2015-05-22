@@ -42,7 +42,7 @@ class GitHubExtractCompatibility(FunctionHook):
     def git_snapshot(repo_obj, commit):
         ''' checkout repository snapshot at specific commit. '''
         if repo_obj.is_dirty():
-            repo_obj.git.clean('-f')
+            repo_obj.git.clean('-df')
             repo_obj.git.checkout('--')
         repo_obj.git.checkout(commit, '-f')
         return repo_obj
@@ -97,8 +97,6 @@ class GitHubExtractCompatibility(FunctionHook):
     def modify_parser(self):
         self.parser.add_argument(
             '-r', '--only-repo', help='''only this repository.''')
-        self.parser.add_argument(
-            '-l', '--only-lang', help='''only this language.''')
         self.parser.add_argument(
             '-c', '--count', type=int, default=1,
             help='''limit checkout count.''')
