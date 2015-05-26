@@ -1,9 +1,9 @@
 #!/usr/bin/env Rscript
 
 library(ggplot2)
+source('base.R')
 
-python.data = read.table('../data/github/result/compatibility-python.txt', header=T)
-python.data$date = as.Date(python.data$date)
+python.data = parse.read.table('github', 'compatibility-python.txt')
 
 compat.ok = c('django', 'httpie', 'ipython', 'powerline', 'requests',
               'shadowsocks', 'YouCompleteMe', 'youtube-dl', 'thefuck',
