@@ -24,6 +24,5 @@ python.data = python.data[python.data$repo %in% compat.all,]
 png('gh-py-all.png', width=600, height=450)
 ggplot(python.data, aes(x=date, y=py3/files, group=repo)) +
     geom_line() +
-    theme(legend.position='none') +
     theme_bw()
 dev.off()
