@@ -3,23 +3,35 @@
 library(ggplot2)
 source('base.R')
 
+## prepare data ##############################################################
+
 php.data = parse.read.table('github', 'compatibility-php.txt')
 
-compat.abandon = c('CodeIgniter', 'composer', 'laravel', 'framework',
-                   'sage', 'symfony', 'yii2', 'cakephp', 'Faker', 'zf2',
-                   'guzzle', 'openbay', 'PHPExcel', 'core', 'ThinkUp',
-                   'october', 'Silex', 'DesignPatternsPHP')
+compat.fast = c('CodeIgniter', 'composer', 'laravel', 'framework',
+                'symfony', 'yii2', 'cakephp', 'zf2', 'guzzle', 
+                'core', 'october', 'Silex', 'DesignPatternsPHP')
 
-compat.keep = c('Carbon', 'PHPMailer', 'piwik', 'Slim', 'yii', 'WordPress',
-                'phabricator', 'Mobile-Detect', '_s', 'sovereign', 'daux.io',
-                'phpunit', 'monolog', 'react', 'assetic', 'twitteroauth')
+compat.slow = c('sage', 'Faker', 'openbay')
 
-compat.all = c(compat.abandon, compat.keep)
+compat.keep = c('Carbon', 'PHPMailer', 'piwik', 'Slim', 'yii',
+                'WordPress', 'phabricator', 'Mobile-Detect', '_s',
+                'sovereign', 'daux.io', 'phpunit', 'monolog', 'react',
+                'assetic', 'ThinkUp', 'twitteroauth')
+
+compat.all = c(compat.fast, compat.slow, compat.keep)
+compat.sample = c('laravel','sage','yii')
 
 php.data = php.data[php.data$repo %in% compat.all,]
+php.sample = php.data[php.data$repo %in% compat.sample,]
 
-png('gh-php-all.png', width=600, height=450)
-ggplot(php.data, aes(x=date, y=php53/files, group=repo)) +
-    geom_line() +
-    theme_bw()
-dev.off()
+
+## plotting ##################################################################
+
+plot = ggplot(php.sample, aes(x=date, y=php53/files, group=repo)) +
+    geom_line(aes(linetype=repo), size=0.7) +
+    scale_linetype_manual(name='repository',
+                          values=c('dotdash', 'dotted', 'solid')) +
+    ylab('syntax error rate') +
+    theme_bw() +
+    theme(legend.justification=c(0,1), legend.position=c(0,1))
+ggsave(plot, file='gh-php-sample.png', width=5, height=3)
