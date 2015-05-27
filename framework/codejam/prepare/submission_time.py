@@ -8,10 +8,10 @@ class CodeJamPrepareSubmissionTime(AnalyserHook):
 
     @staticmethod
     def analyse(data):
-        for _, uname, pid, pio, _, submission_time in data:
-            if submission_time == -1:
+        for _, uname, pid, pio, attempt, submission_time in data:
+            if not attempt or submission_time == -1:
                 continue
-            yield [pid, pio, uname, submission_time]
+            yield [pid, pio, uname, attempt, submission_time]
 
     @staticmethod
     def prepare_input(year, **_):
@@ -27,5 +27,5 @@ class CodeJamPrepareSubmissionTime(AnalyserHook):
         from framework._utils.misc import datapath, make_ext
         outpath = datapath('codejam', 'result',
                            make_ext('submission-time', year, 'txt'))
-        header = ['pid', 'io', 'uname', 'submission-time']
+        header = ['pid', 'io', 'uname', 'attempt', 'submission-time']
         write.table(chain([header], result), open(outpath, 'w'))
