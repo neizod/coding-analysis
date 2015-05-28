@@ -15,7 +15,7 @@ iden.data = Reduce(merge, list(
 plot = ggplot(iden.data, aes(x=identifier.length, y=identifier.readable)) +
     geom_point(alpha=0.01) +
     geom_smooth(se=FALSE, size=1.0, col='black') +
-    ylab('average readable rate') +
+    ylab('identifier readable rate') +
     xlab('average identifier length') +
     theme_bw()
 ggsave(plot, file='cj-iden-len-vs-read.png', width=5, height=3)
